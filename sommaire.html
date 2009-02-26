@@ -26,12 +26,17 @@
 		[<div class="chapo">(#DESCRIPTIF_SITE_SPIP)</div>]
 		
 		[(#REM) Derniers articles ]
+
+		[(#REM) selectionner les recents pour eviter pb de perfs ]
+		[(#SET{semaine,[(#VAL{Y-m-d}|date{[(#VAL{U}|date|moins{604800})]})]})]
+		<BOUCLE_recents(ARTICLES){date>#GET{semaine}}{doublons recents}></BOUCLE_recents>
+
 		<B_articles_recents>
 		<div class="menu articles">
 			[(#ANCRE_PAGINATION)]
 			<h2><:derniers_articles:></h2>
 			<ul>
-				<BOUCLE_articles_recents(ARTICLES) {par date}{inverse} {pagination 5}>
+				<BOUCLE_articles_recents(ARTICLES) {par date}{inverse} {pagination 5}{!doublons recents}>
 				<li class="hentry">
 					[(#LOGO_ARTICLE_RUBRIQUE|#URL_ARTICLE|image_reduire{150,100})]
 					<h3 class="entry-title"><a href="#URL_ARTICLE" rel="bookmark">#TITRE</a></h3>
