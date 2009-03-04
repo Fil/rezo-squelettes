@@ -1,4 +1,16 @@
 <div id="entete">
-<a rel="start home" href="#URL_SITE_SPIP/" title="<:accueil_site:>" class="accueil">[(#LOGO_SITE_SPIP||image_reduire{300,100}) ]<strong id="nom_site_spip">#NOM_SITE_SPIP</strong></a>
-#MENU_LANG
+<a rel="start home" href="#URL_SITE_SPIP/" title="<:accueil_site:>"
+class="accueil"><img width="300" height="83" border="0" alt="#NOM_SITE_SPIP"
+src="http://rezo.net/img_rezo/logorezo-blanc.gif"/></a>
+
+		[(#REM) Citation]
+		<BOUCLE_citation(BREVES){0,1}{par hasard}{id_rubrique=1}>
+		<div class="citation">
+			[<div class="#EDIT{texte}">(#TEXTE|PtoBR)</div>]
+			[<span class="#EDIT{titre} auteur">(#TITRE)</span>]
+		</div>
+		</BOUCLE_citation>
+		
+  <div style='clear:both;'></div>
 </div>
+

@@ -12,11 +12,14 @@
 <body class="page_sommaire">
 <div id="page">
 
-	[(#REM) Entete de la page + titre du site ]
-	<INCLURE{fond=inc-entete}>
+	[(#REM) Bandeau de la page ]
+	<INCLURE{fond=inc-bandeau} />
 
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
+
+	<INCLURE{fond=inc-entete} />
+
 	<div id="contenu">
 		
 		<div class="cartouche invisible">
@@ -57,14 +60,7 @@
 	
 	[(#REM) Menu de navigation laterale ]
 	<div id="navigation">
-		[(#REM) Citation]
-		<BOUCLE_citation(BREVES){0,1}{par hasard}>
-		<div class="citation">
-		[(#TEXTE|PtoBR)][
-		&mdash; <span class="auteur">(#TITRE)</span>]</div>
-		</BOUCLE_citation>
 
-		
 		[(#REM) Menu de navigation par rubriques ]
 		<INCLURE{fond=inc-rubriques}>
 		
