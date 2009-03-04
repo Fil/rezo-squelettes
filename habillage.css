@@ -1,3 +1,16 @@
+ div.introduction {
+ font-size: 10px;
+ padding: 5px;
+ border: 1px solid #324C48;
+ background-color: #e0EBE9;
+ display:none;
+ position: absolute;
+ left: 25px;
+ top: 0px;
+ width: 300px;
+ -moz-opacity: 0.9; filter: alpha(opacity=90);
+ }
+
 	body {
 		background: url(http://rezo.net/img_rezo/fond7.gif);
 		background-color: white;
@@ -24,9 +37,16 @@
 		margin: auto;
 		width: 750px;
 	}
+
+	#contenu .articles {
+		clear:both;
+		float:left;
+		overflow:hidden;
+		width:425px;
+	}
 	
 	div.centre1 {
-		background: url(img_rezo/fond4.gif);
+		background: url(http://rezo.net/img_rezo/fond4.gif);
 		border: 1px solid #324C48;
 		padding: 5px;
 	}
@@ -115,6 +135,10 @@
 		background: url(http://rezo.net/img_rezo/pucenoire.gif) left no-repeat;
 	}
 	
+	abbr.published {
+		font-size: smaller;
+	}
+
 	#bandeau {
 		background-color: #819A95;
 		background: url(http://rezo.net/img_rezo/fond2.gif);

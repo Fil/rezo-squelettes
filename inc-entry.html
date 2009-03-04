@@ -1,0 +1,35 @@
+<BOUCLE_article(ARTICLES){id_article}>
+
+#SET{titre,#TITRE|retitrage}
+#SET{source,#TITRE|retitrage{source}}
+#SET{auteurs,#TITRE|retitrage{auteurs}}
+<BOUCLE_r(RUBRIQUES){id_rubrique}>
+#SET{source,#GET{source}|sinon{#TITRE}}
+#SET{titre_rub,#TITRE}
+#SET{url_rub,#URL_RUBRIQUE}
+</BOUCLE_r>
+
+<div class="hentry">
+<abbr class="published"[ title="(#DATE|date_iso)"]>[(#DATE|nom_jour) ][(#DATE|affdate)]</abbr>
+<div style='position: relative; z-index: 1;'>
+<a href="#GET{url_rub}"><img src='http://rezo.net/img_rezo/plus2.gif'[
+title="(#GET{titre_rub}|texte_backend)"] border='0' align='right'
+style='margin-top: 9px; margin-left: 5px;'></a>
+<a class='centre2'
+onMouseOver="$(this).parents('.hentry').find('.introduction').show();"
+onMouseOut="$(this).parents('.hentry').find('.introduction').hide();" rel="bookmark" href="#URL_ARTICLE"><b
+class="entry-title">#GET{titre}</b>
+<span class='auteur'>[<:par_auteur:> (#GET{auteurs})][ ((#GET{source}))]</span></a>
+</div>
+<div style='position: relative; z-index: 1000;'><div style='z-index: 1000;' class='introduction entry-content'>
+[<div style='float: right; padding-left: 5px; padding-bottom:
+5px;'>(#LOGO_ARTICLE||image_reduire{120})</div>]
+[<div style='font-size: 11px;'>Source&nbsp;: <b>(#GET{source})</b></div>]
+<B_mots><div style='font-size: 11px;'>Thème[(#TOTAL_BOUCLE|>{1}|?{s})]&nbsp;:
+<BOUCLE_mots(MOTS){id_article}{", "}><b>#TITRE</b></BOUCLE_mots></div></B_mots>
+#INTRODUCTION
+</div>
+</div>
+</div>
+
+</BOUCLE_article>

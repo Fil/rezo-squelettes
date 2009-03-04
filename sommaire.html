@@ -20,38 +20,35 @@
 
 	<INCLURE{fond=inc-entete} />
 
+[(#REM) selectionner les recents pour eviter pb de perfs ]
+[(#SET{semaine,[(#VAL{Y-m-d}|date{[(#VAL{U}|date|moins{604800})]})]})]
+[(#SET{semaine,'2009-02-21'})]
+<BOUCLE_recents(ARTICLES){date>#GET{semaine}}{doublons recents}></BOUCLE_recents>
+
 	<div id="contenu">
 		
 		<div class="cartouche invisible">
 			<h1 class="invisible">#NOM_SITE_SPIP</h1>
 		</div>
 		
-		[<div class="chapo">(#DESCRIPTIF_SITE_SPIP)</div>]
+		[(#REM) A la une ]
+		<BOUCLE_une(ARTICLES) {ps=5} {doublons}
+		{par date}{inverse}{0,1}
+		>
+		<div class="centre1">
+		<INCLURE{fond=inc-entry}{id_article} />
+		</div>
+		</BOUCLE_une>
+
 		
 		[(#REM) Derniers articles ]
 
-		[(#REM) selectionner les recents pour eviter pb de perfs ]
-		[(#SET{semaine,[(#VAL{Y-m-d}|date{[(#VAL{U}|date|moins{604800})]})]})]
-
-[(#SET{semaine,'2009-02-21'})]
-
-		<BOUCLE_recents(ARTICLES){date>#GET{semaine}}{doublons recents}></BOUCLE_recents>
 
 		<B_articles_recents>
 		<div class="menu articles">
-			[(#ANCRE_PAGINATION)]
-			<h2><:derniers_articles:></h2>
-			<ul>
-				<BOUCLE_articles_recents(ARTICLES) {par date}{inverse} {!doublons recents}>
-				<li class="hentry">
-					[(#LOGO_ARTICLE_RUBRIQUE|#URL_ARTICLE|image_reduire{150,100})]
-					<h3 class="entry-title"><a href="#URL_ARTICLE" rel="bookmark">#TITRE</a></h3>
-					<small><abbr class="published"[ title="(#DATE|date_iso)"]>[(#DATE|affdate_jourcourt)]</abbr>[, <:par_auteur:> (#LESAUTEURS)]</small>
-					[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION)</div>]
-				</li>
+				<BOUCLE_articles_recents(ARTICLES) {par date}{inverse} {!doublons recents} {doublons}>
+				<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_articles_recents>
-			</ul>
-			[<p class="pagination">(#PAGINATION)</p>]
 		</div>
 		</B_articles_recents>
 		
