@@ -29,6 +29,9 @@
 
 		[(#REM) selectionner les recents pour eviter pb de perfs ]
 		[(#SET{semaine,[(#VAL{Y-m-d}|date{[(#VAL{U}|date|moins{604800})]})]})]
+
+[(#SET{semaine,'2009-02-21'})]
+
 		<BOUCLE_recents(ARTICLES){date>#GET{semaine}}{doublons recents}></BOUCLE_recents>
 
 		<B_articles_recents>
@@ -36,7 +39,7 @@
 			[(#ANCRE_PAGINATION)]
 			<h2><:derniers_articles:></h2>
 			<ul>
-				<BOUCLE_articles_recents(ARTICLES) {par date}{inverse} {pagination 5}{!doublons recents}>
+				<BOUCLE_articles_recents(ARTICLES) {par date}{inverse} {!doublons recents}>
 				<li class="hentry">
 					[(#LOGO_ARTICLE_RUBRIQUE|#URL_ARTICLE|image_reduire{150,100})]
 					<h3 class="entry-title"><a href="#URL_ARTICLE" rel="bookmark">#TITRE</a></h3>
@@ -49,47 +52,18 @@
 		</div>
 		</B_articles_recents>
 		
-		[(#REM) Breves ]
-		<B_breves>
-		<div class="menu">
-			<h2><:dernieres_breves:></h2>
-			<ul>
-				<BOUCLE_breves(BREVES) {par date}{inverse} {0,5}>
-				<li>[(#DATE|affdate_jourcourt) &ndash; ]<a href="#URL_BREVE">#TITRE</a></li>
-				</BOUCLE_breves>
-			</ul>
-		</div>
-		</B_breves>
-		
-		[(#REM) Liens des forums ]
-		<B_forums_liens>
-		<div class="menu">
-			<h2><:derniers_commentaires:></h2>
-			<ul>
-				<BOUCLE_forums_liens(FORUMS) {plat} {par date}{inverse} {0,8}>
-				<li>[(#DATE|affdate_jourcourt) &ndash; ]<a href="#URL_FORUM"[ title="(#TITRE|attribut_html|couper{80})"]>[(#TEXTE|couper{80})]</a></li>
-				</BOUCLE_forums_liens>
-			</ul>
-		</div>
-		</B_forums_liens>
-		
-		[(#REM) Sur le Web ]
-		<B_syndic>
-		<div class="menu">
-			<h2><:nouveautes_web:></h2>
-			<ul>
-				<BOUCLE_syndic(SYNDIC_ARTICLES) {age<180} {par date}{inverse} {0,6}>
-				<li>[(#DATE|affdate_jourcourt) &ndash; ]<a href="#URL_ARTICLE"[ title="(#NOM_SITE|attribut_html|couper{80})"] class="spip_out">#TITRE</a></li>
-				</BOUCLE_syndic>
-			</ul>
-		</div>
-		</B_syndic>
-	
 	</div><!--#contenu-->
 	</div><!--#conteneur-->
 	
 	[(#REM) Menu de navigation laterale ]
 	<div id="navigation">
+		[(#REM) Citation]
+		<BOUCLE_citation(BREVES){0,1}{par hasard}>
+		<div class="citation">
+		[(#TEXTE|PtoBR)][
+		&mdash; <span class="auteur">(#TITRE)</span>]</div>
+		</BOUCLE_citation>
+
 		
 		[(#REM) Menu de navigation par rubriques ]
 		<INCLURE{fond=inc-rubriques}>
