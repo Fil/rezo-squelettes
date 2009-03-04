@@ -1,0 +1,255 @@
+	body {
+		background: url(/img_rezo/fond7.gif);
+		background-color: white;
+		margin: 0px;
+		padding: 0px;
+		font-family: arial, helvetica, sans;
+		font-size: 12px;
+	}
+	
+	.logo {
+		background: url(/img_rezo/logorezo-blanc.gif) top left no-repeat;
+		margin-top: 10px;
+		margin-bottom: 20px;
+	}
+	
+	.bas {
+		background: url(/img_rezo/patte-blanc.gif) top right no-repeat;
+	}
+	
+	div.centre1 {
+		background: url(img_rezo/fond4.gif);
+		border: 1px solid #324C48;
+		padding: 5px;
+	}
+	a.centre1 {
+		color: #324C48;
+	}
+	a:visited.centre1 {
+		color: #666666;
+	}
+	
+	a:hover.centre1 {
+		color: #000000;
+	}
+	
+	a.centre1 span.titre {
+		display: block;
+		font-size: 12px;
+		font-family: verdana, arial, helvetica, sans;
+		font-weight: bold;
+		color: #222222;
+	}
+	a:visited.centre1 span.titre {
+		color: #555555;
+	}
+	a:hover.centre1 span.titre {
+		color: black;
+	}
+	a.centre1 span.introduction {
+		display: block;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		font-size: 10px;
+		font-family: verdana, arial, helvetica, sans;
+	}
+	a.centre1 span.auteur {
+		display: block;
+		padding-left: 0px;
+		font-size: 12px;
+	}
+
+	a.centre2 {
+		display: block;
+		color: #444444;
+		padding-left: 5px;
+		margin-left: 3px;
+		font-size: 12px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+	a:visited.centre2{
+		color: #748F8A;
+	}
+	a:hover.centre2 {
+		color: #111111;
+		padding-left: 5px;
+		margin-left: 0px;
+		border-left: 3px solid #333333;
+	}
+	a.centre2 span.auteur{
+		display: block;
+		font-family: verdana, arial, helvetica, sans;
+		font-size: 11px;
+	}
+	
+	a.lienauteur {
+		color: white;
+	}
+
+	a.depeches {
+		display: block;
+		color: #666666;
+		padding-left: 10px;
+		margin-left: 0px;
+		font-size: 10px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		background: url(/img_rezo/pucefoncee.gif) left no-repeat;
+		font-family: verdana, arial, helvetica, sans;
+	}
+	a:visited.depeches{
+		color: #748F8A;
+		background: url(/img_rezo/puceverte.gif) left no-repeat;
+	}
+	a:hover.depeches{
+		color: #000000;
+		background: url(/img_rezo/pucenoire.gif) left no-repeat;
+	}
+	
+	.bandeau {
+		background-color: #819A95;
+		background: url(/img_rezo/fond2.gif);
+		padding: 5px;
+		color: white;
+		border-bottom: 1px solid #444444;
+		margin-bottom: 8px;
+	}
+	
+	a.abandeau {
+		background-color: #9EB0AC;
+		border-top: 1px solid #BBC3C1;
+		border-left: 1px solid #BBC3C1;
+		border-bottom: 1px solid #748F8A;
+		border-right: 1px solid #748F8A;
+		padding: 5px;
+		padding-right: 20px;
+		padding-left: 20px;
+		margin: 5px;
+		margin-right: 0px;
+		margin-left: 0px;
+		color: white;
+		font-size: 10px;
+	}
+	
+	a:hover.abandeau	{
+		color: black;
+		background-color: #cccccc;
+	}
+	
+	div.datesep {
+		margin-top: 0px;
+		font-size: 12px;
+		font-family: verdana,arial,helvetica,sans;
+		font-weight: bold;
+		border-bottom: 2px solid #999999;
+		color: #666666;
+	}
+	
+	.pavedepeches {
+		padding: 5px;
+		border: 1px solid #999999;
+		background: url(img_rezo/blanc70.png);
+	}
+	
+	.pavedepeches div.datesep {
+		text-align: center;
+		padding-bottom: 3px;
+		border-bottom: 1px solid #999999;
+		margin-bottom: 3px;
+	}
+	
+	div.citation {
+		color: #4D5F53;
+		text-align: justify;
+		font-size: 14px;
+		font-family: georgia, times, serif;
+	}
+	div.citation span.auteur {
+		display: block;
+		text-align: right;
+	}
+
+
+
+	a.mots, a.presse {
+		display: block;
+		padding: 3px;
+		color: white;
+		font-size: 10px;
+		font-weight: bold;
+		text-align: center;
+		width: 100%;
+	}
+	
+	a.mots {
+		background-color: #F09450;
+		border-top: 1px solid #FACD8A;
+		border-left: 1px solid #FACD8A;
+		border-bottom: 1px solid #744900;
+		border-right: 1px solid #744900;
+	}
+	a.presse {
+		background-color: #748F8A;
+		border-top: 1px solid #aaaaaa;
+		border-left: 1px solid #aaaaaa;
+		border-bottom: 1px solid #333333;
+		border-right: 1px solid #333333;
+	}
+	div.actuelle {
+		background-color: #666666;
+		border-bottom: 1px solid #aaaaaa;
+		border-right: 1px solid #aaaaaa;
+		border-top: 1px solid #333333;
+		border-left: 1px solid #333333;
+		display: block;
+		padding: 3px;
+		color: white;
+		font-size: 10px;
+		font-weight: bold;
+		text-align: center;
+		width: 100%;
+	}
+	a:hover.mots, a:hover.presse {
+		color: black;
+		background-color: #cccccc;
+	}
+
+	.maj {
+		padding: 0px;
+		color: white;
+		font-size: 10px;
+		font-family: verdana,arial,helvetica,sans;
+	}
+	
+	.formrecherche {
+		padding: 3px;
+		background-color: #9EB0AC;
+		border: 1px solid white;
+		color: #333333;
+	}
+	
+	.sources {
+		width: 100%;
+		padding: 3px;
+		background-color: #9EB0AC;
+		border: 1px solid white;
+		color: #333333;
+	}
+	
+	.liste {
+		color: white;
+		background: url(/img_rezo/puceblanche.gif) left no-repeat;
+		#margin-left: 20px;
+		#padding-left: 10px;
+	}
+
+	.chapo {
+		text-align: left;
+	}
+
+	.spip_logos {
+	        margin: 3px;
+	        border-width: 0px;
+	}
+
