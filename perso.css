@@ -1,5 +1,5 @@
 	body {
-		background: url(/img_rezo/fond7.gif);
+		background: url(http://rezo.net/img_rezo/fond7.gif);
 		background-color: white;
 		margin: 0px;
 		padding: 0px;
@@ -8,13 +8,13 @@
 	}
 	
 	.logo {
-		background: url(/img_rezo/logorezo-blanc.gif) top left no-repeat;
+		background: url(http://rezo.net/img_rezo/logorezo-blanc.gif) top left no-repeat;
 		margin-top: 10px;
 		margin-bottom: 20px;
 	}
 	
 	.bas {
-		background: url(/img_rezo/patte-blanc.gif) top right no-repeat;
+		background: url(http://rezo.net/img_rezo/patte-blanc.gif) top right no-repeat;
 	}
 	
 	div.centre1 {
@@ -95,21 +95,21 @@
 		font-size: 10px;
 		margin-top: 5px;
 		margin-bottom: 5px;
-		background: url(/img_rezo/pucefoncee.gif) left no-repeat;
+		background: url(http://rezo.net/img_rezo/pucefoncee.gif) left no-repeat;
 		font-family: verdana, arial, helvetica, sans;
 	}
 	a:visited.depeches{
 		color: #748F8A;
-		background: url(/img_rezo/puceverte.gif) left no-repeat;
+		background: url(http://rezo.net/img_rezo/puceverte.gif) left no-repeat;
 	}
 	a:hover.depeches{
 		color: #000000;
-		background: url(/img_rezo/pucenoire.gif) left no-repeat;
+		background: url(http://rezo.net/img_rezo/pucenoire.gif) left no-repeat;
 	}
 	
-	.bandeau {
+	#entete {
 		background-color: #819A95;
-		background: url(/img_rezo/fond2.gif);
+		background: url(http://rezo.net/img_rezo/fond2.gif);
 		padding: 5px;
 		color: white;
 		border-bottom: 1px solid #444444;
@@ -239,7 +239,7 @@
 	
 	.liste {
 		color: white;
-		background: url(/img_rezo/puceblanche.gif) left no-repeat;
+		background: url(http://rezo.net/img_rezo/puceblanche.gif) left no-repeat;
 		#margin-left: 20px;
 		#padding-left: 10px;
 	}
