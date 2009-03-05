@@ -18,3 +18,12 @@ function retitrage($titre, $quoi='titre') {
 
   return $r[$c][$quoi];
 }
+
+// Renvoie 14h12 si c'est le meme jour, et 19/02 si c'est un autre jour
+function datehm($date) {
+	$u = date('U', strtotime($date));
+	$n = date('U');
+	return ($n-$u < 24*3600)
+		? date('H\hi', $u)
+		: date('d/m', $u);
+}

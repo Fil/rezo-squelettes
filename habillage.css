@@ -1,15 +1,26 @@
- div.introduction {
+.articles .introduction {
  font-size: 10px;
  padding: 5px;
  border: 1px solid #324C48;
  background-color: #e0EBE9;
- display:none;
- position: absolute;
  left: 25px;
- top: 0px;
  width: 300px;
  -moz-opacity: 0.9; filter: alpha(opacity=90);
  }
+
+.articles .introduction {
+	display: none;
+	position: absolute;
+	top: 0;
+}
+.articles .entry-content {
+ position: relative;
+ z-index:1;
+}
+
+.articles .hentry {
+	position: relative;
+}
 
 	body {
 		background: url(http://rezo.net/img_rezo/fond7.gif);
@@ -44,50 +55,55 @@
 		overflow:hidden;
 		width:425px;
 	}
-	
-	div.centre1 {
+
+	.centre1 .source, .centre1 .datehm, .articles .datehm  {
+		display: none;
+	}
+	.centre1 {
 		background: url(http://rezo.net/img_rezo/fond4.gif);
 		border: 1px solid #324C48;
 		padding: 5px;
+		width: 425px;
 	}
-	a.centre1 {
+	.centre1 {
 		color: #324C48;
 	}
-	a:visited.centre1 {
+	.centre1:hover {
+		color: #000;
+	}
+	.centre1 a:visited {
 		color: #666666;
 	}
 	
-	a:hover.centre1 {
+	.centre1 a:hover {
 		color: #000000;
 	}
 	
-	a.centre1 span.titre {
+	.centre1 a .titre {
 		display: block;
 		font-size: 12px;
 		font-family: verdana, arial, helvetica, sans;
 		font-weight: bold;
 		color: #222222;
 	}
-	a:visited.centre1 span.titre {
-		color: #555555;
-	}
-	a:hover.centre1 span.titre {
+	.centre1 a:hover .titre {
 		color: black;
 	}
-	a.centre1 span.introduction {
+	.centre1 .introduction {
 		display: block;
 		margin-top: 5px;
 		margin-bottom: 5px;
 		font-size: 10px;
 		font-family: verdana, arial, helvetica, sans;
 	}
-	a.centre1 span.auteur {
+	.centre1 .auteur {
 		display: block;
+		text-align: right;
 		padding-left: 0px;
 		font-size: 12px;
 	}
 
-	a.centre2 {
+	.articles .entry-title {
 		display: block;
 		color: #444444;
 		padding-left: 5px;
@@ -96,16 +112,16 @@
 		margin-top: 5px;
 		margin-bottom: 5px;
 	}
-	a:visited.centre2{
+	.articles .entry-title:visited{
 		color: #748F8A;
 	}
-	a:hover.centre2 {
+	.articles .entry-title:hover {
 		color: #111111;
 		padding-left: 5px;
 		margin-left: 0px;
 		border-left: 3px solid #333333;
 	}
-	a.centre2 span.auteur{
+	.articles .entry-title .auteur{
 		display: block;
 		font-family: verdana, arial, helvetica, sans;
 		font-size: 11px;
@@ -115,7 +131,7 @@
 		color: white;
 	}
 
-	a.depeches {
+	.pavedepeches a {
 		display: block;
 		color: #666666;
 		padding-left: 10px;
@@ -126,15 +142,20 @@
 		background: url(http://rezo.net/img_rezo/pucefoncee.gif) left no-repeat;
 		font-family: verdana, arial, helvetica, sans;
 	}
-	a:visited.depeches{
+	.pavedepeches a:visited{
 		color: #748F8A;
 		background: url(http://rezo.net/img_rezo/puceverte.gif) left no-repeat;
 	}
-	a:hover.depeches{
+	.pavedepeches a:hover{
 		color: #000000;
 		background: url(http://rezo.net/img_rezo/pucenoire.gif) left no-repeat;
 	}
-	
+
+	/* masquer les resumes dans le bloc pavedepeches */
+	.pavedepeches .date, .pavedepeches .entry-content {
+		display: none;
+	}
+
 	abbr.published {
 		font-size: smaller;
 	}
@@ -182,28 +203,39 @@
 		float: left;
 	}
 	
-	div.datesep {
-		margin-top: 0px;
+	.articles .date {
+		margin-top: 2.5em;
 		font-size: 12px;
 		font-family: verdana,arial,helvetica,sans;
 		font-weight: bold;
 		border-bottom: 2px solid #999999;
 		color: #666666;
 	}
-	
+
+	.pavedepeches {
+		float: right;
+		width: 288px;
+		margin-top: 2.5em;
+	}
+
 	.pavedepeches {
 		padding: 5px;
 		border: 1px solid #999999;
-		background: url(img_rezo/blanc70.png);
+		background: url(http://rezo.net/img_rezo/blanc70.png);
 	}
 	
-	.pavedepeches div.datesep {
+	.pavedepeches .datesep {
 		text-align: center;
 		padding-bottom: 3px;
 		border-bottom: 1px solid #999999;
 		margin-bottom: 3px;
+		color:#666666;
+		font-family:verdana,arial,helvetica,sans;
+		font-size:12px;
+		font-weight:bold;
+		margin-top:0;
 	}
-	
+
 	div.citation {
 		color: #4D5F53;
 		text-align: justify;

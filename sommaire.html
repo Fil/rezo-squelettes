@@ -22,8 +22,14 @@
 
 [(#REM) selectionner les recents pour eviter pb de perfs ]
 [(#SET{semaine,[(#VAL{Y-m-d}|date{[(#VAL{U}|date|moins{604800})]})]})]
-[(#SET{semaine,'2009-02-21'})]
+[(#SET{semaine,'2009-02-15'})]
 <BOUCLE_recents(ARTICLES){date>#GET{semaine}}{doublons recents}></BOUCLE_recents>
+
+#SET{cutoff,0}
+<BOUCLE_cutoff(ARTICLES){date>#GET{semaine}}{!doublons recents}
+{!par popularite}{35,1}
+>#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_cutoff>
+
 
 	<div id="contenu">
 		
@@ -36,7 +42,7 @@
 		{par date}{inverse}{0,1}
 		>
 		<div class="centre1">
-		<INCLURE{fond=inc-entry}{id_article} />
+			<INCLURE{fond=inc-entry}{id_article} />
 		</div>
 		</BOUCLE_une>
 
@@ -46,12 +52,32 @@
 
 		<B_articles_recents>
 		<div class="menu articles">
-				<BOUCLE_articles_recents(ARTICLES) {par date}{inverse} {!doublons recents} {doublons}>
-				<INCLURE{fond=inc-entry}{id_article} />
+				<BOUCLE_articles_recents(ARTICLES)
+				{!doublons recents}
+				{ps >= 3}
+				{popularite>#GET{cutoff}}
+				{par date}{inverse} {doublons}>
+			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_articles_recents>
 		</div>
 		</B_articles_recents>
-		
+
+		<B_breves>
+		<div class="menu pavedepeches">
+			<div class="datesep">Et aussi...</div>
+				<BOUCLE_breves(ARTICLES)
+				{!doublons recents}
+				{ps >= 2}
+				{par date}{inverse} {doublons}
+				{0,30}
+				>
+			<INCLURE{fond=inc-entry}{id_article} />
+				</BOUCLE_breves>
+		</div>
+		</B_breves>
+
+		<div style="clear:both;"></div>
+
 	</div><!--#contenu-->
 	</div><!--#conteneur-->
 	
