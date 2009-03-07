@@ -13,6 +13,7 @@
 
 		// Couper les dates repetitives
 		var vu = [];
+		var image = 1;
 		$('.articles .date').each(function(){
 			var t = $(this).attr('class'); 
 			if (vu[t])
@@ -22,6 +23,9 @@
 				$(this).show();
 			}
 		});
+
+		// Supprimer les abbr[title] des microformats
+		$('abbr.updated').attr('title', '');
 
 	});
 

@@ -5,7 +5,8 @@ function retitrage($titre, $quoi='titre') {
   static $r = array();
   if (!isset($r[$c = md5($titre)])) {
     $r[$c] = array();
-    if (preg_match(',^(.*)\s+\(([^(]+)\)$,UimsS', trim($titre), $regs)) {
+    if (preg_match(',^(.*)\s+\(([^(]+)\)$,UimsS', trim($titre), $regs)
+    AND !preg_match(',^\d+$,S', $regs[2])) {
       $titre = $regs[1];
       $r[$c]['source'] = $regs[2];
     }

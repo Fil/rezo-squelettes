@@ -49,11 +49,16 @@
 		width: 750px;
 	}
 
+	#entete {
+		padding-bottom:1.8em;
+	}
+
 	#contenu {
 		clear:both;
 		float:left;
 		overflow:hidden;
 		width:425px;
+		padding-bottom:6em;
 	}
 
 	.centre1 .source, .centre1 .datehm, .articles .datehm  {
@@ -64,6 +69,7 @@
 		border: 1px solid #324C48;
 		padding: 5px;
 		width: 425px;
+		clear: both;
 	}
 	.centre1 {
 		color: #324C48;
@@ -173,13 +179,20 @@
 		font-size: smaller;
 	}
 
-	#bandeau {
+	#bandeau, #footer {
 		background-color: #819A95;
 		background: url(http://rezo.net/img_rezo/fond2.gif);
 		padding: 5px;
 		color: white;
+	}
+
+	#bandeau {
 		border-bottom: 1px solid #444444;
 		margin-bottom: 8px;
+	}
+	#footer {
+		border-top: 1px solid #444444;
+		margin-top: 1em;
 	}
 
 	#bandeau .maj {
@@ -228,6 +241,7 @@
 	#navigation {
 		float: right;
 		width: 288px;
+		padding-bottom:6em;
 	}
 
 	.pavedepeches {
