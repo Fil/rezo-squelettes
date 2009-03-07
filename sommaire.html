@@ -22,10 +22,15 @@
 
 [(#REM) selectionner les recents pour eviter pb de perfs ]
 [(#REM) rubrique 79 = mermet, traitee a part]
-[(#SET{semaine,[(#VAL{Y-m-d}|date{[(#VAL{U}|date|moins{604800})]})]})]
-[(#SET{semaine,'2009-02-15'})]
+[(#SET{debut,[(#VAL{Y-m-d}|date{[(#VAL{U}|date|moins{604800})]})]})]
+
+[(#SET{debut,2008-03-01})]
+
+[(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{debut}|strtotime|plus{604800})]})]})]
+
 <BOUCLE_recents(ARTICLES)
-	{date>#GET{semaine}}
+	{date>=#GET{debut}}
+	{date<=#GET{fin}}
 	{doublons recents}
 	{id_rubrique!=79}
 	{lang=fr}
@@ -40,6 +45,7 @@
 	[(#REM) A la une ]
 	<BOUCLE_une(ARTICLES) {ps=5} {doublons}
 	{par date}{inverse}{0,1}
+	{date<=#GET{fin}}
 	>
 	<div class="centre1">
 		<INCLURE{fond=inc-entry}{id_article} />
@@ -76,6 +82,7 @@
 		<div class="menu pavedepeches english">
 		<div class="datesep">In English</div>
 				<BOUCLE_english(ARTICLES)
+				{date<=#GET{fin}}
 				{lang!=fr}
 				{doublons}
 				{ps >= 1}
@@ -138,6 +145,7 @@
 				{ps >= 2}
 				{par date}{inverse} {doublons}
 				{0,5}
+				{date<=#GET{fin}}
 				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_radio>
