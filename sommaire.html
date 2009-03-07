@@ -21,39 +21,48 @@
 	<INCLURE{fond=inc-entete} />
 
 [(#REM) selectionner les recents pour eviter pb de perfs ]
+[(#REM) rubrique 79 = mermet, traitee a part]
 [(#SET{semaine,[(#VAL{Y-m-d}|date{[(#VAL{U}|date|moins{604800})]})]})]
 [(#SET{semaine,'2009-02-15'})]
-<BOUCLE_recents(ARTICLES){date>#GET{semaine}}{doublons recents}></BOUCLE_recents>
-
+<BOUCLE_recents(ARTICLES)
+	{date>#GET{semaine}}
+	{doublons recents}
+	{id_rubrique!=79}
+	{lang=fr}
+></BOUCLE_recents>
 #SET{cutoff,0}
 <BOUCLE_cutoff(ARTICLES){date>#GET{semaine}}{!doublons recents}
-{!par popularite}{35,1}
+{!par popularite}{42,1}
 >#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_cutoff>
+
+	<div class="central">
+
+	[(#REM) A la une ]
+	<BOUCLE_une(ARTICLES) {ps=5} {doublons}
+	{par date}{inverse}{0,1}
+	>
+	<div class="centre1">
+		<INCLURE{fond=inc-entry}{id_article} />
+	</div>
+	</BOUCLE_une>
+
+
+
+	</div>[(#REM) /central ]
+
+	[(#REM) Derniers articles ]
+
+
+	<div class="central">
 
 
 	<div id="contenu">
-		
-		<div class="cartouche invisible">
-			<h1 class="invisible">#NOM_SITE_SPIP</h1>
-		</div>
-		
-		[(#REM) A la une ]
-		<BOUCLE_une(ARTICLES) {ps=5} {doublons}
-		{par date}{inverse}{0,1}
-		>
-		<div class="centre1">
-			<INCLURE{fond=inc-entry}{id_article} />
-		</div>
-		</BOUCLE_une>
-
-		
-		[(#REM) Derniers articles ]
-
 
 		<B_articles_recents>
 		<div class="menu articles">
 				<BOUCLE_articles_recents(ARTICLES)
 				{!doublons recents}
+				{doublons}
 				{ps >= 3}
 				{popularite>#GET{cutoff}}
 				{par date}{inverse} {doublons}>
@@ -62,43 +71,87 @@
 		</div>
 		</B_articles_recents>
 
+
+		<B_english>
+		<div class="menu articles english">
+				<BOUCLE_english(ARTICLES)
+				{lang!=fr}
+				{doublons}
+				{ps >= 1}
+				{!par date}
+				{0,4}>
+			<INCLURE{fond=inc-entry}{id_article} />
+				</BOUCLE_english>
+		</div>
+		</B_english>
+
+
+	</div>[(#REM) #contenu]
+
+
+	<div id="navigation">
+
 		<B_breves>
 		<div class="menu pavedepeches">
-			<div class="datesep">Et aussi...</div>
+			<div class="datesep">D&#233;p&#234;ches...</div>
 				<BOUCLE_breves(ARTICLES)
 				{!doublons recents}
-				{ps >= 2}
+				{doublons}
+				{ps = 2}
 				{par date}{inverse} {doublons}
-				{0,30}
+				{0,10}
 				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_breves>
 		</div>
 		</B_breves>
 
-		<div style="clear:both;"></div>
+		<B_aussi>
+		<div class="menu pavedepeches">
+			<div class="datesep">Et aussi...</div>
+				<BOUCLE_aussi(ARTICLES)
+				{!doublons recents}
+				{doublons}
+				{ps >= 3}
+				{par date}{inverse} {doublons}
+				{0,18}
+				>
+			<INCLURE{fond=inc-entry}{id_article} />
+				</BOUCLE_aussi>
+		</div>
+		</B_aussi>
 
-	</div><!--#contenu-->
-	</div><!--#conteneur-->
-	
-	[(#REM) Menu de navigation laterale ]
-	<div id="navigation">
-
-		[(#REM) Menu de navigation par rubriques ]
-		<INCLURE{fond=inc-rubriques}>
-		
+		<div class="menu pavedepeches">
+		[(#REM) Rechercher ]
 		#FORMULAIRE_RECHERCHE
 
-    </div><!--#navigation-->
+		[(#REM) Menu de navigation par rubriques ]
+		<INCLURE{fond=inc-rubriques} />
+		</div>
+
+		<B_radio>
+		<div class="menu pavedepeches ecouter">
+			<div class="datesep">&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</div>
+				<BOUCLE_radio(ARTICLES)
+				{id_rubrique=79}
+				{ps >= 2}
+				{par date}{inverse} {doublons}
+				{0,5}
+				>
+			<INCLURE{fond=inc-entry}{id_article} />
+				</BOUCLE_radio>
+		</div>
+		</B_radio>
+
+	</div><!--#navigation-->
+
+	<div style="clear:both;"></div>
+
+	</div>[(#REM) /central ]
+
+	</div><!--#conteneur-->
 	
-	[(#REM) Menu de navigation laterale ]
-	<div id="extra">
-		
-		[(#REM) Inscription au site ]
-		#FORMULAIRE_INSCRIPTION
-		
-	</div><!--#extra-->
-	
+
 	[(#REM) Pied de page ]
 	<INCLURE{fond=inc-pied}{skel=#SQUELETTE}>
 	

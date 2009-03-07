@@ -44,12 +44,12 @@
 		background: url(http://rezo.net/img_rezo/patte-blanc.gif) top right no-repeat;
 	}
 
-	#conteneur>div, #bandeau>div {
+	.central {
 		margin: auto;
 		width: 750px;
 	}
 
-	#contenu .articles {
+	#contenu {
 		clear:both;
 		float:left;
 		overflow:hidden;
@@ -131,6 +131,14 @@
 		color: white;
 	}
 
+	.articles.english {
+		background: url(http://rezo.net/img_rezo/vert70.png);
+	}
+	.articles.english .date {
+		display:none;
+	}
+
+
 	.pavedepeches a {
 		display: block;
 		color: #666666;
@@ -154,6 +162,11 @@
 	/* masquer les resumes dans le bloc pavedepeches */
 	.pavedepeches .date, .pavedepeches .entry-content {
 		display: none;
+	}
+
+	/* bloc Ecouter */
+	.pavedepeches.ecouter {
+		background: url(http://rezo.net/img_rezo/vert70.png);
 	}
 
 	abbr.published {
@@ -212,13 +225,13 @@
 		color: #666666;
 	}
 
-	.pavedepeches {
+	#navigation {
 		float: right;
 		width: 288px;
-		margin-top: 2.5em;
 	}
 
 	.pavedepeches {
+		margin-top: 2.5em;
 		padding: 5px;
 		border: 1px solid #999999;
 		background: url(http://rezo.net/img_rezo/blanc70.png);
