@@ -4,9 +4,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
 <head>
-<title>[(#NOM_SITE_SPIP|textebrut)]</title>
+<title>[(#NOM_SITE_SPIP|textebrut)][ - (#ENV{semaine}|affdate)]</title>
 [<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
 <INCLURE{fond=inc-head}>
+
+[(#ENV{semaine}|?{'<meta name="robots" content="noindex" />'})]
 </head>
 
 <body class="page_sommaire">
@@ -20,18 +22,22 @@
 
 	<INCLURE{fond=inc-entete} />
 
-[(#REM) selectionner les recents pour eviter pb de perfs ]
-[(#REM) rubrique 79 = mermet, traitee a part]
+[(#REM) selectionner les recents pour eviter pb de perfs
 
+	Le critere semaine indique la date du dernier jour a prendre en compte
+	(inclus, d'ou l'ajout de 24h00)
+
+]
 <BOUCLE_auj(ARTICLES){!par date}{0,1}>
-[(#SET{debut,[(#VAL{Y-m-d}|date{[(#VAL{U}|date{#DATE|strtotime}|moins{604800})]})]})]
+[(#SET{fin,[(#VAL{U}|date{#DATE|strtotime}|plus{86400})]})]
 </BOUCLE_auj>
+[(#ENV{semaine}|match{'^\d{4}-\d{2}-\d{2}$'}|?{
+	#SET{fin,#ENV{semaine}|strtotime|plus{86400}}
+})]
+[(#SET{debut,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{604800})]})]})]
+[(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
 
-[(#ENV{semaine}|?{#SET{debut,#SEMAINE}})]
-
-
-[(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{debut}|strtotime|plus{604800})]})]})]
-
+[(#REM) rubrique 79 = mermet, traitee a part]
 <BOUCLE_recents(ARTICLES)
 	{date>=#GET{debut}}
 	{date<=#GET{fin}}
@@ -43,7 +49,7 @@
 <BOUCLE_cutoff(ARTICLES){date>#GET{semaine}}{!doublons recents}
 {!par popularite}
 {ps >= 3}
-{42,1}
+{35,1}
 >#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_cutoff>
 
 	<div class="central">
@@ -85,7 +91,6 @@
 		</div>
 		</B_articles_recents>
 
-
 		<B_english>
 		<div id="english" class="menu pavedepeches">
 		<div class="datesep">In English</div>
@@ -100,6 +105,11 @@
 				</BOUCLE_english>
 		</div>
 		</B_english>
+
+
+		<a id="precedente"
+		href="/[(#VAL{Y-m-d}|date{[(#GET{fin}|strtotime|moins{604801})]})]"
+		rel="nofollow">la semaine pr&#233;c&#233;dente</a>
 
 
 	</div>[(#REM) #contenu]
@@ -143,6 +153,7 @@
 
 		[(#REM) Menu de navigation par rubriques ]
 		<INCLURE{fond=inc-rubriques} />
+
 		</div>
 
 		<B_radio>
@@ -161,6 +172,7 @@
 		</B_radio>
 
 	</div><!--#navigation-->
+
 
 	<div style="clear:both;"></div>
 

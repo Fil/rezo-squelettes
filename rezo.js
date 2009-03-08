@@ -23,13 +23,11 @@
 			.memove('#accueil');
 		$('#une,#depeches,#english')
 			.memove('#marge');
-		$('#marge').show();
 	};
 
 	var etroit = function() {
 		if (!$('body').is('.large')) return;
 		$('body').removeClass('large');
-		$('#marge').hide();
 		$.restaure();
 	}
 
@@ -42,8 +40,10 @@
 
 	// document.ready()
 	$(function(){
+
 		// large ou etroit ?
 		large_ou_etroit();
+		$(window).resize(large_ou_etroit);
 
 		// Couper les dates repetitives
 		var vu = [];
@@ -62,7 +62,11 @@
 		$('#contenu>.articles>.hentry').each(function(){
 			var im = $('img.spip_logos', this);
 			if (im.length && image<=0) {
-				im.prependTo(this);
+				$('a[rel=bookmark]', this)
+				.clone()
+				.html('')
+				.append(im)
+				.insertAfter($('.date:eq(0)',this));
 				image=4;
 			}
 			image--;
@@ -92,11 +96,6 @@
 		// Supprimer les abbr[title] des microformats
 		$('abbr.updated').attr('title', '');
 
-		// large ou etroit ?
-		$('#accueil').click(large);
-		$('#entete').click(etroit);
-
-		$(window).resize(large_ou_etroit);
 	});
 
 })(jQuery);

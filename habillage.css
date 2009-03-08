@@ -1,7 +1,8 @@
 /* ecran large */
 .large .central {width: 1024px;}
 .large #contenu {width: 374px;}
-
+#marge {display:none;}
+.large #marge {display:block;}
 
 
 .articles {
@@ -165,6 +166,7 @@
 	}
 
 	#english {
+		clear: both;
 		background: url(http://rezo.net/img_rezo/vert70.png);
 	}
 	#english .date {
@@ -397,3 +399,10 @@
 		padding-bottom: 5px;
 	}
 
+	#precedente {
+		color: #111;
+		display:block;
+		margin-top: 2em;
+		margin-bottom: 3em;
+		font-weight: bold;
+	}
