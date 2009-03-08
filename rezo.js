@@ -41,6 +41,8 @@
 			etroit();
 	};
 
+	$('head').append('<style id="antiflickr" type="text/css">.central {display:none;}<\/style>');
+
 	// document.ready()
 	$(function(){
 
@@ -98,6 +100,9 @@
 
 		// Supprimer les abbr[title] des microformats
 		$('abbr.updated').attr('title', '');
+
+		$('#antiflickr').remove();
+		$('.central').show(); // pour nav qui n'auraient pas compris la ligne precedente
 
 	});
 
