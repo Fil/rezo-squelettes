@@ -1,3 +1,13 @@
+/* ecran large */
+.large .central {width: 1024px;}
+.large #contenu {width: 374px;}
+
+
+
+.articles {
+	margin-bottom: 2em;
+}
+
 .articles .introduction {
  font-size: 10px;
  padding: 5px;
@@ -45,6 +55,7 @@
 	}
 
 	.central {
+		clear:both;
 		margin: auto;
 		width: 750px;
 	}
@@ -54,55 +65,67 @@
 	}
 
 	#contenu {
-		clear:both;
 		float:left;
-		overflow:hidden;
 		width:425px;
 		padding-bottom:6em;
 	}
 
-	.centre1 .source, .centre1 .datehm, .articles .datehm  {
+	#marge {
+		float:left;
+		width: 300px;
+		margin-right:35px;
+		padding-bottom:6em;
+		display:none; /* le js large() l'affichera */
+	}
+
+	#une .source, #une .datehm, .articles .datehm  {
 		display: none;
 	}
-	.centre1 {
+	#une {
 		background: url(http://rezo.net/img_rezo/fond4.gif);
 		border: 1px solid #324C48;
 		padding: 5px;
-		width: 425px;
 		clear: both;
+		margin-bottom: 1.8em;
 	}
-	.centre1 {
+
+	/* #chandelle contient #une en mode 800 */
+	#chandelle {
+		width: 425px;
+	}
+
+	#une {
 		color: #324C48;
 	}
-	.centre1:hover {
+	#une:hover {
 		color: #000;
 	}
-	.centre1 a:visited {
+	#une a:visited {
 		color: #666666;
 	}
 	
-	.centre1 a:hover {
+	#une a:hover {
 		color: #000000;
 	}
 	
-	.centre1 a .titre {
+	#une a .titre {
 		display: block;
 		font-size: 12px;
 		font-family: verdana, arial, helvetica, sans;
 		font-weight: bold;
 		color: #222222;
 	}
-	.centre1 a:hover .titre {
+	#une a:hover .titre {
 		color: black;
 	}
-	.centre1 .introduction {
+	#une .introduction {
 		display: block;
 		margin-top: 5px;
 		margin-bottom: 5px;
 		font-size: 10px;
 		font-family: verdana, arial, helvetica, sans;
 	}
-	.centre1 .auteur {
+	#une .auteur {
 		display: block;
 		text-align: right;
 		padding-left: 0px;
@@ -137,10 +160,10 @@
 		color: white;
 	}
 
-	.articles.english {
+	#english {
 		background: url(http://rezo.net/img_rezo/vert70.png);
 	}
-	.articles.english .date {
+	#english .date {
 		display:none;
 	}
 
@@ -225,17 +248,21 @@
 		background-color: #cccccc;
 	}
 
-	a.accueil {
+	#accueil {
 		float: left;
+		width: 300px;
 	}
 	
-	.articles .date {
-		margin-top: 2.5em;
+	#contenu .date {
 		font-size: 12px;
 		font-family: verdana,arial,helvetica,sans;
 		font-weight: bold;
 		border-bottom: 2px solid #999999;
 		color: #666666;
+		margin-top: 1.6em;
+	}
+	#contenu .hentry:first-child .date {
+		margin-top:0;
 	}
 
 	#navigation {
@@ -245,10 +272,10 @@
 	}
 
 	.pavedepeches {
-		margin-top: 2.5em;
 		padding: 5px;
 		border: 1px solid #999999;
 		background: url(http://rezo.net/img_rezo/blanc70.png);
+		margin-bottom: 2.5em;
 	}
 	
 	.pavedepeches .datesep {
@@ -260,10 +287,10 @@
 		font-family:verdana,arial,helvetica,sans;
 		font-size:12px;
 		font-weight:bold;
-		margin-top:0;
+		margin-top: 0;
 	}
 
-	div.citation {
+	#citation {
 		color: #4D5F53;
 		text-align: justify;
 		font-size: 14px;
@@ -271,8 +298,9 @@
 		width: 300px;
 		float: right;
 		padding-top: 5px;
+		margin-bottom: 1.2em;
 	}
-	div.citation span.auteur {
+	#citation span.auteur {
 		display: block;
 		text-align: right;
 		font-weight: bold;

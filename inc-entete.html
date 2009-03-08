@@ -1,11 +1,13 @@
 <div id="entete" class="central">
-<a rel="start home" href="#URL_SITE_SPIP/" title="<:accueil_site:>"
-class="accueil"><img width="300" height="83" border="0" alt="#NOM_SITE_SPIP"
+
+<div id="accueil">
+<a rel="start home" href="#URL_SITE_SPIP/" title="<:accueil_site:>"><img alt="#NOM_SITE_SPIP"
 src="http://rezo.net/img_rezo/logorezo-blanc.gif"/></a>
+</div>
 
 		[(#REM) Citation]
 		<BOUCLE_citation(BREVES){0,1}{par hasard}{id_rubrique=1}>
-		<div class="citation">
+		<div id="citation">
 			[<div class="#EDIT{texte}">(#TEXTE|PtoBR)</div>]
 			[<span class="#EDIT{titre} auteur">(#TITRE)</span>]
 		</div>

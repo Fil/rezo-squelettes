@@ -47,9 +47,9 @@
 	{par date}{inverse}{0,1}
 	{date<=#GET{fin}}
 	>
-	<div class="centre1">
+	<div id="chandelle"><div id="une">
 		<INCLURE{fond=inc-entry}{id_article} />
-	</div>
+	</div></div>
 	</BOUCLE_une>
 
 
@@ -61,6 +61,8 @@
 
 	<div class="central">
 
+	<div id="marge">
+	</div>
 
 	<div id="contenu">
 
@@ -79,7 +81,7 @@
 
 
 		<B_english>
-		<div class="menu pavedepeches english">
+		<div id="english" class="menu pavedepeches">
 		<div class="datesep">In English</div>
 				<BOUCLE_english(ARTICLES)
 				{date<=#GET{fin}}
@@ -100,7 +102,7 @@
 	<div id="navigation">
 
 		<B_breves>
-		<div class="menu pavedepeches">
+		<div id="depeches" class="menu pavedepeches">
 			<div class="datesep">D&#233;p&#234;ches...</div>
 				<BOUCLE_breves(ARTICLES)
 				{!doublons recents}
@@ -115,7 +117,7 @@
 		</B_breves>
 
 		<B_aussi>
-		<div class="menu pavedepeches">
+		<div id="aussi" class="menu pavedepeches">
 			<div class="datesep">Et aussi...</div>
 				<BOUCLE_aussi(ARTICLES)
 				{!doublons recents}
