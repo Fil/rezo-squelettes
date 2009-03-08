@@ -22,9 +22,13 @@
 
 [(#REM) selectionner les recents pour eviter pb de perfs ]
 [(#REM) rubrique 79 = mermet, traitee a part]
-[(#SET{debut,[(#VAL{Y-m-d}|date{[(#VAL{U}|date|moins{604800})]})]})]
 
-[(#SET{debut,2008-03-01})]
+<BOUCLE_auj(ARTICLES){!par date}{0,1}>
+[(#SET{debut,[(#VAL{Y-m-d}|date{[(#VAL{U}|date{#DATE|strtotime}|moins{604800})]})]})]
+</BOUCLE_auj>
+
+[(#ENV{semaine}|?{#SET{debut,#SEMAINE}})]
+
 
 [(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{debut}|strtotime|plus{604800})]})]})]
 
@@ -37,7 +41,9 @@
 ></BOUCLE_recents>
 #SET{cutoff,0}
 <BOUCLE_cutoff(ARTICLES){date>#GET{semaine}}{!doublons recents}
-{!par popularite}{42,1}
+{!par popularite}
+{ps >= 3}
+{42,1}
 >#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_cutoff>
 
 	<div class="central">

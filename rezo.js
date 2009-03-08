@@ -34,7 +34,7 @@
 	}
 
 	var large_ou_etroit = function() {
-		if ($(window).width() > 1036)
+		if ($(window).width() > 1048)
 			large();
 		else
 			etroit();
@@ -42,6 +42,31 @@
 
 	// document.ready()
 	$(function(){
+		// large ou etroit ?
+		large_ou_etroit();
+
+		// Couper les dates repetitives
+		var vu = [];
+		$('#contenu>.articles>*>.date').each(function(){
+			var t = $(this).attr('class'); 
+			if (vu[t])
+				$(this).hide();
+			else {
+				vu[t]=1;
+				$(this).show();
+			}
+		});
+
+		// ressortir quelques images
+		var image=0;
+		$('#contenu>.articles>.hentry').each(function(){
+			var im = $('img.spip_logos', this);
+			if (im.length && image<=0) {
+				im.prependTo(this);
+				image=4;
+			}
+			image--;
+		});
 
 		// cliquer un lien provoque un redirect pour les stats
 		// mais on remet le bon url dans le DOM
@@ -64,26 +89,13 @@
 			$(this).parents('.hentry').find('.introduction').hide();
 		});
 
-		// Couper les dates repetitives
-		var vu = [];
-		var image = 1;
-		$('#contenu .date').each(function(){
-			var t = $(this).attr('class'); 
-			if (vu[t])
-				$(this).hide();
-			else {
-				vu[t]=1;
-				$(this).show();
-			}
-		});
-
 		// Supprimer les abbr[title] des microformats
 		$('abbr.updated').attr('title', '');
 
 		// large ou etroit ?
 		$('#accueil').click(large);
 		$('#entete').click(etroit);
-		large_ou_etroit();
+
 		$(window).resize(large_ou_etroit);
 	});
 

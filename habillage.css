@@ -113,9 +113,13 @@
 		font-size: 12px;
 		font-family: verdana, arial, helvetica, sans;
 		font-weight: bold;
+	}
+
+	#une a.entry-title {
 		color: #222222;
 	}
-	#une a:hover .titre {
+
+	#une a.entry-title:hover {
 		color: black;
 	}
 	#une .introduction {
@@ -254,6 +258,7 @@
 	}
 	
 	#contenu .date {
+		clear: both; /* au cas ou une image est au rang du dessus */
 		font-size: 12px;
 		font-family: verdana,arial,helvetica,sans;
 		font-weight: bold;
@@ -385,7 +390,10 @@
 	}
 
 	.spip_logos {
-	        margin: 3px;
-	        border-width: 0px;
+		margin: 3px;
+		border-width: 0px;
+		float: right;
+		padding-left: 5px;
+		padding-bottom: 5px;
 	}
 
