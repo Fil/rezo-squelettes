@@ -1,0 +1,19 @@
+<BOUCLE_a(ARTICLES){id_article}>
+[(#REM) On passe par champ_sql pour ne pas avoir l'amp ]
+[(#HTTP_HEADER{[Location: (#CHAMP_SQL{url_site})]})]
+<html>
+<head>
+
+<meta http-equiv="refresh" content="0;url=#URL_SITE">
+	<title>#TITRE @ #NOM_SITE_SPIP</title>
+</head>
+
+<body>
+Cette page va rediriger votre navigateur vers l'article <a href="#URL_SITE">#TITRE</a>.
+</body>
+</html>
+
+</BOUCLE_a>
+Erreur de redirection
+<pre>[(#ENV*|unserialize|var_export{1})]</pre>
+<//B_a>
