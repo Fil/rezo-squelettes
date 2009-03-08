@@ -45,6 +45,8 @@ RewriteRule ^([0-9]{4}-[0-9]{2}-[0-9]{2})$	spip.php?page=sommaire&semaine=$1 [QS
 # ping + redirect article
 RewriteRule ^([0-9]+)$	spip.php?page=ping&id_article=$1 [QSA,L]
 
+# vieilles URLs abandonnees
+RewriteRule ^(calendrier.*|ical\.php3|large.*|semaine-.*)$	/ [R,L]
 
 ################ GESTIONS DES URLS SPIP #######################
 
