@@ -21,7 +21,10 @@
 		$('body').addClass('large');
 		$('#citation')
 			.memove('#accueil');
-		$('#une,#depeches,#english')
+		$('#nuage')
+			.memove('#entete');
+		/* .add() pour conserver l'ordre */
+		$('#une').add('#depeches').add('#english')
 			.memove('#marge');
 	};
 

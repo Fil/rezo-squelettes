@@ -15,7 +15,7 @@
 <div id="page">
 
 	[(#REM) Bandeau de la page ]
-	<INCLURE{fond=inc-bandeau} />
+	<INCLURE{fond=inc-bandeau}{semaine} />
 
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
@@ -65,6 +65,9 @@
 	</BOUCLE_une>
 
 
+	<div id="nuage">[(#REM|nuage_tags)
+	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
+	]</div>
 
 	</div>[(#REM) /central ]
 
@@ -119,7 +122,7 @@
 
 		<B_breves>
 		<div id="depeches" class="menu pavedepeches">
-			<div class="datesep">D&#233;p&#234;ches...</div>
+			<div class="datesep">D&#233;p&#234;ches</div>
 				<BOUCLE_breves(ARTICLES)
 				{!doublons recents}
 				{doublons}

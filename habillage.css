@@ -93,6 +93,7 @@
 	/* #chandelle contient #une en mode 800 */
 	#chandelle {
 		width: 425px;
+		float: left;
 	}
 
 	#une {
@@ -213,6 +214,7 @@
 		background: url(http://rezo.net/img_rezo/fond2.gif);
 		padding: 5px;
 		color: white;
+		height: 28px;
 	}
 
 	#bandeau {
@@ -257,6 +259,7 @@
 	#accueil {
 		float: left;
 		width: 300px;
+		margin-bottom: 20px;
 	}
 	
 	#contenu .date {
@@ -406,3 +409,24 @@
 		margin-bottom: 3em;
 		font-weight: bold;
 	}
+	
+	#nuage {
+		float:right;
+		width:275px;
+		text-align:right;
+		margin: 10px;
+		padding-right: 6px;
+		border-right: dotted #bbb;
+	}
+
+	.large #nuage {
+		width: 400px;
+	}
+
+	#nuage a {
+		color: #555;
+		padding-left:3px;
+		vertical-align:middle;
+		white-space: nowrap;
+	}
+
