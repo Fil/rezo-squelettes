@@ -1,7 +1,7 @@
 ﻿<BOUCLE_article(ARTICLES){id_article}>
 
 #SET{titre,#TITRE|retitrage}
-#SET{source,#TITRE|retitrage{source}}
+#SET{source,#TITRE|retitrage{source}|sinon{#SOURCE}}
 #SET{auteurs,#TITRE|retitrage{auteurs}}
 <BOUCLE_r(RUBRIQUES){id_rubrique}>
 #SET{source,#GET{source}|sinon{#TITRE}}
@@ -17,6 +17,7 @@
 title="(#GET{titre_rub}|texte_backend)"] border='0' align='right'
 style='margin-top: 9px; margin-left: 5px;' /></a>
 
+[<div style='float:right'>(#SURTITRE|afficher_enclosures)</div>]
 <a rel="bookmark" href="#URL_SITE" class="entry-title">
 	<strong class="titre">#GET{titre}</strong>
 	<span class='auteur'>[<:par_auteur:>
@@ -30,7 +31,7 @@ style='margin-top: 9px; margin-left: 5px;' /></a>
 		[(#LOGO_ARTICLE||image_reduire{120})]
 		[(#INTRODUCTION|PtoBR)]
 		[<div class='source'>Source&nbsp;: <b>(#GET{source})</b></div>]
-		<B_mots><div class='tags'>Th&egrave;me[(#TOTAL_BOUCLE|>{1}|?{s})]&nbsp;: <BOUCLE_mots(MOTS){id_article}{", "}><b>#TITRE</b></BOUCLE_mots></div></B_mots>
+		<B_mots><div class='tags'>Th&egrave;me[(#TOTAL_BOUCLE|>{1}|?{s})]&nbsp;: <BOUCLE_mots(MOTS){id_article}{", "}><b>#TITRE</b></BOUCLE_mots></div></B_mots>[Tags&nbsp;: <b>(#SURTITRE|afficher_tags|supprimer_tags|replace{', ','</b>, <b>'})</b>]<//B_mots>
 	</div>
 </div>
 <!--

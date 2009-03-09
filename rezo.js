@@ -35,10 +35,13 @@
 	}
 
 	var large_ou_etroit = function() {
-		if ($(window).width() > 1048)
-			large();
-		else
-			etroit();
+		if ($.cookie('affichage') == '1024')
+			return large();
+		if ($.cookie('affichage') == '800')
+			return etroit();
+		return ($(window).width() > 1048)
+			? large()
+			: etroit();
 	};
 
 	$('head').append('<style id="antiflickr" type="text/css">.central {display:none;}<\/style>');
@@ -104,6 +107,18 @@
 		$('#antiflickr').remove();
 		$('.central').show(); // pour nav qui n'auraient pas compris la ligne precedente
 
+		// Ajouter les boutons cookie/preference dans le pied de page
+		$('<span>Vos pr&#233;f&#233;rences d&#8217;affichage&nbsp;:  \
+		<a href="1024">large</a>,\
+		<a href="800">&#233;troit</a>,\
+		<a href="auto">automatique</a>.</span>')
+		.find('a')
+		.click(function(){
+			$.cookie('affichage',$(this).attr('href'));
+			large_ou_etroit();
+			return false;
+		})
+		.end() .appendTo('#footer .central');
 	});
 
 })(jQuery);

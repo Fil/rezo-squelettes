@@ -414,7 +414,7 @@
 		float:right;
 		width:275px;
 		text-align:right;
-		margin: 10px;
+		margin: 10px 0 10px 10px;
 		padding-right: 6px;
 		border-right: dotted #bbb;
 	}

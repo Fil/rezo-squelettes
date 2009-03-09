@@ -31,7 +31,13 @@ function datehm($date) {
 
 // Renvoie les n mots-cles les plus populaires
 function mots_populaires($n=25) {
-	if ($s = spip_query($f = "select sum(articles.popularite) as pop, m.id_mot AS id_mot, mots.titre as titre from spip_articles as articles right join spip_mots_articles as m ON articles.id_article = m.id_article, spip_mots AS mots WHERE m.id_mot=mots.id_mot group by id_mot order by pop desc limit 0,".intval($n))) {
+	/* $f = "select sum(articles.popularite) as pop, m.id_mot AS id_mot, mots.titre as titre from spip_articles as articles right join spip_mots_articles as m ON articles.id_article = m.id_article, spip_mots AS mots WHERE m.id_mot=mots.id_mot group by id_mot order by pop desc limit 0,".intval($n); */
+	// Utilise le plugin "Popularite"
+	$f = "SELECT popularite AS pop, id_mot, titre
+	FROM spip_mots
+	ORDER BY popularite DESC
+	LIMIT 0,".intval($n);
+	if ($s = spip_query($f)) {
 		$a =array();
 		while ($t = sql_fetch($s))
 			$a[] = $t;

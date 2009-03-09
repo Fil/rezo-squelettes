@@ -28,7 +28,7 @@
 	(inclus, d'ou l'ajout de 24h00)
 
 ]
-<BOUCLE_auj(ARTICLES){!par date}{0,1}>
+<BOUCLE_auj(ARTICLES){ps>=3}{!par date}{0,1}>
 [(#SET{fin,[(#VAL{U}|date{#DATE|strtotime}|plus{86400})]})]
 </BOUCLE_auj>
 [(#ENV{semaine}|match{'^\d{4}-\d{2}-\d{2}$'}|?{
@@ -36,6 +36,7 @@
 })]
 [(#SET{debut,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{604800})]})]})]
 [(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
+
 
 [(#REM) rubrique 79 = mermet, traitee a part]
 <BOUCLE_recents(ARTICLES)
@@ -87,7 +88,7 @@
 				{!doublons recents}
 				{doublons}
 				{ps >= 3}
-				{popularite>#GET{cutoff}}
+				{popularite>=#GET{cutoff}}
 				{par date}{inverse} {doublons}>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_articles_recents>
@@ -101,7 +102,7 @@
 				{date<=#GET{fin}}
 				{lang!=fr}
 				{doublons}
-				{ps >= 1}
+				{ps >= 2}
 				{!par date}
 				{0,4}>
 			<INCLURE{fond=inc-entry}{id_article} />
