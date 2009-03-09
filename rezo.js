@@ -114,7 +114,7 @@
 		<a href="auto">automatique</a>.</span>')
 		.find('a')
 		.click(function(){
-			$.cookie('affichage',$(this).attr('href'));
+			$.cookie('affichage',$(this).attr('href'), {expires: 365});
 			large_ou_etroit();
 			return false;
 		})
