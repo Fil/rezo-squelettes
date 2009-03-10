@@ -28,7 +28,7 @@
 	(inclus, d'ou l'ajout de 24h00)
 
 ]
-<BOUCLE_auj(ARTICLES){ps>=3}{!par date}{0,1}>
+<BOUCLE_auj(ARTICLES){type!=''}{!par date}{0,1}>
 [(#SET{fin,[(#VAL{U}|date{#DATE|strtotime}|plus{86400})]})]
 </BOUCLE_auj>
 [(#ENV{semaine}|match{'^\d{4}-\d{2}-\d{2}$'}|?{
@@ -49,14 +49,14 @@
 #SET{cutoff,0}
 <BOUCLE_cutoff(ARTICLES){date>#GET{semaine}}{!doublons recents}
 {!par popularite}
-{ps >= 3}
+{type!=''}
 {35,1}
 >#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_cutoff>
 
 	<div class="central">
 
 	[(#REM) A la une ]
-	<BOUCLE_une(ARTICLES) {ps=5} {doublons}
+	<BOUCLE_une(ARTICLES) {type=une} {doublons}
 	{par date}{inverse}{0,1}
 	{date<=#GET{fin}}
 	>
@@ -87,9 +87,10 @@
 				<BOUCLE_articles_recents(ARTICLES)
 				{!doublons recents}
 				{doublons}
-				{ps >= 3}
+				{type!=''}
 				{popularite>=#GET{cutoff}}
-				{par date}{inverse} {doublons}>
+				{par date}{inverse} {doublons}
+				{0,35}>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_articles_recents>
 		</div>
@@ -102,7 +103,6 @@
 				{date<=#GET{fin}}
 				{lang!=fr}
 				{doublons}
-				{ps >= 2}
 				{!par date}
 				{0,4}>
 			<INCLURE{fond=inc-entry}{id_article} />
@@ -127,7 +127,7 @@
 				<BOUCLE_breves(ARTICLES)
 				{!doublons recents}
 				{doublons}
-				{ps = 2}
+				{type=''}
 				{par date}{inverse} {doublons}
 				{0,10}
 				>
@@ -142,7 +142,7 @@
 				<BOUCLE_aussi(ARTICLES)
 				{!doublons recents}
 				{doublons}
-				{ps >= 3}
+				{type!=''}
 				{par date}{inverse} {doublons}
 				{0,18}
 				>
@@ -165,7 +165,6 @@
 			<div class="datesep">&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</div>
 				<BOUCLE_radio(ARTICLES)
 				{id_rubrique=79}
-				{ps >= 2}
 				{par date}{inverse} {doublons}
 				{0,5}
 				{date<=#GET{fin}}

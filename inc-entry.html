@@ -1,4 +1,4 @@
-﻿<BOUCLE_article(ARTICLES){id_article}>
+﻿<BOUCLE_article(ARTICLES){id_article}{statut?}>
 
 #SET{titre,#TITRE|retitrage}
 #SET{source,#TITRE|retitrage{source}|sinon{#SOURCE}}
@@ -35,7 +35,7 @@ style='margin-top: 9px; margin-left: 5px;' /></a>
 	</div>
 </div>
 <!--
-score #PS* - #POPULARITE** - [(#CHAMP_SQL{popularite}|mult{1000000000}|intval)] - #VISITES
+#TYPE - #STATUT - #POPULARITE** - [(#CHAMP_SQL{popularite}|mult{1000000000}|intval)] - #VISITES
 -->
 </div>[(#REM) / hentry]
 

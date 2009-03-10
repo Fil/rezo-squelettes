@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin>
+	<nom>
+	Rezo
+	</nom>
+	<auteur>
+	Fil
+	&#169; 2009 - GNU/GPL
+	</auteur>
+	<version>
+	0.1
+	</version>
+	<version_base>0.1</version_base>
+	<etat>
+	dev
+	</etat>
+	<description>
+	Bidouilles temporaires pour rezo.net
+	</description>
+	<prefix>
+	rezo
+	</prefix>
+	<icon>
+	</icon>
+
+	<pipeline>
+		<nom>post_syndication</nom>
+		<inclure>rezo_options.php</inclure>
+	</pipeline>
+
+	<options>rezo_options.php</options>
+
+	<chemin dir='' />
+	<necessite id="SPIP" version="[2.0.0;]" />
+</plugin>
