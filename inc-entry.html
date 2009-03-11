@@ -8,6 +8,7 @@
 #SET{titre_rub,#TITRE}
 #SET{url_rub,#URL_RUBRIQUE}
 </BOUCLE_r>
+#SET{origine,#SOURCE|sinon{#GET{source}}}
 
 <div class="hentry" id="a#ID_ARTICLE">
 
@@ -30,7 +31,7 @@ style='margin-top: 9px; margin-left: 5px;' /></a>
 	<div class='introduction'>
 		[(#LOGO_ARTICLE||image_reduire{120})]
 		[(#INTRODUCTION|PtoBR)]
-		[<div class='source'>Source&nbsp;: <b>(#GET{source})</b></div>]
+		[<div class='source'>Source&nbsp;: <b>(#GET{origine})</b></div>]
 		<B_mots><div class='tags'>Th&egrave;me[(#TOTAL_BOUCLE|>{1}|?{s})]&nbsp;: <BOUCLE_mots(MOTS){id_article}{", "}><b>#TITRE</b></BOUCLE_mots></div></B_mots>[Tags&nbsp;: <b>(#SURTITRE|afficher_tags|supprimer_tags|replace{', ','</b>, <b>'})</b>]<//B_mots>
 	</div>
 </div>

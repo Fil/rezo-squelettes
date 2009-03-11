@@ -1,11 +1,11 @@
 <?php
 
+define('_SYNDICATION_CORRECTION', false);
 define('_SYNDICATION_URL_UNIQUE', true);
 define('_ID_WEBMESTRES', '3');
 
 function rezo_post_syndication($data) {
 	static $sites = array();
-
 	$url = $data[0];
 	$id_syndic = $data[1];
 
@@ -22,15 +22,10 @@ function rezo_post_syndication($data) {
 		'id_secteur' => $sites[$id_syndic]['id_secteur']
 	);
 
-	// ps= valeur par defaut de la source
-	// si publiee : 'bien' (sinon 'bof')
-	// si moderation : 'breves' (sinon 'articles')
-	$update['statut'] = ($sites[$id_syndic]['statut'] == 'publie')
-		? 'publie'
-		: 'prop';
-	$update['type'] = ($sites[$id_syndic]['moderation'] == 'oui')
-		? '' /* depeche */
-		: 'article';
+	// valeur par defaut de la source
+	// si publiee : 'article' (sinon '' aka depeche)
+	if ($sites[$id_syndic]['statut'] == 'publie')
+		$update['type'] = 'article';
 
 	// bug sur certaines sources (http://blogs.lesoir.be/colette-braeckman/feed/) :
 	// la langue indiquee est anglais, alors que les textes sont fr.
@@ -39,11 +34,21 @@ function rezo_post_syndication($data) {
 
 	lang_select($data[2]['lang']);
 
-	// Indiquer le "bon" titre : "titre, par auteur"
+
 	// COMMENT GERER LES RETITRAGES MAISON ? ==> champ titre2 ?
-	if (strlen($data[2]['lesauteurs']))
-		$update['titre'] = trim($data[2]['titre'])
+
+	// Indiquer le "bon" titre
+	$update['titre'] = trim(preg_replace(',\s+,ims', ' ', $data[2]['titre']));
+	// Supprimer les trucs entre crochets, genre [by fil.rezo.net] de delicious
+	$update['titre'] = trim(preg_replace(',[[].*[]],', '', $update['titre']));
+	// "titre, par auteur"
+	if (strlen($data[2]['lesauteurs'])
+	AND !preg_match('/,\s(par|by)\s/i', $update['titre']))
+		$update['titre'] = $update['titre']
 		.', '._T('forum_par_auteur', array('auteur' => $data[2]['lesauteurs']));
+
+	#var_dump($data);var_dump($update);exit;
+
 
 	sql_updateq('spip_syndic_articles',
 		$update,

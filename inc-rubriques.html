@@ -11,6 +11,7 @@ onchange="if (options[selectedIndex].value) { location = options[selectedIndex].
 <BOUCLE_rubriques(RUBRIQUES) {par num titre, titre} {popularite>=#GET{cutoff}}>
 <option value="#URL_RUBRIQUE">[(#TITRE|couper{80})]</option>
 </BOUCLE_rubriques>
+<option value="/sources">&nbsp; &#187; toutes nos sources</option>
 </select>
 </div>
 </B_rubriques>

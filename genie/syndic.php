@@ -136,9 +136,13 @@ function inserer_article_syndique ($data, $now_id_syndic, $statut, $url_site, $u
 	$le_lien = substr($data['url'], 0,255);
 
 	// si true, un lien deja syndique arrivant par une autre source est ignore
-	// par defaut (false), chaque source a sa liste de liens, eventuellement
+	// par defaut [false], chaque source a sa liste de liens, eventuellement
 	// les memes
 	define('_SYNDICATION_URL_UNIQUE', false);
+
+	// Si false, on ne met pas a jour un lien deja syndique avec ses nouvelles
+	// donnees ; par defaut [true] : on met a jour si le contenu a change
+	define('_SYNDICATION_CORRECTION', true);
 
 	// Chercher les liens de meme cle
 	// S'il y a plusieurs liens qui repondent, il faut choisir le plus proche
@@ -173,8 +177,17 @@ function inserer_article_syndique ($data, $now_id_syndic, $statut, $url_site, $u
 	}
 	$faits[] = $id_syndic_article;
 
-	if (!$ajout AND _SYNDICATION_URL_UNIQUE AND $id_syndic != $now_id_syndic)
-		return;
+
+	// Si le lien n'est pas nouveau, plusieurs options :
+	if (!$ajout) {
+		// 1. On ne corrige pas ?
+		if (!_SYNDICATION_CORRECTION) {
+			return;
+		}
+		// 2. Le lien existait deja, lie a un autre spip_syndic
+		if (_SYNDICATION_URL_UNIQUE AND $id_syndic != $now_id_syndic)
+			return;
+	}
 
 	// Descriptif, en mode resume ou mode 'full text'
 	// on prend en priorite data['descriptif'] si on est en mode resume,
