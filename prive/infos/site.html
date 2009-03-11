@@ -1,7 +1,10 @@
 <BOUCLE_site(SITES){id_syndic=#ENV{id}}{statut?}{!lang_select}>
 <div class='infos'>
 <div class='numero'><:titre_site_numero:><p>#ID_SYNDIC</p></div>
-[(#ID_SYNDIC|instituer_site{#ID_RUBRIQUE,#STATUT})]
+[(#ID_SYNDIC|instituer_site{#ID_RUBRIQUE,#STATUT}
+	|replace{publi&eacute;,Mode articles}
+	|replace{propos&eacute;,Mode d&#233;p&#234;ches}
+)]
 
 [(#REM)
 
