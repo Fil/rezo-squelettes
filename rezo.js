@@ -107,6 +107,17 @@
 		$('#antiflickr').remove();
 		$('.central').show(); // pour nav qui n'auraient pas compris la ligne precedente
 
+		// recuperer la date des mermet
+		$('#navigation>.ecouter .datehm')
+		.each(function(){
+			$(this).appendTo($(this).parents('a'));
+		});
+		// un seul lien source pour mermet
+		$('#navigation>.ecouter a.plus:eq(0)')
+		.prependTo('#navigation>.ecouter');
+		$('#navigation>.ecouter div a.plus')
+		.remove();
+
 		// Ajouter les boutons cookie/preference dans le pied de page
 		$('<span>Vos pr&#233;f&#233;rences d&#8217;affichage&nbsp;:  \
 		<a href="1024">large</a>,\

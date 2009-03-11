@@ -175,7 +175,7 @@
 	}
 
 
-	.pavedepeches a {
+	.pavedepeches a.entry-title {
 		display: block;
 		color: #666666;
 		padding-left: 10px;
@@ -186,11 +186,11 @@
 		background: url(http://rezo.net/img_rezo/pucefoncee.gif) left no-repeat;
 		font-family: verdana, arial, helvetica, sans;
 	}
-	.pavedepeches a:visited{
+	.pavedepeches a.entry-title:visited{
 		color: #748F8A;
 		background: url(http://rezo.net/img_rezo/puceverte.gif) left no-repeat;
 	}
-	.pavedepeches a:hover{
+	.pavedepeches a.entry-title:hover{
 		color: #000000;
 		background: url(http://rezo.net/img_rezo/pucenoire.gif) left no-repeat;
 	}
@@ -430,3 +430,28 @@
 		white-space: nowrap;
 	}
 
+/* masquer l'auteur et la source chez mermet */
+/* rezo.js recuperera la date */
+
+.ecouter .auteur {
+	display: none;
+}
+
+
+.plus {
+	background: url(http://rezo.net/img_rezo/plus2.gif);
+	width:9px;
+	height:9px;
+	margin-top: 9px;
+	margin-left: 5px;
+	float:right;
+}
+a.plus, a.plus:hover {
+	color:transparent !important;
+}
+
+#une .plus {
+	background: url(http://rezo.net/img_rezo/plus.gif);
+	position: relative;
+	top: -20px;
+}

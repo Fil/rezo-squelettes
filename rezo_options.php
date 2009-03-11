@@ -2,7 +2,7 @@
 
 define('_SYNDICATION_CORRECTION', false);
 define('_SYNDICATION_URL_UNIQUE', true);
-define('_ID_WEBMESTRES', '3');
+define('_ID_WEBMESTRES', '3:13');  // Fil, Marcimat
 
 function rezo_post_syndication($data) {
 	static $sites = array();
@@ -29,26 +29,36 @@ function rezo_post_syndication($data) {
 
 	// bug sur certaines sources (http://blogs.lesoir.be/colette-braeckman/feed/) :
 	// la langue indiquee est anglais, alors que les textes sont fr.
-	if ($sites[$id_syndic]['descriptif'])
-		$data[2]['lang'] = $update['lang'] = 'fr';
+	$update['lang'] = $data[2]['lang'];
+	if (strlen($sites[$id_syndic]['forcerlang']))
+		$update['lang'] = $sites[$id_syndic]['forcerlang'];
 
-	lang_select($data[2]['lang']);
+	// attention aux fr-FR et autres joyeusetes
+	$update['lang'] = preg_replace(',^.*(fr|en|es).*$,i', '\1', $update['lang']);
+
+	// forcer fr si langue inconnue
+	if (!in_array($update['lang'], array('fr', 'en', 'es')))
+		$update['lang'] = 'fr';
 
 
-	// COMMENT GERER LES RETITRAGES MAISON ? ==> champ titre2 ?
+	lang_select($update['lang']);
+
 
 	// Indiquer le "bon" titre
 	$update['titre'] = trim(preg_replace(',\s+,ims', ' ', $data[2]['titre']));
 	// Supprimer les trucs entre crochets, genre [by fil.rezo.net] de delicious
 	$update['titre'] = trim(preg_replace(',[[].*[]],', '', $update['titre']));
+
 	// "titre, par auteur"
+	// "titre, par auteur (source)"
+	// ne pas prendre les auteurs contenant un @ (emails affiches dans le RSS)
 	if (strlen($data[2]['lesauteurs'])
-	AND !preg_match('/,\s(par|by)\s/i', $update['titre']))
+	AND !strpos($data[2]['lesauteurs'], '@')
+	AND !preg_match('/, (par|by|por) /i', $update['titre'])
+	AND !preg_match('/ [(].*[)]$/', $update['titre'])
+	)
 		$update['titre'] = $update['titre']
 		.', '._T('forum_par_auteur', array('auteur' => $data[2]['lesauteurs']));
-
-	#var_dump($data);var_dump($update);exit;
-
 
 	sql_updateq('spip_syndic_articles',
 		$update,
@@ -57,8 +67,9 @@ function rezo_post_syndication($data) {
 	lang_select();
 
 
-	// Ajouter les mots-cles associes au site source
-
+	// Ajouter les mots-cles associes au site source et ceux qui sont
+	// référencés sous forme de tags
+	$mots = '....'; // A SUIVRE
 
 
 	return $data;
