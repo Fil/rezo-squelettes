@@ -109,7 +109,7 @@ function mots_article($id_article, $wrap='%s', $sep=', ') {
 
 	$mots = array();
 	foreach ($liens[$id_article] as $id_mot)
-		$mots[] = sprintf($wrap, typo($titres[$id_mot]));
+		$mots[] = sprintf($wrap, $titres[$id_mot]);  # on ne fait pas typo()
 
 	return join($sep, $mots);
 }
