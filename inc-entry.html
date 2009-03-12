@@ -3,12 +3,11 @@
 #SET{titre,#TITRE|retitrage}
 #SET{source,#TITRE|retitrage{source}|sinon{#SOURCE}}
 #SET{auteurs,#TITRE|retitrage{auteurs}}
-<BOUCLE_r(RUBRIQUES){id_rubrique}>
-#SET{source,#GET{source}|sinon{#TITRE}}
-#SET{titre_rub,#TITRE}
 #SET{url_rub,#URL_RUBRIQUE}
-</BOUCLE_r>
 #SET{origine,#SOURCE|sinon{#GET{source}}}
+[(#SET{titre_rub,[(#ID_RUBRIQUE|titre_rub)]})]
+#SET{source,#GET{source}|sinon{#GET{titre_rub}}}
+</BOUCLE_r>
 
 <div class="hentry" id="a#ID_ARTICLE"[ lang="(#LANG|replace{fr})"]>
 
@@ -31,7 +30,11 @@ title="(#GET{titre_rub}|texte_backend)"]>+</a>
 		[(#LOGO_ARTICLE||image_reduire{120})]
 		[(#INTRODUCTION|trim|replace{^x$}|PtoBR)]
 		[<div class='source'>Source&nbsp;: <b>(#GET{origine})</b></div>]
-		<B_mots><div class='tags'>Th&egrave;me[(#TOTAL_BOUCLE|>{1}|?{s})]&nbsp;: <BOUCLE_mots(MOTS){id_article}{", "}><b>#TITRE</b></BOUCLE_mots></div></B_mots>[Tags&nbsp;: <b>(#SURTITRE|afficher_tags|supprimer_tags|replace{', ','</b>, <b>'})</b>]<//B_mots>
+		[<div class='tags'>Th&egrave;me(s)&nbsp;:
+			(#ID_ARTICLE|mots_article{'<b>%s</b>'}
+			|sinon{[<b>(#SURTITRE|afficher_tags|supprimer_tags
+				|replace{', ','</b>, <b>'})</b>]
+				})</div>]
 	</div>
 </div>
 

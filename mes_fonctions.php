@@ -69,3 +69,47 @@ function nuage_tags($ignore, $n=25, $random=1) {
 		return join("\n", $l);
 	}
 }
+
+// Le titre des rubriques, version rapide : [(#ID_RUBRIQUE|titre_rub)]
+function titre_rub($id_rubrique) {
+	static $brut, $typo = array();
+
+	if (isset($typo[$id_rubrique]))
+		return $typo[$id_rubrique];
+
+	if (!isset($brut)) {
+		include_spip('base/abstract_sql');
+		foreach(sql_allfetsel(array('titre','id_rubrique', 'lang'), array('spip_rubriques')) as $t)
+			$brut[$t['id_rubrique']] = array($t['titre'], $t['lang']);
+	}
+
+	if (!isset($typo[$id_rubrique])) {
+		lang_select($brut[$id_rubrique][1]);
+		$typo[$id_rubrique] = typo($brut[$id_rubrique][1]);
+		lang_select();
+	}
+
+	return $typo[$id_rubrique];
+}
+
+// Les mots des articles, version rapide : [(#ID_ARTICLE|mots_article)]
+function mots_article($id_article, $wrap='%s', $sep=', ') {
+	static $liens, $titres;
+
+	if (!isset($liens)) {
+		include_spip('base/abstract_sql');
+		foreach(sql_allfetsel(array('id_mot','id_article'), array('spip_mots_articles')) as $t)
+			$liens[intval($t['id_article'])][] = intval($t['id_mot']);
+		foreach(sql_allfetsel(array('id_mot','titre'), array('spip_mots')) as $t)
+			$titres[intval($t['id_mot'])] = $t['titre'];
+	}
+
+	if (!isset($liens[$id_article]))
+		return '';
+
+	$mots = array();
+	foreach ($liens[$id_article] as $id_mot)
+		$mots[] = sprintf($wrap, typo($titres[$id_mot]));
+
+	return join($sep, $mots);
+}
