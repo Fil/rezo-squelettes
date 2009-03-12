@@ -1,0 +1,151 @@
+﻿Pages à faire :
+liste des flux
+backend RSS (+urls de backend)
+pages spéciales (articles internes du portail)
+pied de page
+qqs traductions pour la page anglais
+
+page "comment faire votre portail", avec opml etc.
+
+grossir les tags
+
+abandonnés : le mode "news", le "calendrier".
+
+* audio sera mieux que mermet
+
+problèmes :
+* éviter saturation par une source (acrimed)
+* charger le contenu texte
+* cron de syndication
+
+
+page admin
+
+
+
+Convertir le site en utf 8 :
+1) dump spip_articles
+2) vider spip_articles
+3) convertir le site facon spip
+4) remettre les articles, encodés utf8
+
+
+
++-----------+--------------+------+-----+-------------------+----------------+
+| Field     | Type         | Null | Key | Default           | Extra          |
++-----------+--------------+------+-----+-------------------+----------------+
+| id_fetch  | int(11)      | NO   | PRI |                   | auto_increment |
+| url       | varchar(255) | NO   |     |                   |                |
+| xml       | tinyint(4)   | YES  |     | 1                 |                |
+| nextfetch | timestamp    | NO   |     | CURRENT_TIMESTAMP |                |
+| frequence | int(11)      | YES  |     | 3                 |                |
+| source    | int(11)      | YES  |     | 0                 |                |
+| cote      | int(11)      | YES  |     | 0                 |                |
+| statut    | tinyint(4)   | YES  |     | 2                 |                |
+| mot       | int(11)      | YES  |     | 0                 |                |
+| filtre    | varchar(255) | YES  |     |                   |                |
+| linkmin   | int(11)      | YES  |     | 0                 |                |
+| linkmax   | int(11)      | YES  |     | 0                 |                |
+| rest      | varchar(255) | YES  |     |                   |                |
+| maxi      | int(11)      | YES  |     | 6                 |                |
+| lang      | char(3)      | YES  |     | fr                |                |
++-----------+--------------+------+-----+-------------------+----------------+
+
+
+mysql> show fields from spip_syndic;
++-------------+--------------+------+-----+---------------------+----------------+
+| Field       | Type         | Null | Key | Default             | Extra          |
++-------------+--------------+------+-----+---------------------+----------------+
+| id_syndic   | bigint(21)   | NO   | PRI |                     | auto_increment |
+| id_rubrique | bigint(21)   | NO   | MUL | 0                   |                |
+| id_secteur  | bigint(21)   | NO   | MUL | 0                   |                |
+| nom_site    | text         | NO   |     |                     |                |
+| url_site    | text         | NO   |     |                     |                |
+| url_syndic  | text         | NO   |     |                     |                |
+| descriptif  | text         | NO   |     |                     |                |
+| maj         | timestamp    | NO   |     | CURRENT_TIMESTAMP   |                |
+| syndication | varchar(3)   | NO   |     |                     |                |
+| statut      | varchar(10)  | NO   | MUL | 0                   |                |
+| date        | datetime     | NO   |     | 0000-00-00 00:00:00 |                |
+| date_syndic | datetime     | NO   |     | 0000-00-00 00:00:00 |                |
+| date_index  | datetime     | NO   |     | 0000-00-00 00:00:00 |                |
+| moderation  | char(3)      | NO   |     |                     |                |
+| extra       | longtext     | YES  |     |                     |                |
+| url_propre  | varchar(255) | NO   | MUL |                     |                |
+| miroir      | char(3)      | YES  |     | non                 |                |
+| oubli       | char(3)      | YES  |     | non                 |                |
+| resume      | char(3)      | YES  |     | oui                 |                |
++-------------+--------------+------+-----+---------------------+----------------+
+
+
+recopier les fetch dans spip_syndic :
+INSERT spip_syndic
+   (id_syndic, nom_site, url_site, url_syndic, id_rubrique, syndication, moderation, statut)
+ SELECT id_fetch, url, url,  url,  source, IF(xml>0,'oui','non'), IF(statut IN (0,1), 'oui','non'), IF(statut IN (0,2), 'prop','publie')
+ FROM `fetch`;
+
+
+frequence, cote, statut, mot, filtre, linkmin, linkmax, rest, maxi, lang
+
+fetch.statut => 0,1,2,3
+	=> moderation = IF(statut IN (0,1), 'oui','non') => determine le statut des articles
+	   statut = IF(statut IN (0,2), 'prop','publie') => determine le TYPE (depeche, article)
+
+
+
+frequence
+	=> champs extras2
+
+forcerlang
+	=> champs extras2
+
+mysql> alter table spip_syndic ADD forcerlang TINYTEXT NOT NULL;
+mysql> alter table spip_syndic ADD frequence BIGINT NOT NULL;
+
+
+
+UPDATE spip_articles set statut='prop' where ps IN (0,1);
+UPDATE spip_articles set statut='publie' where ps > 1;
+
+
+ajouter spip_articles.type === spip_syndic_articles.type = '' (depeche) / 'article' / 'tresbien' / 'une'
+
+ALTER TABLE spip_articles ADD type TINYTEXT NOT NULL DEFAULT '';
+CREATE VIEW spip_syndic_articles AS SELECT id_article AS id_syndic_article, id_syndic AS id_syndic, titre AS titre, url_site AS url, date AS date, soustitre AS lesauteurs, surtitre AS tags, maj AS maj, statut AS statut, texte AS descriptif, lang AS lang, url_source AS url_source, source AS source, texte AS texte, chapo AS chapo, ps AS ps, id_rubrique AS id_rubrique, type AS type, id_secteur AS id_secteur FROM spip_articles;
+
+update spip_articles set type='' where ps IN (0,2);
+update spip_articles set type='article' where ps IN (1,3);
+update spip_articles set type='tresbien' where ps IN (4);
+update spip_articles set type='une' where ps IN (5);
+
+ALTER TABLE spip_articles ADD INDEX type (type (3));
+ALTER TABLE spip_articles ADD INDEX id_syndic (id_syndic);
+
+ALTER TABLE spip_articles ADD INDEX popularite (popularite);
+
+
+
+Vieilleries:
+mysql> ALTER TABLE spip_articles DROP url_propre;
+mysql> ALTER TABLE spip_breves DROP url_propre;
+mysql> ALTER TABLE spip_mots DROP url_propre;
+mysql> ALTER TABLE spip_rubriques DROP url_propre;
+mysql> ALTER TABLE spip_syndic DROP url_propre;
+mysql> ALTER TABLE spip_auteurs DROP url_propre;
+mysql> ALTER TABLE spip_auteurs DROP sedna;
+mysql> ALTER TABLE spip_auteurs DROP sedition;
+
+
+* Indiquer "Le portail des copains" dans la configuration > Description du site
+
+
+
+
+TODO:
+
+22:50 < _fil_> mysql> select NOW();  
+22:50 < _fil_> 2009-03-11 21:48:25 
+22:50 < _fil_> date
+22:50 < _fil_> mercredi 11 mars 2009, 22:48:31 (UTC+0100)
+22:50 < _fil_> ^^
+
