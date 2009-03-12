@@ -27,11 +27,13 @@
 	(inclus, d'ou l'ajout de 24h00)
 
 ]
-<BOUCLE_cutoff(ARTICLES)
+<BOUCLE_cut(ARTICLES)
 {id_mot}
 {!par popularite}
-{50,1}
->#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_cutoff>
+{0,50}
+{type!=''}
+{doublons cut}
+></BOUCLE_cut>
 
 	<div class="central">
 
@@ -66,11 +68,9 @@
 		<div class="menu articles">
 				<BOUCLE_articles_recents(ARTICLES)
 				{doublons}
-				{type!=''}
-				{popularite>=#GET{cutoff}}
-				{par date}{inverse} {doublons}
-				{id_mot}
-				{0,50}>
+				{!doublons cut}
+				{!par date}
+				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_articles_recents>
 		</div>

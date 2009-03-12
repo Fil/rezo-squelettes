@@ -46,12 +46,13 @@
 	{id_rubrique!=79}
 	{lang=fr}
 ></BOUCLE_recents>
-#SET{cutoff,0}
-<BOUCLE_cutoff(ARTICLES){date>#GET{semaine}}{!doublons recents}
+<BOUCLE_cut(ARTICLES)
+{!doublons recents}
 {!par popularite}
 {type!=''}
-{35,1}
->#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_cutoff>
+{0,35}
+{doublons cut}
+></BOUCLE_cut>
 
 	<div class="central">
 
@@ -88,9 +89,9 @@
 				{!doublons recents}
 				{doublons}
 				{type!=''}
-				{popularite>=#GET{cutoff}}
-				{par date}{inverse} {doublons}
-				{0,35}>
+				{!doublons cut}
+				{!par date}
+				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_articles_recents>
 		</div>

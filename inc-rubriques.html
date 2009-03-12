@@ -1,14 +1,11 @@
-<BOUCLE_pop(RUBRIQUES){!par popularite}{50,1}>
-#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_pop>
-#SET{cutoff,0}
-<//B_pop>
+<BOUCLE_pop(RUBRIQUES){!par popularite}{0,50}{doublons cut}></BOUCLE_pop>
 
 <B_rubriques>
 <div class="menu rubriques">
 <select class='sources'
 onchange="if (options[selectedIndex].value) { location = options[selectedIndex].value; }">
 <option value=''>Nos sources</option>
-<BOUCLE_rubriques(RUBRIQUES) {par num titre, titre} {popularite>=#GET{cutoff}}>
+<BOUCLE_rubriques(RUBRIQUES) {par num titre, titre} {!doublons cut}>
 <option value="#URL_RUBRIQUE">[(#TITRE|couper{80})]</option>
 </BOUCLE_rubriques>
 <option value="/sources">&nbsp; &#187; toutes nos sources</option>

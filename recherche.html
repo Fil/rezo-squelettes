@@ -26,18 +26,20 @@
 	(inclus, d'ou l'ajout de 24h00)
 
 ]
-<BOUCLE_cutoff(ARTICLES)
+<BOUCLE_cut(ARTICLES)
 {recherche}
-{!par popularite}
-{50,1}
->#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_cutoff>
+{!par points}
+{0,30}
+{type!=''}
+{doublons cut}
+></BOUCLE_cut>
 
 	<div class="central">
 
 	[(#REM) A la une ]
 	<BOUCLE_une(ARTICLES) {type IN une,tresbien} {doublons}
 	{recherche}
-	{par date}{inverse}{0,1}
+	{!par points}{0,1}
 	>
 	<div id="chandelle"><div id="une">
 		<INCLURE{fond=inc-entry}{id_article} />
@@ -65,18 +67,16 @@
 		<div class="menu articles">
 				<BOUCLE_articles_recents(ARTICLES)
 				{doublons}
-				{type!=''}
-				{popularite>=#GET{cutoff}}
-				{par date}{inverse} {doublons}
-				{recherche}
-				{0,50}>
+				{!doublons cut}
+				{!par date}
+{0,30}
+				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_articles_recents>
 		</div>
 		</B_articles_recents>
 
 		<B_english>
-		#ANCRE_PAGINATION
 		<div id="english" class="menu pavedepeches">
 		<a class="plus" title="In English" href="anglais">+</a>
 		<h4>In English</h4>
@@ -84,11 +84,10 @@
 				{recherche}
 				{lang!=fr}
 				{doublons}
-				{!par date}
-				{pagination 10}>
+				{!par points}
+				{0,5}>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_english>
-		[<p class="pagination">(#PAGINATION)</p>]
 		</div>
 		</B_english>
 
@@ -98,36 +97,32 @@
 
 	<div id="navigation">
 		<B_breves>
-		#ANCRE_PAGINATION
 		<div id="depeches" class="menu pavedepeches">
 			<h4>D&#233;p&#234;ches</h4>
 				<BOUCLE_breves(ARTICLES)
 				{recherche}
 				{doublons}
 				{type=''}
-				{par date}{inverse} {doublons}
-				{pagination 20}
+				{!par points}
+				{0,8}
 				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_breves>
-		[<p class="pagination">(#PAGINATION)</p>]
 		</div>
 		</B_breves>
 
 		<B_aussi>
-		#ANCRE_PAGINATION
 		<div id="aussi" class="menu pavedepeches">
 			<h4>Et aussi...</h4>
 				<BOUCLE_aussi(ARTICLES)
 				{recherche}
 				{doublons}
 				{type!=''}
-				{par date}{inverse}
-				{pagination 50}
+				{!par points}
+				{0,20}
 				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_aussi>
-		[<p class="pagination">(#PAGINATION)</p>]
 		</div>
 		</B_aussi>
 
@@ -148,7 +143,7 @@
 			<h4>&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</h4>
 				<BOUCLE_radio(ARTICLES)
 				{id_rubrique=79}
-				{par date}{inverse} {doublons}
+				{!par points}
 				{pagination 10}
 				{recherche}
 				>
