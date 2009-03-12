@@ -8,7 +8,7 @@ src="http://rezo.net/img_rezo/logorezo-blanc.gif" /></a>
 		[(#REM) Citation]
 
 		<div id="citation">
-		[<h1>(#ENV{titre})</h1>]
+		[<h1>(#ENV*{titre})</h1>]
 		<BOUCLE_citation(BREVES){0,1}{par hasard}
 		{id_rubrique=#ENV{titre}|?{-1,1}}>
 			[<div class="#EDIT{texte}">(#TEXTE|PtoBR)</div>]

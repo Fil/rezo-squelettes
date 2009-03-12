@@ -42,6 +42,12 @@ RewriteBase /
 # feed
 RewriteRule ^feed/(.*)$ spip.php?page=hatom2atom&uri=$1 [QSA,L]
 
+# squelettes speciaux
+RewriteRule ^(anglais|themes|sources|tout|admin)/?$ spip.php?page=$1 [QSA,L]
+
+# raccourcis
+RewriteRule ^presse$ spip.php?page=rubrique&id_rubrique=118 [QSA,L]
+
 # sommaire par date
 RewriteRule ^([0-9]{4}-[0-9]{2}-[0-9]{2})$	spip.php?page=sommaire&semaine=$1 [QSA,L]
 
@@ -52,7 +58,8 @@ RewriteRule ^([0-9]+)$	spip.php?page=ping&id_article=$1 [QSA,L]
 RewriteRule ^irc$	http://embed.mibbit.com/?server=irc.freenode.net&channel=#rezo [R,L]
 
 # vieilles URLs abandonnees
-RewriteRule ^(calendrier.*|ical\.php3|large.*|semaine-.*)$	/ [R,L]
+RewriteRule ^(actu|calendrier.*|ical\.php3|large.*|semaine-.*)$	/ [R,L]
+
 
 ################ GESTIONS DES URLS SPIP #######################
 

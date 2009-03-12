@@ -1,0 +1,100 @@
+[(#REM)
+ Un cache plus court, pour la boucle syndic_articles
+]#CACHE{3600}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
+<head>
+<title>Les sources[ de (#NOM_SITE_SPIP|textebrut)]</title>
+[<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
+<INCLURE{fond=inc-head}{feed=}/>
+</head>
+
+<body class="page_sources">
+<div id="page">
+
+	[(#REM) Bandeau de la page ]
+	<INCLURE{fond=inc-bandeau}{titre=Nos sources} />
+
+	[(#REM) Contenu principal : derniers articles publies ]
+	<div class="hfeed" id="conteneur">
+
+	<INCLURE{fond=inc-entete}{titre=Nos sources} />
+
+	<div class="central">
+
+	<div id="nuage">[(#REM|nuage_tags)
+	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
+	]</div>
+
+	</div>[(#REM) /central ]
+
+	[(#REM) Derniers articles ]
+
+
+	<div class="central">
+
+	<div id="marge">
+	</div>
+
+	<div id="contenu" class="articles">
+
+        <BOUCLE_secteurs(RUBRIQUES) {racine} {!par popularite}
+        {titre !IN Dans la presse,En anglais,Inactives}>
+        
+        <h2><a rel="bookmark" href="#URL_RUBRIQUE">#TITRE</a></h2>
+        
+            <BOUCLE_rubriques(RUBRIQUES) {id_parent} {par titre}>
+			<p><a rel="bookmark" href="#URL_RUBRIQUE">#TITRE</a></p>
+            </BOUCLE_rubriques>
+
+        </BOUCLE_secteurs>
+
+
+	</div>[(#REM) #contenu]
+
+
+	<div id="navigation">
+
+        <BOUCLE_secteurs2(RUBRIQUES) {racine} {par titre}
+        {titre IN Dans la presse,En anglais}>
+
+		<div class="menu pavedepeches">
+        
+		[<a class="plus" href="(#ID_RUBRIQUE|=={118}|?{presse,anglais})">+</a>]
+        <h4>#TITRE</h2>
+        
+           <BOUCLE_rubriques2(RUBRIQUES) {id_parent} {!par popularite}>
+            <p><a rel="bookmark" href="#URL_RUBRIQUE">#TITRE</a></p>
+            </BOUCLE_rubriques2>
+        </B_rubriques2>
+
+
+		</div>
+        </BOUCLE_secteurs2>
+
+
+
+
+		[(#REM) Rechercher ]
+		#FORMULAIRE_RECHERCHE
+
+		[(#REM) Menu de navigation par rubriques ]
+		<INCLURE{fond=inc-rubriques} />
+
+	</div><!--#navigation-->
+
+
+	<div style="clear:both;"></div>
+
+	</div>[(#REM) /central ]
+
+	</div><!--#conteneur-->
+	
+
+	[(#REM) Pied de page ]
+	<INCLURE{fond=inc-pied} />
+	
+</div><!--#page-->
+</body>
+</html>
+</BOUCLE_m>

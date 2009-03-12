@@ -1,25 +1,26 @@
-<BOUCLE_m(MOTS){id_mot}>
 [(#REM)
- Un cache plus court, pour la boucle syndic_articles
+	Un cache plus court, pour la boucle syndic_articles
 ]#CACHE{3600}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
 <head>
-<title>[(#TITRE|couper{50}|textebrut)][ - (#NOM_SITE_SPIP|textebrut)]</title>
-[<meta name="description" content="(#DESCRIPTIF|couper{150}|textebrut)" />]
-<INCLURE{fond=inc-head}{feed=#URL_MOT}/>
+<title>[(#NOM_SITE_SPIP|textebrut)] - Tous les articles r&#233;cents</title>
+[<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
+<INCLURE{fond=inc-head}{feed=}/>
+
+[(#ENV{semaine}|?{'<meta name="robots" content="noindex" />'})]
 </head>
 
-<body class="page_mot">
+<body class="page_tout">
 <div id="page">
 
 	[(#REM) Bandeau de la page ]
-	<INCLURE{fond=inc-bandeau}{titre} />
+	<INCLURE{fond=inc-bandeau}{semaine} />
 
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
 
-	<INCLURE{fond=inc-entete}{titre} />
+	<INCLURE{fond=inc-entete}{titre=} />
 
 [(#REM) selectionner les recents pour eviter pb de perfs
 
@@ -27,18 +28,32 @@
 	(inclus, d'ou l'ajout de 24h00)
 
 ]
-<BOUCLE_cutoff(ARTICLES)
-{id_mot}
-{!par popularite}
-{50,1}
->#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_cutoff>
+<BOUCLE_auj(ARTICLES){!par date}{0,1}>
+[(#SET{fin,[(#VAL{U}|date{#DATE|strtotime}|plus{86400})]})]
+</BOUCLE_auj>
+[(#ENV{semaine}|match{'^\d{4}-\d{2}-\d{2}$'}|?{
+	#SET{fin,#ENV{semaine}|strtotime|plus{86400}}
+})]
+
+
+[(#SET{debut,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{1209600})]})]})]
+[(#SET{debutsemaine,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{604800})]})]})]
+[(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
+
+<BOUCLE_recents(ARTICLES)
+	{date>=#GET{debut}}
+	{date<=#GET{fin}}
+	{doublons recents}
+	{id_rubrique!=79}
+	{lang=fr}
+></BOUCLE_recents>
 
 	<div class="central">
 
 	[(#REM) A la une ]
 	<BOUCLE_une(ARTICLES) {type IN une,tresbien} {doublons}
-	{id_mot}
 	{par date}{inverse}{0,1}
+	{date<=#GET{fin}}
 	>
 	<div id="chandelle"><div id="une">
 		<INCLURE{fond=inc-entry}{id_article} />
@@ -65,80 +80,64 @@
 		<B_articles_recents>
 		<div class="menu articles">
 				<BOUCLE_articles_recents(ARTICLES)
+				{!doublons recents}
 				{doublons}
 				{type!=''}
-				{popularite>=#GET{cutoff}}
-				{par date}{inverse} {doublons}
-				{id_mot}
-				{0,50}>
+				{lang=fr}
+				{!par date}
+				{date>=#GET{debutsemaine}}
+				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_articles_recents>
 		</div>
 		</B_articles_recents>
 
 		<B_english>
-		#ANCRE_PAGINATION
 		<div id="english" class="menu pavedepeches">
 		<a class="plus" title="In English" href="anglais">+</a>
 		<h4>In English</h4>
 				<BOUCLE_english(ARTICLES)
-				{id_mot}
+				{date<=#GET{fin}}
 				{lang!=fr}
 				{doublons}
 				{!par date}
-				{pagination 10}>
+				{age<=7}
+				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_english>
-		[<p class="pagination">(#PAGINATION)</p>]
 		</div>
 		</B_english>
+
+
+		<a id="precedente"
+		href="/[(#VAL{Y-m-d}|date{[(#GET{fin}|strtotime|moins{1209601})]})]"
+		rel="nofollow">il y a deux semaines...</a>
 
 
 	</div>[(#REM) #contenu]
 
 
 	<div id="navigation">
+
 		<B_breves>
 		#ANCRE_PAGINATION
 		<div id="depeches" class="menu pavedepeches">
 			<h4>D&#233;p&#234;ches</h4>
 				<BOUCLE_breves(ARTICLES)
-				{id_mot}
+				{!doublons recents}
 				{doublons}
+				{!par date}
 				{type=''}
-				{par date}{inverse} {doublons}
 				{pagination 20}
 				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_breves>
-		[<p class="pagination">(#PAGINATION)</p>]
+			[<p class="pagination">(#PAGINATION)</p>]
 		</div>
 		</B_breves>
 
-		[<div id="logo">
-		(#LOGO_MOT||image_reduire{275,99999}|inserer_attribut{class,logo})
-		</div>]
-
-		<B_aussi>
-		#ANCRE_PAGINATION
-		<div id="aussi" class="menu pavedepeches">
-			<h4>Et aussi...</h4>
-				<BOUCLE_aussi(ARTICLES)
-				{id_mot}
-				{doublons}
-				{type!=''}
-				{par date}{inverse}
-				{pagination 50}
-				>
-			<INCLURE{fond=inc-entry}{id_article} />
-				</BOUCLE_aussi>
-		[<p class="pagination">(#PAGINATION)</p>]
-		</div>
-		</B_aussi>
-
 		<div class="menu pavedepeches">
 		<h2 style='display:none;'></h2>
-
 		[(#REM) Rechercher ]
 		#FORMULAIRE_RECHERCHE
 
@@ -147,19 +146,31 @@
 
 		</div>
 
+		<B_aussi>
+		<div id="aussi" class="menu pavedepeches">
+			<h4>La semaine pr&#233;c&#233;dente</h4>
+				<BOUCLE_aussi(ARTICLES)
+				{!doublons recents}
+				{doublons}
+				{type!=''}
+				{!par date}
+				>
+			<INCLURE{fond=inc-entry}{id_article} />
+				</BOUCLE_aussi>
+		</div>
+		</B_aussi>
+
 		<B_radio>
-		#ANCRE_PAGINATION
 		<div class="menu pavedepeches ecouter">
 			<h4>&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</h4>
 				<BOUCLE_radio(ARTICLES)
 				{id_rubrique=79}
 				{par date}{inverse} {doublons}
-				{pagination 10}
-				{id_mot}
+				{date<=#GET{fin}}
+				{date>=#GET{debut}}
 				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_radio>
-		[<p class="pagination">(#PAGINATION)</p>]
 		</div>
 		</B_radio>
 
@@ -179,4 +190,3 @@
 </div><!--#page-->
 </body>
 </html>
-</BOUCLE_m>

@@ -1,25 +1,24 @@
-<BOUCLE_m(MOTS){id_mot}>
+<BOUCLE_m(ARTICLES){lang=en}{0,1}>
 [(#REM)
  Un cache plus court, pour la boucle syndic_articles
 ]#CACHE{3600}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
 <head>
-<title>[(#TITRE|couper{50}|textebrut)][ - (#NOM_SITE_SPIP|textebrut)]</title>
-[<meta name="description" content="(#DESCRIPTIF|couper{150}|textebrut)" />]
-<INCLURE{fond=inc-head}{feed=#URL_MOT}/>
+<title>[(#NOM_SITE_SPIP|textebrut)] in English</title>
+<INCLURE{fond=inc-head}{feed=anglais}/>
 </head>
 
-<body class="page_mot">
+<body class="page_anglais">
 <div id="page">
 
 	[(#REM) Bandeau de la page ]
-	<INCLURE{fond=inc-bandeau}{titre} />
+	<INCLURE{fond=inc-bandeau}{titre=In English} />
 
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
 
-	<INCLURE{fond=inc-entete}{titre} />
+	<INCLURE{fond=inc-entete}{titre=In English} />
 
 [(#REM) selectionner les recents pour eviter pb de perfs
 
@@ -28,7 +27,7 @@
 
 ]
 <BOUCLE_cutoff(ARTICLES)
-{id_mot}
+{lang}
 {!par popularite}
 {50,1}
 >#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_cutoff>
@@ -37,7 +36,7 @@
 
 	[(#REM) A la une ]
 	<BOUCLE_une(ARTICLES) {type IN une,tresbien} {doublons}
-	{id_mot}
+	{lang}
 	{par date}{inverse}{0,1}
 	>
 	<div id="chandelle"><div id="une">
@@ -69,30 +68,12 @@
 				{type!=''}
 				{popularite>=#GET{cutoff}}
 				{par date}{inverse} {doublons}
-				{id_mot}
+				{lang}
 				{0,50}>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_articles_recents>
 		</div>
 		</B_articles_recents>
-
-		<B_english>
-		#ANCRE_PAGINATION
-		<div id="english" class="menu pavedepeches">
-		<a class="plus" title="In English" href="anglais">+</a>
-		<h4>In English</h4>
-				<BOUCLE_english(ARTICLES)
-				{id_mot}
-				{lang!=fr}
-				{doublons}
-				{!par date}
-				{pagination 10}>
-			<INCLURE{fond=inc-entry}{id_article} />
-				</BOUCLE_english>
-		[<p class="pagination">(#PAGINATION)</p>]
-		</div>
-		</B_english>
-
 
 	</div>[(#REM) #contenu]
 
@@ -103,7 +84,7 @@
 		<div id="depeches" class="menu pavedepeches">
 			<h4>D&#233;p&#234;ches</h4>
 				<BOUCLE_breves(ARTICLES)
-				{id_mot}
+				{lang}
 				{doublons}
 				{type=''}
 				{par date}{inverse} {doublons}
@@ -115,16 +96,12 @@
 		</div>
 		</B_breves>
 
-		[<div id="logo">
-		(#LOGO_MOT||image_reduire{275,99999}|inserer_attribut{class,logo})
-		</div>]
-
 		<B_aussi>
 		#ANCRE_PAGINATION
 		<div id="aussi" class="menu pavedepeches">
 			<h4>Et aussi...</h4>
 				<BOUCLE_aussi(ARTICLES)
-				{id_mot}
+				{lang}
 				{doublons}
 				{type!=''}
 				{par date}{inverse}
@@ -155,7 +132,7 @@
 				{id_rubrique=79}
 				{par date}{inverse} {doublons}
 				{pagination 10}
-				{id_mot}
+				{lang}
 				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_radio>

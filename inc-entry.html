@@ -29,7 +29,7 @@ title="(#GET{titre_rub}|texte_backend)"]>+</a>
 <div class="entry-content">
 	<div class='introduction'>
 		[(#LOGO_ARTICLE||image_reduire{120})]
-		[(#INTRODUCTION|PtoBR)]
+		[(#INTRODUCTION|trim|replace{^x$}|PtoBR)]
 		[<div class='source'>Source&nbsp;: <b>(#GET{origine})</b></div>]
 		<B_mots><div class='tags'>Th&egrave;me[(#TOTAL_BOUCLE|>{1}|?{s})]&nbsp;: <BOUCLE_mots(MOTS){id_article}{", "}><b>#TITRE</b></BOUCLE_mots></div></B_mots>[Tags&nbsp;: <b>(#SURTITRE|afficher_tags|supprimer_tags|replace{', ','</b>, <b>'})</b>]<//B_mots>
 	</div>

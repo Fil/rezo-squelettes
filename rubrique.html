@@ -1,4 +1,4 @@
-<BOUCLE_m(MOTS){id_mot}>
+<BOUCLE_m(RUBRIQUES){id_rubrique}>
 [(#REM)
  Un cache plus court, pour la boucle syndic_articles
 ]#CACHE{3600}
@@ -7,10 +7,10 @@
 <head>
 <title>[(#TITRE|couper{50}|textebrut)][ - (#NOM_SITE_SPIP|textebrut)]</title>
 [<meta name="description" content="(#DESCRIPTIF|couper{150}|textebrut)" />]
-<INCLURE{fond=inc-head}{feed=#URL_MOT}/>
+<INCLURE{fond=inc-head}{feed=#URL_RUBRIQUE}/>
 </head>
 
-<body class="page_mot">
+<body class="page_rubrique">
 <div id="page">
 
 	[(#REM) Bandeau de la page ]
@@ -28,7 +28,7 @@
 
 ]
 <BOUCLE_cutoff(ARTICLES)
-{id_mot}
+{branche}
 {!par popularite}
 {50,1}
 >#SET{cutoff,#CHAMP_SQL{popularite}}</BOUCLE_cutoff>
@@ -37,7 +37,7 @@
 
 	[(#REM) A la une ]
 	<BOUCLE_une(ARTICLES) {type IN une,tresbien} {doublons}
-	{id_mot}
+	{branche}
 	{par date}{inverse}{0,1}
 	>
 	<div id="chandelle"><div id="une">
@@ -69,7 +69,7 @@
 				{type!=''}
 				{popularite>=#GET{cutoff}}
 				{par date}{inverse} {doublons}
-				{id_mot}
+				{branche}
 				{0,50}>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_articles_recents>
@@ -82,7 +82,7 @@
 		<a class="plus" title="In English" href="anglais">+</a>
 		<h4>In English</h4>
 				<BOUCLE_english(ARTICLES)
-				{id_mot}
+				{branche}
 				{lang!=fr}
 				{doublons}
 				{!par date}
@@ -103,7 +103,7 @@
 		<div id="depeches" class="menu pavedepeches">
 			<h4>D&#233;p&#234;ches</h4>
 				<BOUCLE_breves(ARTICLES)
-				{id_mot}
+				{branche}
 				{doublons}
 				{type=''}
 				{par date}{inverse} {doublons}
@@ -116,7 +116,7 @@
 		</B_breves>
 
 		[<div id="logo">
-		(#LOGO_MOT||image_reduire{275,99999}|inserer_attribut{class,logo})
+		(#LOGO_RUBRIQUE||image_reduire{275,99999}|inserer_attribut{class,logo})
 		</div>]
 
 		<B_aussi>
@@ -124,7 +124,7 @@
 		<div id="aussi" class="menu pavedepeches">
 			<h4>Et aussi...</h4>
 				<BOUCLE_aussi(ARTICLES)
-				{id_mot}
+				{branche}
 				{doublons}
 				{type!=''}
 				{par date}{inverse}
@@ -155,7 +155,7 @@
 				{id_rubrique=79}
 				{par date}{inverse} {doublons}
 				{pagination 10}
-				{id_mot}
+				{branche}
 				>
 			<INCLURE{fond=inc-entry}{id_article} />
 				</BOUCLE_radio>

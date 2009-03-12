@@ -323,11 +323,12 @@ h4,h5 {
 		text-align: justify;
 		font-size: 14px;
 		font-family: georgia, times, serif;
-		width: 300px;
 		float: right;
 		padding-top: 5px;
 		margin-bottom: 1.2em;
+		width: 300px;
 	}
+
 	#citation span.auteur {
 		display: block;
 		text-align: right;
@@ -461,4 +462,15 @@ body.admin a[rel=bookmark] {
 
 body.page_mot #conteneur {
 	background: url(http://rezo.net/img_rezo/patte-orange.gif) top right no-repeat;
+}
+body.page_rubrique #conteneur {
+	background: url(http://rezo.net/img_rezo/patte-gris.gif) top right no-repeat;
+}
+
+.chapo {
+	font-weight: bold;
+	font-size: 14px;
+	clear: both;
+	line-height: 1.4em;
+	
 }

@@ -1,0 +1,76 @@
+<BOUCLE_m(ARTICLES){id_article=61805}{statut?}>
+[(#REM)
+ Un cache plus court, pour la boucle syndic_articles
+]#CACHE{3600}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
+<head>
+<title>Les th&#232;mes [de (#NOM_SITE_SPIP|textebrut)]</title>
+[<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
+<INCLURE{fond=inc-head}{feed=}/>
+</head>
+
+<body class="page_themes">
+<div id="page">
+
+	[(#REM) Bandeau de la page ]
+	<INCLURE{fond=inc-bandeau} />
+
+	[(#REM) Contenu principal : derniers articles publies ]
+	<div class="hfeed" id="conteneur">
+
+	<INCLURE{fond=inc-entete}{titre=(#LOGO_ARTICLE|left
+		||inserer_attribut{class,logo}) #TITRE} />
+
+	<div class="central">
+
+	</div>[(#REM) /central ]
+
+	<div class="central">
+
+	<div id="marge">
+	</div>
+
+	<div id="contenu">
+
+	<div id="nuage">[(#REM|nuage_tags{120})
+	]</div>
+
+
+	</div>[(#REM) #contenu]
+
+
+	<div id="navigation">
+
+	<div id="depeches">
+	<div class="chapo">#CHAPO</div>
+	</div>
+
+		<div class="menu pavedepeches">
+		<h2 style='display:none;'></h2>
+
+		[(#REM) Rechercher ]
+		#FORMULAIRE_RECHERCHE
+
+		[(#REM) Menu de navigation par rubriques ]
+		<INCLURE{fond=inc-rubriques} />
+
+		</div>
+
+	</div><!--#navigation-->
+
+
+	<div style="clear:both;"></div>
+
+	</div>[(#REM) /central ]
+
+	</div><!--#conteneur-->
+	
+
+	[(#REM) Pied de page ]
+	<INCLURE{fond=inc-pied} />
+	
+</div><!--#page-->
+</body>
+</html>
+</BOUCLE_m>
