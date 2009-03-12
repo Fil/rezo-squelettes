@@ -85,7 +85,7 @@ function titre_rub($id_rubrique) {
 
 	if (!isset($typo[$id_rubrique])) {
 		lang_select($brut[$id_rubrique][1]);
-		$typo[$id_rubrique] = typo($brut[$id_rubrique][1]);
+		$typo[$id_rubrique] = typo($brut[$id_rubrique][0]);
 		lang_select();
 	}
 
