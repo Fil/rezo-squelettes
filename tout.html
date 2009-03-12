@@ -56,7 +56,7 @@
 	{date<=#GET{fin}}
 	>
 	<div id="chandelle"><div id="une">
-		<INCLURE{fond=inc-entry}{id_article} />
+		[(#ID_ARTICLE|microcache{inc-entry})]
 	</div></div>
 	</BOUCLE_une>
 
@@ -87,7 +87,7 @@
 				{!par date}
 				{date>=#GET{debutsemaine}}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_articles_recents>
 		</div>
 		</B_articles_recents>
@@ -103,7 +103,7 @@
 				{!par date}
 				{date>#GET{debutsemaine}}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_english>
 		</div>
 		</B_english>
@@ -130,7 +130,7 @@
 				{type=''}
 				{pagination 20}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_breves>
 			[<p class="pagination">(#PAGINATION)</p>]
 		</div>
@@ -155,7 +155,7 @@
 				{type!=''}
 				{!par date}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_aussi>
 		</div>
 		</B_aussi>
@@ -169,7 +169,7 @@
 				{date<=#GET{fin}}
 				{date>=#GET{debut}}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_radio>
 		</div>
 		</B_radio>

@@ -62,7 +62,7 @@
 	{date<=#GET{fin}}
 	>
 	<div id="chandelle"><div id="une">
-		<INCLURE{fond=inc-entry}{id_article} />
+		[(#ID_ARTICLE|microcache{inc-entry})]
 	</div></div>
 	</BOUCLE_une>
 
@@ -92,7 +92,7 @@
 				{!doublons cut}
 				{!par date}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_articles_recents>
 		</div>
 		</B_articles_recents>
@@ -107,7 +107,7 @@
 				{doublons}
 				{!par date}
 				{0,4}>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_english>
 		</div>
 		</B_english>
@@ -133,7 +133,7 @@
 				{par date}{inverse} {doublons}
 				{0,10}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_breves>
 		</div>
 		</B_breves>
@@ -148,7 +148,7 @@
 				{par date}{inverse} {doublons}
 				{0,18}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_aussi>
 		</div>
 		</B_aussi>
@@ -172,7 +172,7 @@
 				{0,5}
 				{date<=#GET{fin}}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_radio>
 		</div>
 		</B_radio>

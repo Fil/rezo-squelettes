@@ -113,3 +113,20 @@ function mots_article($id_article, $wrap='%s', $sep=', ') {
 
 	return join($sep, $mots);
 }
+
+function microcache($id, $fond) {
+	$cle = "$fond-$id";
+
+	$microcache = sous_repertoire(_DIR_CACHE,dechex($id%16)).$cle;
+
+	if (isset($_GET['var_mode'])
+	OR !@file_exists($microcache)
+	OR filemtime($microcache) < time() - 60*10) {
+		$contenu = recuperer_fond($fond, array('id'=>$id));
+		ecrire_fichier($microcache, $contenu);
+	} else {
+		lire_fichier($microcache, $contenu);
+	}
+
+	return $contenu;
+}

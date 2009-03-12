@@ -42,7 +42,7 @@
 	{!par points}{0,1}
 	>
 	<div id="chandelle"><div id="une">
-		<INCLURE{fond=inc-entry}{id_article} />
+		[(#ID_ARTICLE|microcache{inc-entry})]
 	</div></div>
 	</BOUCLE_une>
 
@@ -71,7 +71,7 @@
 				{!par date}
 {0,30}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_articles_recents>
 		</div>
 		</B_articles_recents>
@@ -86,7 +86,7 @@
 				{doublons}
 				{!par points}
 				{0,5}>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_english>
 		</div>
 		</B_english>
@@ -106,7 +106,7 @@
 				{!par points}
 				{0,8}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_breves>
 		</div>
 		</B_breves>
@@ -121,7 +121,7 @@
 				{!par points}
 				{0,20}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_aussi>
 		</div>
 		</B_aussi>
@@ -147,7 +147,7 @@
 				{pagination 10}
 				{recherche}
 				>
-			<INCLURE{fond=inc-entry}{id_article} />
+			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_radio>
 		[<p class="pagination">(#PAGINATION)</p>]
 		</div>
