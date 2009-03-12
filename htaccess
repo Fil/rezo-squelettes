@@ -39,6 +39,9 @@ RewriteBase /
 ################ REGLAGES PERSONNALISES ######################
 # Inscrivez ci-dessous vos reglages supplementaires
 
+# feed
+RewriteRule ^feed/(.*)$ spip.php?page=hatom2atom&uri=$1 [QSA,L]
+
 # sommaire par date
 RewriteRule ^([0-9]{4}-[0-9]{2}-[0-9]{2})$	spip.php?page=sommaire&semaine=$1 [QSA,L]
 

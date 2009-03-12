@@ -1,3 +1,16 @@
+/* reset */
+h4,h5 {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+
+
 /* ecran large */
 .large .central {width: 1024px;}
 .large #contenu {width: 374px;}
@@ -89,6 +102,9 @@
 		clear: both;
 		margin-bottom: 1.8em;
 	}
+	#une h5 {
+		font-weight: normal;
+	}
 
 	/* #chandelle contient #une en mode 800 */
 	#chandelle {
@@ -110,18 +126,18 @@
 		color: #000000;
 	}
 	
-	#une a .titre {
+	#une a .entry-title {
 		display: block;
 		font-size: 12px;
 		font-family: verdana, arial, helvetica, sans;
 		font-weight: bold;
 	}
 
-	#une a.entry-title {
+	#une a[rel=bookmark] {
 		color: #222222;
 	}
 
-	#une a.entry-title:hover {
+	#une a[rel=bookmark]:hover {
 		color: black;
 	}
 	#une .introduction {
@@ -138,7 +154,7 @@
 		font-size: 12px;
 	}
 
-	.articles .entry-title {
+	.articles a[rel=bookmark] {
 		display: block;
 		color: #444444;
 		padding-left: 5px;
@@ -147,21 +163,26 @@
 		margin-top: 5px;
 		margin-bottom: 5px;
 	}
-	.articles .entry-title:visited{
+	.articles a[rel=bookmark]:visited{
 		color: #748F8A;
 	}
-	.articles .entry-title:hover {
+	.articles a[rel=bookmark]:hover {
 		color: #111111;
 		padding-left: 5px;
 		margin-left: 0px;
 		border-left: 3px solid #333333;
 	}
-	.articles .entry-title .auteur{
+	.articles a[rel=bookmark] .auteur{
 		display: block;
 		font-family: verdana, arial, helvetica, sans;
 		font-size: 11px;
 	}
-	
+
+	/* zapper la virgule dans les liens de type block */
+	#une .auteur .v, .articles .auteur .v {
+		display:none;
+	}
+
 	a.lienauteur {
 		color: white;
 	}
@@ -170,12 +191,12 @@
 		clear: both;
 		background: url(http://rezo.net/img_rezo/vert70.png);
 	}
-	#english .date {
+	#english h5 {
 		display:none;
 	}
 
 
-	.pavedepeches a.entry-title {
+	.pavedepeches a[rel=bookmark] {
 		display: block;
 		color: #666666;
 		padding-left: 10px;
@@ -186,27 +207,23 @@
 		background: url(http://rezo.net/img_rezo/pucefoncee.gif) left no-repeat;
 		font-family: verdana, arial, helvetica, sans;
 	}
-	.pavedepeches a.entry-title:visited{
+	.pavedepeches a[rel=bookmark]:visited{
 		color: #748F8A;
 		background: url(http://rezo.net/img_rezo/puceverte.gif) left no-repeat;
 	}
-	.pavedepeches a.entry-title:hover{
+	.pavedepeches a[rel=bookmark]:hover{
 		color: #000000;
 		background: url(http://rezo.net/img_rezo/pucenoire.gif) left no-repeat;
 	}
 
 	/* masquer les resumes dans le bloc pavedepeches */
-	.pavedepeches .date, .pavedepeches .entry-content {
+	.pavedepeches h5, .pavedepeches .entry-content {
 		display: none;
 	}
 
 	/* bloc Ecouter */
 	.pavedepeches.ecouter {
 		background: url(http://rezo.net/img_rezo/vert70.png);
-	}
-
-	abbr.published {
-		font-size: smaller;
 	}
 
 	#bandeau, #footer {
@@ -262,7 +279,7 @@
 		margin-bottom: 20px;
 	}
 	
-	#contenu .date {
+	#contenu h5 {
 		clear: both; /* au cas ou une image est au rang du dessus */
 		font-size: 12px;
 		font-family: verdana,arial,helvetica,sans;
@@ -270,8 +287,9 @@
 		border-bottom: 2px solid #999999;
 		color: #666666;
 		margin-top: 1.6em;
+		margin-bottom: 1em;
 	}
-	#contenu .hentry:first-child .date {
+	#contenu .hentry:first-child h5 {
 		margin-top:0;
 	}
 
@@ -288,7 +306,7 @@
 		margin-bottom: 2.5em;
 	}
 	
-	.pavedepeches .datesep {
+	h4 {
 		text-align: center;
 		padding-bottom: 3px;
 		border-bottom: 1px solid #999999;
@@ -318,49 +336,6 @@
 
 
 
-	a.mots, a.presse {
-		display: block;
-		padding: 3px;
-		color: white;
-		font-size: 10px;
-		font-weight: bold;
-		text-align: center;
-		width: 100%;
-	}
-	
-	a.mots {
-		background-color: #F09450;
-		border-top: 1px solid #FACD8A;
-		border-left: 1px solid #FACD8A;
-		border-bottom: 1px solid #744900;
-		border-right: 1px solid #744900;
-	}
-	a.presse {
-		background-color: #748F8A;
-		border-top: 1px solid #aaaaaa;
-		border-left: 1px solid #aaaaaa;
-		border-bottom: 1px solid #333333;
-		border-right: 1px solid #333333;
-	}
-	div.actuelle {
-		background-color: #666666;
-		border-bottom: 1px solid #aaaaaa;
-		border-right: 1px solid #aaaaaa;
-		border-top: 1px solid #333333;
-		border-left: 1px solid #333333;
-		display: block;
-		padding: 3px;
-		color: white;
-		font-size: 10px;
-		font-weight: bold;
-		text-align: center;
-		width: 100%;
-	}
-	a:hover.mots, a:hover.presse {
-		color: black;
-		background-color: #cccccc;
-	}
-
 	.maj {
 		padding: 0px;
 		color: white;
@@ -368,7 +343,7 @@
 		font-family: verdana,arial,helvetica,sans;
 	}
 	
-	.formrecherche {
+	.formulaire_recherche {
 		padding: 3px;
 		background-color: #9EB0AC;
 		border: 1px solid white;
@@ -454,4 +429,9 @@ a.plus, a.plus:hover {
 	background: url(http://rezo.net/img_rezo/plus.gif);
 	position: relative;
 	top: -20px;
+}
+
+
+body.admin a[rel=bookmark] {
+	background-color: yellow !important;
 }

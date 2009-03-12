@@ -1,0 +1,14 @@
+[(#REM)
+
+	Cette page utilise le proxy hatom2atom de luke arno
+	pour convertir nos pages en atom
+	http://rbach.priv.at/Microformats/hAtom2Atom/
+
+]#HTTP_HEADER{Content-Type: application/xml}
+[(#VAL{'http://www.lukearno.com/projects/hatom2atom/?ctype=application%2Fxml&tidy=yes'}
+	|parametre_url{url,http://v3.rezo.net/#ENV{uri}}|recuperer_page
+	|sinon{
+	#CACHE{60}
+	<feed><title>#NOM_SITE_SPIP - Echec de la conversion</title></feed>
+})]
+

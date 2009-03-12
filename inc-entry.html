@@ -10,17 +10,17 @@
 </BOUCLE_r>
 #SET{origine,#SOURCE|sinon{#GET{source}}}
 
-<div class="hentry" id="a#ID_ARTICLE">
+<div class="hentry" id="a#ID_ARTICLE"[ lang="(#LANG|replace{fr})"]>
 
-[<div class="date[ (#DATE|affdate{Y-m-d})]">(#DATE|nom_jour) [(#DATE|affdate_jourcourt)]</div>]
+[<h5[ class="(#DATE|affdate{Y-m-d})"]>(#DATE|nom_jour) [(#DATE|affdate_jourcourt)]</h5>]
 
 <a href="#GET{url_rub}" class="plus"[
 title="(#GET{titre_rub}|texte_backend)"]>+</a>
 
 [<div style='float:right'>(#SURTITRE|afficher_enclosures)</div>]
-<a rel="bookmark" href="#URL_SITE" class="entry-title">
-	<strong class="titre">#GET{titre}</strong>
-	<span class='auteur'>[<:par_auteur:>
+<a rel="bookmark" href="#URL_SITE">
+	<strong class="entry-title">#GET{titre}</strong><span class='auteur'>[<span class='v'>,</span>
+	<:par_auteur:>
 		<span class="author"><span class="vcard"><span class="fn">(#GET{auteurs})</span></span></span>][
 		<span class="source">((#GET{source})[<span class="datehm">
 		<abbr class="updated"[ title="(#DATE|date_iso)]">(#DATE|datehm)]</abbr></span>)</span>]</span>
@@ -34,9 +34,7 @@ title="(#GET{titre_rub}|texte_backend)"]>+</a>
 		<B_mots><div class='tags'>Th&egrave;me[(#TOTAL_BOUCLE|>{1}|?{s})]&nbsp;: <BOUCLE_mots(MOTS){id_article}{", "}><b>#TITRE</b></BOUCLE_mots></div></B_mots>[Tags&nbsp;: <b>(#SURTITRE|afficher_tags|supprimer_tags|replace{', ','</b>, <b>'})</b>]<//B_mots>
 	</div>
 </div>
-<!--
-#TYPE - #STATUT - #POPULARITE** - [(#CHAMP_SQL{popularite}|mult{1000000000}|intval)] - #VISITES
--->
+
 </div>[(#REM) / hentry]
 
 </BOUCLE_article>

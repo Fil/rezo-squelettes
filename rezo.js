@@ -55,7 +55,7 @@
 
 		// Couper les dates repetitives
 		var vu = [];
-		$('#contenu>.articles>*>.date').each(function(){
+		$('#contenu>.articles h5').each(function(){
 			var t = $(this).attr('class'); 
 			if (vu[t])
 				$(this).hide();
@@ -74,7 +74,7 @@
 				.clone()
 				.html('')
 				.append(im)
-				.insertAfter($('.date:eq(0)',this));
+				.insertAfter($('h5:eq(0)',this));
 				image=4;
 			}
 			image--;
@@ -117,6 +117,28 @@
 		.prependTo('#navigation>.ecouter');
 		$('#navigation>.ecouter div a.plus')
 		.remove();
+
+		// pour les admins ajouter le dblclick d'edition
+		if ($.cookie('spip_admin')) {
+			$('body').bind('dblclick', function () {
+				$('body').toggleClass('admin');
+				$('a[rel=bookmark]')
+				.unbind('click')
+				.each(function() {
+					if ($('body').is('.admin')) {
+						var lien = $(this).attr('href');
+						var id = $(this).parents('.hentry')
+							.attr('id').replace(/^a/,'');
+						$(this)
+						.data('lien',lien)
+						.attr('href','/ecrire/?exec=articles&id_article='+id);
+					} else {
+						$(this)
+						.attr('href', $(this).data('lien'));
+					}
+				});
+			});
+		}
 
 		// Ajouter les boutons cookie/preference dans le pied de page
 		$('<span>Vos pr&#233;f&#233;rences d&#8217;affichage&nbsp;:  \
