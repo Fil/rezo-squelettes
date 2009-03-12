@@ -435,3 +435,30 @@ a.plus, a.plus:hover {
 body.admin a[rel=bookmark] {
 	background-color: yellow !important;
 }
+
+
+.pagination a {
+	font-size:9px;
+	font-family: arial, helvetica, sans;
+	color: #444;
+}
+.pagination a:hover {
+	color: #888;
+
+}
+
+/* le titre des pages mots etc */
+#citation h1 {
+	text-align:center;
+	color:#4E596D;
+	font-size:26px;
+	letter-spacing:4px;
+	text-align:center;
+	text-transform:uppercase;
+	font-weight:normal;
+	font-family:arial,helvetica,sans;
+}
+
+body.page_mot #conteneur {
+	background: url(http://rezo.net/img_rezo/patte-orange.gif) top right no-repeat;
+}

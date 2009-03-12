@@ -107,6 +107,10 @@
 		$('#antiflickr').remove();
 		$('.central').show(); // pour nav qui n'auraient pas compris la ligne precedente
 
+		// en cas d'ancre il faut relancer, a cause du masquage temporaire
+		if (document.location.hash)
+			setTimeout(function(){ document.location = document.location.hash;}, 100);
+
 		// recuperer la date des mermet
 		$('#navigation>.ecouter .datehm')
 		.each(function(){

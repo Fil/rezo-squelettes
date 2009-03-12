@@ -6,12 +6,15 @@ src="http://rezo.net/img_rezo/logorezo-blanc.gif" /></a>
 </div>
 
 		[(#REM) Citation]
-		<BOUCLE_citation(BREVES){0,1}{par hasard}{id_rubrique=1}>
+
 		<div id="citation">
+		[<h1>(#ENV{titre})</h1>]
+		<BOUCLE_citation(BREVES){0,1}{par hasard}
+		{id_rubrique=#ENV{titre}|?{-1,1}}>
 			[<div class="#EDIT{texte}">(#TEXTE|PtoBR)</div>]
 			[<span class="#EDIT{titre} auteur">(#TITRE)</span>]
-		</div>
 		</BOUCLE_citation>
+		</div>
 
 </div>
 
