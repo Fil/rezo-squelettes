@@ -26,6 +26,7 @@ function liste_des_champs() {
 				'texte' => 1, 'ps' => 1, 'nom_site' => 1, 'url_site' => 1,
 				'descriptif' => 4
 			),
+/*
 			'breve' => array(
 				'titre' => 8, 'texte' => 2, 'lien_titre' => 1, 'lien_url' => 1
 			),
@@ -55,7 +56,7 @@ function liste_des_champs() {
 				'nom_site' => 2, 'url_site' => 4,
 				'message' => 1
 			)
-
+*/
 		)
 	);
 }
@@ -135,8 +136,13 @@ function recherche_en_base($recherche='', $tables=NULL, $options=array(), $serve
 
 	if (!strlen($recherche) OR !count($tables))
 		return array();
+
+	$u = $GLOBALS['meta']['pcre_u'];
 	include_spip('inc/charsets');
-	$recherche = translitteration($recherche);
+	$recherche = trim(translitteration($recherche));
+
+	// s'il y a plusieurs mots il faut les chercher tous : oblige REGEXP
+	$recherche = preg_replace(',\s+,'.$u, '|', $recherche);
 
 	$preg = '/'.str_replace('/', '\\/', $recherche).'/' . $options['preg_flags'];
 	// Si la chaine est inactive, on va utiliser LIKE pour aller plus vite
@@ -144,16 +150,15 @@ function recherche_en_base($recherche='', $tables=NULL, $options=array(), $serve
 	if (preg_quote($recherche, '/') == $recherche
 	OR (@preg_match($preg,'')===FALSE) ) {
 		$methode = 'LIKE';
-		$u = $GLOBALS['meta']['pcre_u'];
 		$q = sql_quote(
 			"%"
-			. preg_replace(",\s+,".$u, "%", str_replace(array('%','_'), array('\%', '\_'), trim($recherche)))
+			. preg_replace(",\s+,".$u, "%", str_replace(array('%','_'), array('\%', '\_'), $recherche))
 			. "%"
 		);
-		// eviter les parentheses qui interferent avec pcre par la suite (dans le preg_patch_all) s'il y a des reponses
+		// eviter les parentheses qui interferent avec pcre par la suite (dans le preg_match_all) s'il y a des reponses
 		$recherche = str_replace(array('(',')','?'),array('\(','\)', '[?]'),$recherche);
 		
-		$preg = '/'.preg_replace(",\s+,".$u, ".+", trim($recherche)).'/' . $options['preg_flags'];
+		$preg = '/'.preg_replace(",\s+,".$u, ".+", $recherche).'/' . $options['preg_flags'];
 	} else {
 		$methode = 'REGEXP';
 		$q = sql_quote($recherche);
@@ -164,6 +169,9 @@ function recherche_en_base($recherche='', $tables=NULL, $options=array(), $serve
 		: array();
 
 	foreach ($tables as $table => $champs) {
+
+spip_timer('rech');
+
 		$requete = array(
 		"SELECT"=>array(),
 		"FROM"=>array(),
@@ -191,6 +199,15 @@ function recherche_en_base($recherche='', $tables=NULL, $options=array(), $serve
 		if ($a) $requete['WHERE'][] = join(" OR ", $a);
 		$requete['FROM'][] = table_objet_sql($table).' AS t';
 
+		// FULLTEXT
+		if ($_id_table == 'id_article') {
+			$full = array_keys($champs); #...
+			$full = "t.surtitre,t.titre,t.soustitre,t.chapo,t.texte,t.nom_site,t.url_site,t.descriptif";
+			$match = 'MATCH('.$full.') AGAINST ('.str_replace('%', '', $q).')';
+			$requete['SELECT'] = array($_id_table, $match.' AS points');
+			$requete['WHERE'] = array($match);
+		}
+
 		$s = sql_select(
 			$requete['SELECT'], $requete['FROM'], $requete['WHERE'],
 			implode(" ",$requete['GROUPBY']),
@@ -198,8 +215,16 @@ function recherche_en_base($recherche='', $tables=NULL, $options=array(), $serve
 			$requete['HAVING'], $serveur
 		);
 
+
 		while ($t = sql_fetch($s,$serveur)) {
 			$id = intval($t[$_id_table]);
+
+			// FULLTEXT
+			if ($_id_table == 'id_article')
+				$results[$table][$id]['score'] = $t['score'];
+			ELSE
+			// fin FULLTEXT
+
 			if ($options['toutvoir']
 			OR autoriser('voir', $table, $id)) {
 				// indiquer les champs concernes
@@ -280,7 +305,12 @@ function recherche_en_base($recherche='', $tables=NULL, $options=array(), $serve
 				}
 			}
 		}
+
+		spip_log("recherche $table ($recherche) = ".spip_timer('rech'),'recherche');
+
 	}
+
+
 
 	return $results;
 }

@@ -149,3 +149,24 @@ TODO:
 22:50 < _fil_> mercredi 11 mars 2009, 22:48:31 (UTC+0100)
 22:50 < _fil_> ^^
 
+
+
+index fulltext (necessite MyISAM)
+
+mysql> ALTER TABLE spip_articles ENGINE = MyISAM;
+Query OK, 123869 rows affected (10.46 sec)
+Records: 123869  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE spip_articles ADD FULLTEXT `full1` (`surtitre`,`titre`,`soustitre`,`chapo`,`texte`,`nom_site`,`url_site`,`descriptif`); 
+
+
++ patch sur inc/rechercher.php pour gerer le fulltext
+
+mysql> select count(id_article) from spip_articles where MATCH(full1) AGAINST('nouveaux polars') ;
++-------------------+
+| count(id_article) |
++-------------------+
+|              4804 | 
++-------------------+
+1 row in set (0.08 sec)
+
