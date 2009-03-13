@@ -1,0 +1,189 @@
+[(#REM)
+	Un cache plus court, pour la boucle syndic_articles
+]#CACHE{3600}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
+<head>
+<title>[(#NOM_SITE_SPIP|textebrut)][ - (#DESCRIPTIF_SITE_SPIP|couper{50}|textebrut)][ - (#ENV{semaine}|affdate)]</title>
+[<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
+<INCLURE{fond=inc-head}{feed=}/>
+
+[(#ENV{semaine}|?{'<meta name="robots" content="noindex" />'})]
+</head>
+
+<body class="page_sommaire">
+<div id="page">
+
+	[(#REM) Bandeau de la page ]
+	<INCLURE{fond=inc-bandeau}{semaine} />
+
+	[(#REM) Contenu principal : derniers articles publies ]
+	<div class="hfeed" id="conteneur">
+
+	<INCLURE{fond=inc-entete} />
+
+[(#REM) selectionner les recents pour eviter pb de perfs
+
+	Le critere semaine indique la date du dernier jour a prendre en compte
+	(inclus, d'ou l'ajout de 24h00)
+
+]
+<BOUCLE_auj(ARTICLES){type!=''}{!par date}{0,1}>
+[(#SET{fin,[(#VAL{U}|date{#DATE|strtotime}|plus{86400})]})]
+</BOUCLE_auj>
+[(#ENV{semaine}|match{'^\d{4}-\d{2}-\d{2}$'}|?{
+	#SET{fin,#ENV{semaine}|strtotime|plus{86400}}
+})]
+[(#SET{debut,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{604800})]})]})]
+[(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
+
+
+[(#REM) rubrique 79 = mermet, traitee a part]
+<BOUCLE_recents(ARTICLES)
+	{date>=#GET{debut}}
+	{date<=#GET{fin}}
+	{doublons recents}
+	{id_rubrique!=79}
+	{lang=fr}
+></BOUCLE_recents>
+
+	<div class="central">
+
+	[(#REM) A la une ]
+	<div id="chandelle">
+	<BOUCLE_une(MOTS) {!par popularite} {0,12}
+	>
+		<a href="#theme#ID_MOT">#TITRE</a>
+	</BOUCLE_une>
+	</div>
+
+
+	<div id="nuage">[(#REM|nuage_tags)
+	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
+	]</div>
+
+	</div>[(#REM) /central ]
+
+	[(#REM) Derniers articles ]
+
+
+	<div class="central">
+
+	<div id="marge">
+	</div>
+
+	<div id="contenu">
+
+	<BOUCLE_theme(MOTS) {!par popularite} {0,12}>
+	<div class="menu articles">
+	<a name="theme#ID_MOT" id="theme#ID_MOT"></a>
+	<h2>#TITRE</h2>
+	
+	<BOUCLE_p(ARTICLES){id_mot}{!par popularite}{0,1}{doublons}{!doublons recents}>
+	[(#ID_ARTICLE|microcache{inc-entry})]
+	</BOUCLE_p>
+
+	<BOUCLE_p2(ARTICLES){id_mot}{!par popularite}{0,12}{doublons}{!doublons recents}>
+	[(#ID_ARTICLE|microcache{inc-entry})]
+	</BOUCLE_p2>
+
+	</div>
+	</BOUCLE_theme>
+
+
+		<B_english>
+		<div id="english" class="menu pavedepeches">
+		<a class="plus" title="In English" href="anglais">+</a>
+		<h4>In English</h4>
+				<BOUCLE_english(ARTICLES)
+				{date<=#GET{fin}}
+				{lang!=fr}
+				{doublons}
+				{!par date}
+				{0,4}>
+			[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_english>
+		</div>
+		</B_english>
+
+
+		<a id="precedente"
+		href="/[(#VAL{Y-m-d}|date{[(#GET{fin}|strtotime|moins{604801})]})]"
+		rel="nofollow">la semaine pr&#233;c&#233;dente</a>
+
+
+	</div>[(#REM) #contenu]
+
+
+	<div id="navigation">
+
+		<B_breves>
+		<div id="depeches" class="menu pavedepeches">
+			<h4>D&#233;p&#234;ches</h4>
+				<BOUCLE_breves(ARTICLES)
+				{!doublons recents}
+				{doublons}
+				{type=''}
+				{par date}{inverse} {doublons}
+				{0,10}
+				>
+			[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_breves>
+		</div>
+		</B_breves>
+
+		<B_aussi>
+		<div id="aussi" class="menu pavedepeches">
+			<h4>Et aussi...</h4>
+				<BOUCLE_aussi(ARTICLES)
+				{!doublons recents}
+				{doublons}
+				{type!=''}
+				{par date}{inverse} {doublons}
+				{0,18}
+				>
+			[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_aussi>
+		</div>
+		</B_aussi>
+
+		<div class="menu pavedepeches">
+		<h2 style='display:none;'></h2>
+		[(#REM) Rechercher ]
+		#FORMULAIRE_RECHERCHE
+
+		[(#REM) Menu de navigation par rubriques ]
+		<INCLURE{fond=inc-rubriques} />
+
+		</div>
+
+		<B_radio>
+		<div class="menu pavedepeches ecouter">
+			<h4>&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</h4>
+				<BOUCLE_radio(ARTICLES)
+				{id_rubrique=79}
+				{par date}{inverse} {doublons}
+				{0,5}
+				{date<=#GET{fin}}
+				>
+			[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_radio>
+		</div>
+		</B_radio>
+
+	</div><!--#navigation-->
+
+
+	<div style="clear:both;"></div>
+
+	</div>[(#REM) /central ]
+
+	</div><!--#conteneur-->
+	
+
+	[(#REM) Pied de page ]
+	<INCLURE{fond=inc-pied} />
+	
+</div><!--#page-->
+</body>
+</html>

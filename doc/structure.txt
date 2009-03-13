@@ -9,7 +9,9 @@ page "comment faire votre portail", avec opml etc.
 
 grossir les tags
 
-abandonnés : le mode "news", le "calendrier".
+abandonnés : ical, le "calendrier".
+
+* page "news" : trier les mots-clé {!par popularite} devrait le faire
 
 * audio sera mieux que mermet
 
