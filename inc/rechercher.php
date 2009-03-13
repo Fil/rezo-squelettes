@@ -92,14 +92,16 @@ function fulltext_keys($table, $prefix=null, $serveur=null) {
 	if ($s = spip_query("SHOW CREATE TABLE ".table_objet_sql($table), $serveur)
 	AND $t = sql_fetch($s)
 	AND $create = array_pop($t)
-	AND preg_match_all('/,\s*FULLTEXT\sKEY.*[(](.*)[)]/i', $create, $keys, PREG_SET_ORDER)) {
-		foreach ($keys as $i=>$key) {
-			$cle = $key[1];
+	AND preg_match_all('/,\s*FULLTEXT\sKEY.*`(.*)`\s+[(](.*)[)]/i', $create, $keys, PREG_SET_ORDER)) {
+		$cles = array();
+		foreach ($keys as $key) {
+			$cle = $key[2];
 			if ($prefix)
 				$cle = preg_replace(',`.*`,U', $prefix.'.$0', $cle);
-			$keys[$i] = $cle;
+			$cles[$key[1]] = $cle;
 		}
-		return $keys;
+		spip_log("fulltext $table: ".join(', ',array_keys($cles)),'recherche');
+		return $cles;
 	}
 }
 
@@ -221,7 +223,8 @@ spip_timer('rech');
 			$r = trim(preg_replace(',\s+,', ' ', strtolower($recherche_brute)));
 
 			// si espace, ajouter la meme chaine avec des guillemets pour ameliorer la pertinence
-			$exact = (strpos($r, ' ')) ? " \"$r\"" : '';
+			$exact = (strpos($r, ' ') AND strpos($r,'"')===false)
+				? " \"$r\"" : '';
 
 			// On utilise la translitteration pour contourner le pb des bases
 			// declarees en iso-latin mais remplies d'utf8
@@ -239,11 +242,11 @@ spip_timer('rech');
 				// ainsi un FULLTEXT sur `titre` vaudra plus que `titre`,`chapo`
 				$compteur = preg_match_all(',`.*`,U', $key, $ignore);
 				$mult = intval(sqrt(1000/$compteur))/10;
-					$val = "($val)*$mult";
+					$val = "$val * $mult";
 
 				// si symboles booleens les prendre en compte
-				if (preg_match(',(^[+-><~])|(\*$)|(".*?"),', $p))
-					$val .= " + 10*(MATCH($key) AGAINST ($p IN BOOLEAN MODE))";
+				if ($boolean = preg_match(', [+-><~]|\* |".*?",', " $r "))
+					$val = "MATCH($key) AGAINST ($p IN BOOLEAN MODE) * $mult";
 				$score[] = $val;
 			}
 
@@ -253,7 +256,7 @@ spip_timer('rech');
 			foreach(array_keys($jointures[$table]) as $jtable) {
 				$i++;
 				if ($mkeys = fulltext_keys($jtable, 'obj'.$i, $serveur)) {
-					$score[] = "SUM(MATCH($mkeys[0]) AGAINST ($p))" /* .$poids */;
+					$score[] = "SUM(MATCH(".array_shift($mkeys).") AGAINST ($p".($boolean ?' IN BOOLEAN MODE':'')."))";
 					$_id_join = id_table_objet($jtable);
 					$table_join = table_objet($jtable);
 
@@ -271,6 +274,7 @@ spip_timer('rech');
 			}
 
 			$score = join(' + ', $score).' AS score';
+			spip_log($score, 'recherche');
 
 			$s = spip_query(
 				$query =
