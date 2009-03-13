@@ -222,8 +222,8 @@ spip_timer('rech');
 			$r = trim(preg_replace(',\s+,', ' ', strtolower($recherche_brute)));
 
 			// si espace, ajouter la meme chaine avec des guillemets pour ameliorer la pertinence
-			$exact = (strpos($r, ' ') AND strpos($r,'"')===false)
-				? " \"$r\"" : '';
+			$pe = (strpos($r, ' ') AND strpos($r,'"')===false)
+				? sql_quote(trim("\"$r\""), $serveur) : '';
 
 			// On utilise la translitteration pour contourner le pb des bases
 			// declarees en iso-latin mais remplies d'utf8
@@ -231,18 +231,20 @@ spip_timer('rech');
 				$r .= ' '.$r2;
 
 			$p = sql_quote(trim("$r"), $serveur);
-			$pe = sql_quote(trim("$r$exact"), $serveur);
 
 			// On va additionner toutes les cles FULLTEXT
 			// de la table
 			$score = array();
 			foreach ($keys as $key) {
-				$val = "MATCH($key) AGAINST ($pe)";
+				$val = "MATCH($key) AGAINST ($p)";
+				// Une chaine exacte rapporte plein de points
+				if ($pe)
+					$val .= "+ 2 * MATCH($key) AGAINST ($pe)";
 				// le poids d'une cle est fonction decroissante de son nombre d'elements
 				// ainsi un FULLTEXT sur `titre` vaudra plus que `titre`,`chapo`
 				$compteur = preg_match_all(',`.*`,U', $key, $ignore);
 				$mult = intval(sqrt(1000/$compteur))/10;
-					$val = "$val * $mult";
+					$val = "($val) * $mult";
 
 				// si symboles booleens les prendre en compte
 				if ($boolean = preg_match(', [+-><~]|\* |".*?",', " $r "))
