@@ -215,7 +215,6 @@ spip_timer('rech');
 		$requete['FROM'][] = table_objet_sql($table).' AS t';
 
 		// FULLTEXT
-		define('_FULLTEXT', true);
 		$fulltext = false; # cette table est-elle fulltext?
 		if ($keys = fulltext_keys($table, 't', $serveur)) {
 			$fulltext = true;
@@ -231,13 +230,14 @@ spip_timer('rech');
 			if (($r2 = translitteration($r)) != $r)
 				$r .= ' '.$r2;
 
-			$p = sql_quote(trim("$r$exact"), $serveur);
+			$p = sql_quote(trim("$r"), $serveur);
+			$pe = sql_quote(trim("$r$exact"), $serveur);
 
 			// On va additionner toutes les cles FULLTEXT
 			// de la table
 			$score = array();
 			foreach ($keys as $key) {
-				$val = "MATCH($key) AGAINST ($p)";
+				$val = "MATCH($key) AGAINST ($pe)";
 				// le poids d'une cle est fonction decroissante de son nombre d'elements
 				// ainsi un FULLTEXT sur `titre` vaudra plus que `titre`,`chapo`
 				$compteur = preg_match_all(',`.*`,U', $key, $ignore);
@@ -300,9 +300,8 @@ spip_timer('rech');
 			$requete['HAVING'], $serveur
 		);
 
-
 		while ($t = sql_fetch($s,$serveur)
-		AND $t['score']>0) {
+		AND (!isset($t['score']) OR $t['score']>0)) {
 			$id = intval($t[$_id_table]);
 
 			// FULLTEXT
