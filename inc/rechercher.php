@@ -392,9 +392,7 @@ spip_timer('rech');
 				}
 			}
 		}
-
-		spip_log("recherche $table ($recherche) = ".spip_timer('rech'),'recherche');
-
+		spip_log("recherche $table ($recherche_brute) : ".count($results[$table])." resultats ".spip_timer('rech'),'recherche');
 	}
 
 
