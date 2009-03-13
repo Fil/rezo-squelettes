@@ -26,7 +26,6 @@ function liste_des_champs() {
 				'texte' => 1, 'ps' => 1, 'nom_site' => 1, 'url_site' => 1,
 				'descriptif' => 4
 			),
-/*
 			'breve' => array(
 				'titre' => 8, 'texte' => 2, 'lien_titre' => 1, 'lien_url' => 1
 			),
@@ -56,7 +55,6 @@ function liste_des_champs() {
 				'nom_site' => 2, 'url_site' => 4,
 				'message' => 1
 			)
-*/
 		)
 	);
 }
@@ -90,7 +88,20 @@ function liste_des_jointures() {
 }
 
 
-
+function fulltext_keys($table, $prefix=null, $serveur=null) {
+	if ($s = spip_query("SHOW CREATE TABLE ".table_objet_sql($table), $serveur)
+	AND $t = sql_fetch($s)
+	AND $create = array_pop($t)
+	AND preg_match_all('/,\s*FULLTEXT\sKEY.*[(](.*)[)]/i', $create, $keys, PREG_SET_ORDER)) {
+		foreach ($keys as $i=>$key) {
+			$cle = $key[1];
+			if ($prefix)
+				$cle = preg_replace(',`.*`,U', $prefix.'.$0', $cle);
+			$keys[$i] = $cle;
+		}
+		return $keys;
+	}
+}
 
 // Effectue une recherche sur toutes les tables de la base de donnees
 // options :
@@ -133,6 +144,8 @@ function recherche_en_base($recherche='', $tables=NULL, $options=array(), $serve
 	);
 
 	$results = array();
+
+	$recherche_brute = $recherche;
 
 	if (!strlen($recherche) OR !count($tables))
 		return array();
@@ -200,14 +213,66 @@ spip_timer('rech');
 		$requete['FROM'][] = table_objet_sql($table).' AS t';
 
 		// FULLTEXT
-		if ($_id_table == 'id_article') {
-			$full = array_keys($champs); #...
-			$full = "t.surtitre,t.titre,t.soustitre,t.chapo,t.texte,t.nom_site,t.url_site,t.descriptif";
-			$match = 'MATCH('.$full.') AGAINST ('.str_replace('%', '', $q).')';
-			$requete['SELECT'] = array($_id_table, $match.' AS points');
-			$requete['WHERE'] = array($match);
+		define('_FULLTEXT', true);
+		$fulltext = false; # cette table est-elle fulltext?
+		if ($keys = fulltext_keys($table, 't', $serveur)) {
+			$fulltext = true;
+
+			// On utilise la translitteration pour contourner le pb des bases
+			// declarees en iso-latin mais remplies d'utf8
+			$r = trim(strtolower($recherche_brute));
+			if (($r2 = translitteration($r)) != $r)
+				$r .= ' '.$r2;
+			$p = sql_quote(trim($r), $serveur);
+
+			// On va additionner toutes les cles FULLTEXT
+			// de la table
+			$score = array();
+			foreach ($keys as $key)
+				$score[] = "MATCH($key) AGAINST ($p)";
+
+			// On ajoute la premiere cle FULLTEXT de chaque jointure
+			$join = array();
+			if (is_array($jointures[$table]))
+			foreach(array_keys($jointures[$table]) as $jtable) {
+				$i++;
+				if ($mkeys = fulltext_keys($jtable, 'obj'.$i, $serveur)) {
+					$score[] = "SUM(MATCH($mkeys[0]) AGAINST ($p))" /* .$poids */;
+					$_id_join = id_table_objet($jtable);
+					$table_join = table_objet($jtable);
+
+					if ($jtable == 'document')
+						$join[] = "
+						LEFT JOIN spip_documents_liens AS lien$i ON (lien$i.id_objet=t.$_id_table AND lien$i.objet='$table'
+						LEFT JOIN spip_${table_join} AS obj$i ON lien$i.$_id_join=obj$i.$_id_join
+						";
+					else
+						$join[] = "
+						LEFT JOIN spip_${jtable}s_${table}s as lien$i ON lien$i.$_id_table=t.$_id_table
+						LEFT JOIN spip_${table_join} AS obj$i ON lien$i.$_id_join=obj$i.$_id_join
+						";
+				}
+			}
+
+			$score = join(' + ', $score).' AS score';
+
+			$s = spip_query(
+				$query =
+				"SELECT t.$_id_table, $score
+				FROM spip_".table_objet($table)." AS t
+				"
+				. join("\n",$join)
+				."
+				GROUP BY t.$_id_table
+				ORDER BY score DESC
+				LIMIT 0,500"
+			);
+#			var_dump($query);
+			if (!$s) die(mysql_error());
+#			exit;
 		}
 
+		else
 		$s = sql_select(
 			$requete['SELECT'], $requete['FROM'], $requete['WHERE'],
 			implode(" ",$requete['GROUPBY']),
@@ -216,11 +281,12 @@ spip_timer('rech');
 		);
 
 
-		while ($t = sql_fetch($s,$serveur)) {
+		while ($t = sql_fetch($s,$serveur)
+		AND $t['score']>0) {
 			$id = intval($t[$_id_table]);
 
 			// FULLTEXT
-			if ($_id_table == 'id_article')
+			if ($fulltext)
 				$results[$table][$id]['score'] = $t['score'];
 			ELSE
 			// fin FULLTEXT
@@ -273,7 +339,8 @@ spip_timer('rech');
 
 
 		// Gerer les donnees associees
-		if (isset($jointures[$table])
+		if (!$fulltext
+		AND isset($jointures[$table])
 		AND $joints = recherche_en_base(
 				$recherche,
 				$jointures[$table],

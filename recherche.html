@@ -69,7 +69,6 @@
 				{doublons}
 				{!doublons cut}
 				{!par date}
-{0,30}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_articles_recents>
@@ -138,18 +137,16 @@
 		</div>
 
 		<B_radio>
-		#ANCRE_PAGINATION
 		<div class="menu pavedepeches ecouter">
 			<h4>&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</h4>
 				<BOUCLE_radio(ARTICLES)
 				{id_rubrique=79}
 				{!par points}
-				{pagination 10}
+				{0,10}
 				{recherche}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_radio>
-		[<p class="pagination">(#PAGINATION)</p>]
 		</div>
 		</B_radio>
 
