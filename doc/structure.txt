@@ -160,7 +160,6 @@ Query OK, 123869 rows affected (10.46 sec)
 Records: 123869  Duplicates: 0  Warnings: 0
 
 mysql> ALTER TABLE spip_articles ADD FULLTEXT `full1` (`surtitre`,`titre`,`soustitre`,`chapo`,`texte`,`nom_site`,`url_site`,`descriptif`); 
-mysql> ALTER TABLE spip_articles ADD FULLTEXT `full2` (`surtitre`,`titre`,`soustitre`,`chapo`,`descriptif`); 
 mysql> ALTER TABLE spip_articles ADD FULLTEXT `titre` (`titre`); 
 
 
