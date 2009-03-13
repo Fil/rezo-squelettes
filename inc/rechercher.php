@@ -218,18 +218,34 @@ spip_timer('rech');
 		if ($keys = fulltext_keys($table, 't', $serveur)) {
 			$fulltext = true;
 
+			$r = trim(preg_replace(',\s+,', ' ', strtolower($recherche_brute)));
+
+			// si espace, ajouter la meme chaine avec des guillemets pour ameliorer la pertinence
+			$exact = (strpos($r, ' ')) ? " \"$r\"" : '';
+
 			// On utilise la translitteration pour contourner le pb des bases
 			// declarees en iso-latin mais remplies d'utf8
-			$r = trim(strtolower($recherche_brute));
 			if (($r2 = translitteration($r)) != $r)
 				$r .= ' '.$r2;
-			$p = sql_quote(trim($r), $serveur);
+
+			$p = sql_quote(trim("$r$exact"), $serveur);
 
 			// On va additionner toutes les cles FULLTEXT
 			// de la table
 			$score = array();
-			foreach ($keys as $key)
-				$score[] = "MATCH($key) AGAINST ($p)";
+			foreach ($keys as $key) {
+				$val = "MATCH($key) AGAINST ($p)";
+				// le poids d'une cle est fonction decroissante de son nombre d'elements
+				// ainsi un FULLTEXT sur `titre` vaudra plus que `titre`,`chapo`
+				$compteur = preg_match_all(',`.*`,U', $key, $ignore);
+				$mult = intval(sqrt(1000/$compteur))/10;
+					$val = "($val)*$mult";
+
+				// si symboles booleens les prendre en compte
+				if (preg_match(',(^[+-><~])|(\*$)|(".*?"),', $p))
+					$val .= " + 10*(MATCH($key) AGAINST ($p IN BOOLEAN MODE))";
+				$score[] = $val;
+			}
 
 			// On ajoute la premiere cle FULLTEXT de chaque jointure
 			$join = array();
@@ -268,7 +284,7 @@ spip_timer('rech');
 				LIMIT 0,500"
 			);
 #			var_dump($query);
-			if (!$s) die(mysql_error());
+#			if (!$s) die(mysql_error());
 #			exit;
 		}
 
