@@ -52,6 +52,15 @@ function embellir_tags($tags) {
 	return join(', ', $mots);
 }
 
+// Mettre a joru la popularite d'un mot-cle (cf. mot-fulltext.html)
+function majpopmot($id_mot, $pop) {
+	if ($id_mot=intval($id_mot))
+		spip_query($q = "UPDATE spip_mots
+			SET popularite=".sql_quote($pop)."
+			WHERE id_mot=$id_mot");
+#	return $q;
+}
+
 // Renvoie les n mots-cles les plus populaires
 function mots_populaires($n=25) {
 	/* $f = "select sum(articles.popularite) as pop, m.id_mot AS id_mot, mots.titre as titre from spip_articles as articles right join spip_mots_articles as m ON articles.id_article = m.id_article, spip_mots AS mots WHERE m.id_mot=mots.id_mot group by id_mot order by pop desc limit 0,".intval($n); */

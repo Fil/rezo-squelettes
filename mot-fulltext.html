@@ -20,15 +20,22 @@
 	<INCLURE{fond=inc-entete}{titre} />
 
 [(#REM) Si on est dans 'tag', supprimer ceux dont un tag est '_tag']
-<BOUCLE_refus(ARTICLES){recherche _#ENV{recherche}}{doublons}></BOUCLE_refus>
+<BOUCLE_refus(ARTICLES)
+	{recherche _#ENV{recherche}}
+	{doublons}
+	{doublons refus}
+></BOUCLE_refus>
 
 <BOUCLE_cut(ARTICLES)
 {recherche}
 {!par popularite}
 {0,50}
 {type!=''}
+{doublons refus}
 {doublons cut}
-></BOUCLE_cut>
+>[(#SET{popmot,#GET{popmot}|plus{#CHAMP_SQL{popularite}}})]</BOUCLE_cut>
+	[(#ID_MOT|majpopmot{#GET{popmot}})]
+<//B_cut>
 
 	<div class="central">
 
