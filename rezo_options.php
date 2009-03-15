@@ -54,13 +54,15 @@ function rezo_post_syndication($data) {
 	// "titre, par auteur"
 	// "titre, par auteur (source)"
 	// ne pas prendre les auteurs contenant un @ (emails affiches dans le RSS)
-	if (strlen($data[2]['lesauteurs'])
-	AND !strpos($data[2]['lesauteurs'], '@')
+	if (strlen($aut = trim($data[2]['lesauteurs']))
+	AND !strpos($aut, '@')
 	AND !preg_match('/, (par|by|por) /i', $update['retitre'])
 	AND !preg_match('/ [(].*[)]$/', $update['retitre'])
-	)
+	) {
+		$aut = couper($aut, 60);
 		$update['retitre'] = $update['retitre']
-		.', '._T('forum_par_auteur', array('auteur' => $data[2]['lesauteurs']));
+		.', '._T('forum_par_auteur', array('auteur' => $aut));
+	}
 
 
 	// Ajouter sous forme de tags les mots-cles associes au site source
