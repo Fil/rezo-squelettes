@@ -47,32 +47,50 @@ function rezo_post_syndication($data) {
 
 
 	// Indiquer le "bon" titre
-	$update['titre'] = trim(preg_replace(',\s+,ims', ' ', $data[2]['titre']));
+	$update['retitre'] = trim(preg_replace(',\s+,ims', ' ', $data[2]['titre']));
 	// Supprimer les trucs entre crochets, genre [by fil.rezo.net] de delicious
-	$update['titre'] = trim(preg_replace(',[[].*[]],', '', $update['titre']));
+	$update['retitre'] = trim(preg_replace(',[[].*[]],', '', $update['retitre']));
 
 	// "titre, par auteur"
 	// "titre, par auteur (source)"
 	// ne pas prendre les auteurs contenant un @ (emails affiches dans le RSS)
 	if (strlen($data[2]['lesauteurs'])
 	AND !strpos($data[2]['lesauteurs'], '@')
-	AND !preg_match('/, (par|by|por) /i', $update['titre'])
-	AND !preg_match('/ [(].*[)]$/', $update['titre'])
+	AND !preg_match('/, (par|by|por) /i', $update['retitre'])
+	AND !preg_match('/ [(].*[)]$/', $update['retitre'])
 	)
-		$update['titre'] = $update['titre']
+		$update['retitre'] = $update['retitre']
 		.', '._T('forum_par_auteur', array('auteur' => $data[2]['lesauteurs']));
 
+
+	// Ajouter sous forme de tags les mots-cles associes au site source
+	$tags = array();
+	foreach(sql_allfetsel(array('m.descriptif AS descriptif, m.titre AS titre'),
+		array('spip_mots AS m', 'spip_mots_syndic AS l'),
+		array('l.id_mot=m.id_mot', 'l.id_syndic='.$id_syndic)
+	) as $t)
+		$tags[$t['descriptif']] = '<a rel="tag">'.$t['titre'].'</a>';
+
+	// S'il y a un enclosure mp3, tag audio
+	if ($data[2]['enclosures']
+	AND preg_match(',\.mp3,', $data[2]['enclosures']))
+		$tags['audio'] = '<a rel="tag">Audio</a>';
+
+	include_spip('inc/charsets');
+	if ($data[2]['tags'])
+	foreach ($data[2]['tags'] as $b) {
+		$key = strtolower(translitteration(trim(supprimer_tags($b))));
+		$tags[$key] = $b;
+	}
+	if ($tags)
+		$update['tags'] = join(', ', $tags);
+
+	// Mettre a jour
 	sql_updateq('spip_syndic_articles',
 		$update,
 		'url='.sql_quote($url).' AND id_syndic='.sql_quote($id_syndic));
 
 	lang_select();
-
-
-	// Ajouter les mots-cles associes au site source et ceux qui sont
-	// référencés sous forme de tags
-	$mots = '....'; // A SUIVRE
-
 
 	return $data;
 }

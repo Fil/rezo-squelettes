@@ -52,7 +52,7 @@ function embellir_tags($tags) {
 	return join(', ', $mots);
 }
 
-// Mettre a joru la popularite d'un mot-cle (cf. mot-fulltext.html)
+// Mettre a jour la popularite d'un mot-cle (cf. mot-fulltext.html)
 function majpopmot($id_mot, $pop) {
 	if ($id_mot=intval($id_mot))
 		spip_query($q = "UPDATE spip_mots

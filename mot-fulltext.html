@@ -26,16 +26,32 @@
 	{doublons refus}
 ></BOUCLE_refus>
 
+[(#REM)
+
+	Pour calculer correctement la popularite du mot,
+	on melange les 40 plus forts et les 10 plus populaires
+
+]
 <BOUCLE_cut(ARTICLES)
 {recherche}
-{!par popularite}
-{0,50}
+{!par points}
+{0,40}
 {type!=''}
 {doublons refus}
 {doublons cut}
->[(#SET{popmot,#GET{popmot}|plus{#CHAMP_SQL{popularite}}})]</BOUCLE_cut>
-	[(#ID_MOT|majpopmot{#GET{popmot}})]
-<//B_cut>
+>
+[(#SET{popmot,#GET{popmot}|plus{#CHAMP_SQL{popularite}}})]</BOUCLE_cut>
+<BOUCLE_cut2(ARTICLES)
+{recherche}
+{!par points}
+{0,10}
+{type!=''}
+{doublons refus}
+{doublons cut}
+>
+[(#SET{popmot,#GET{popmot}|plus{#CHAMP_SQL{popularite}}})]</BOUCLE_cut2>
+
+[(#ID_MOT|majpopmot{#GET{popmot}})]
 
 	<div class="central">
 

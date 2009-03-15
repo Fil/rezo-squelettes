@@ -28,22 +28,28 @@ ALTER TABLE spip_articles ADD source TINYTEXT NOT NULL DEFAULT '';
 pour accelerer la syndication :
 ALTER TABLE spip_articles ADD INDEX syndic (url_site,id_syndic);
 
-CREATE VIEW spip_syndic_articles AS SELECT id_article AS id_syndic_article, id_syndic AS id_syndic, titre AS titre,
+CREATE VIEW spip_syndic_articles AS
+	SELECT
+	id_article AS id_syndic_article,
+	id_syndic,
+	titre,
 	url_site AS url,
-	date AS date,
+	date,
 	soustitre AS lesauteurs,
 	surtitre AS tags,
-	maj AS maj,
-	statut AS statut,
+	maj,
+	statut,
 	texte AS descriptif,
-	lang AS lang,
-	url_source AS url_source,
-	source AS source,
-	chapo AS chapo,
-	ps AS ps,
-	id_rubrique AS id_rubrique,
-	type AS type,
-	id_secteur AS id_secteur
+	lang,
+	url_source,
+	source,
+	chapo,
+	ps,
+	id_rubrique,
+	type,
+	retitre,
+	retags,
+	id_secteur
 	FROM spip_articles;
 
 
