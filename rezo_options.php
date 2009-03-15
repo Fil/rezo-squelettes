@@ -3,7 +3,7 @@
 define('_SYNDICATION_CORRECTION', false);
 define('_SYNDICATION_URL_UNIQUE', true);
 define('_ID_WEBMESTRES', '3:13');  // Fil, Marcimat
-
+define('_FULLTEXT_MAX_RESULTS', 2000);
 
 function rezo_post_syndication($data) {
 	static $sites = array();

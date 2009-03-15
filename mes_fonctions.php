@@ -29,6 +29,29 @@ function datehm($date) {
 		: date('d/m', $u);
 }
 
+// les tags arrivent sous forme d'une liste de mots seapares par des virgules
+// on remet les bons mots quand il s'agit de mots-cles connus, et on passe 
+// chaque mot en gras
+function embellir_tags($tags) {
+	static $alias;
+	if (!isset($alias)) {
+		$s = spip_query("SELECT descriptif,titre FROM spip_mots");
+		while ($t = sql_fetch($s))
+			if (strlen($t['titre']))
+				$alias[trim($t['descriptif'])] = $t['titre'];
+	}
+
+	$mots = array();
+	foreach (array_filter(array_map('trim', explode(',', $tags))) as $tag) {
+		if (isset($alias[$tag]))
+			$tag = $alias[$tag];
+		$tag = supprimer_numero($tag);
+		$mots[] = "<b>$tag</b>";
+	}
+
+	return join(', ', $mots);
+}
+
 // Renvoie les n mots-cles les plus populaires
 function mots_populaires($n=25) {
 	/* $f = "select sum(articles.popularite) as pop, m.id_mot AS id_mot, mots.titre as titre from spip_articles as articles right join spip_mots_articles as m ON articles.id_article = m.id_article, spip_mots AS mots WHERE m.id_mot=mots.id_mot group by id_mot order by pop desc limit 0,".intval($n); */

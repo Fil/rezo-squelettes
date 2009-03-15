@@ -33,10 +33,7 @@ title="(#GET{titre_rub}|texte_backend)"]>+</a>
 			|PtoBR|trim)]
 		[<div class='source'>Source&nbsp;: <b>(#GET{origine})</b></div>]
 		[<div class='tags'>Th&egrave;me(s)&nbsp;:
-			(#ID_ARTICLE|mots_article{'<b>%s</b>'}
-			|sinon{[<b>(#SURTITRE|afficher_tags|supprimer_tags
-				|replace{', ','</b>, <b>'})</b>]
-				})</div>]
+			(#RETAGS|trim|replace{',* +', ', '}|sinon{[(#SURTITRE|afficher_tags|supprimer_tags)]}|embellir_tags)</div>]
 	</div>
 </div>
 
