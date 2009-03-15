@@ -19,12 +19,9 @@
 
 	<INCLURE{fond=inc-entete}{titre} />
 
-[(#REM) selectionner les recents pour eviter pb de perfs
+[(#REM) Si on est dans 'tag', supprimer ceux dont un tag est '_tag']
+<BOUCLE_refus(ARTICLES){recherche _#ENV{recherche}}{doublons}></BOUCLE_refus>
 
-	Le critere semaine indique la date du dernier jour a prendre en compte
-	(inclus, d'ou l'ajout de 24h00)
-
-]
 <BOUCLE_cut(ARTICLES)
 {recherche}
 {!par popularite}

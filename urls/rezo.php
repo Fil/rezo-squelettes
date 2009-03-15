@@ -44,6 +44,16 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 	if ($entite == 'mot')
 		$url = 'themes/'.$url;
 
+	// si on cherche un theme inexistant, ne pas renvoyer '404'
+	// mais passer sur une recherche fulltext normale (cf. mot.html)
+	// http://v3.rezo.net/themes/sorbonne
+	if (is_array($url)
+	AND $url[1] == '404'
+	AND true) {
+		$url[0] = array('uri' => preg_replace(',^.*/,', '', $i));
+		$url[1] = 'mot';
+	}
+
 	return $url;
 }
 
