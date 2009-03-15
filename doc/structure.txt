@@ -12,6 +12,7 @@ grossir les tags
 abandonnés : ical, le "calendrier".
 
 * page "news" : trier les mots-clé {!par popularite} devrait le faire
+	-> cf. actu.html
 
 * audio sera mieux que mermet
 
@@ -31,6 +32,7 @@ Convertir le site en utf 8 :
 3) convertir le site facon spip
 4) remettre les articles, encodés utf8
 
+ALTER TABLE spip_documents_liens ADD INDEX objet(id_objet,objet);
 
 
 +-----------+--------------+------+-----+-------------------+----------------+
