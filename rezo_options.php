@@ -44,6 +44,7 @@ function rezo_post_syndication($data) {
 
 
 	lang_select($update['lang']);
+	$update['langue_choisie'] = 'oui';
 
 
 	// Indiquer le "bon" titre

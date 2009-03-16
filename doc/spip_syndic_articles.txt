@@ -41,6 +41,7 @@ CREATE VIEW spip_syndic_articles AS
 	statut,
 	texte AS descriptif,
 	lang,
+	langue_choisie,
 	url_source,
 	source,
 	chapo,
