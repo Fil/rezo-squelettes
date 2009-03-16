@@ -1,19 +1,21 @@
-<BOUCLE_a(ARTICLES){id_article}>
-[(#REM) On passe par champ_sql pour ne pas avoir l'amp ]
-[(#HTTP_HEADER{[Location: (#CHAMP_SQL{url_site})]})]
+<BOUCLE_a(ARTICLES){id_article}{statut?}>
+	[(#REM) On passe par champ_sql pour ne pas avoir l'amp ]
+	#SET{url,#CHAMP_SQL{url_site}|replace{^\d*$}|sinon{/a#ID_ARTICLE}}
+	#SET{titre,#TITRE}
+</BOUCLE_a>
+	#SET{titre, Erreur de redirection}
+	#SET{url,/}
+<//B_a>
+
+[(#HTTP_HEADER{[Location: (#GET{url})]})]
 <html>
 <head>
 
-<meta http-equiv="refresh" content="0;url=#URL_SITE">
-	<title>#TITRE @ #NOM_SITE_SPIP</title>
+<meta http-equiv="refresh" content="0;url=[(#GET{url}|quote_amp)]">
+	<title>[(#GET{titre})] @ #NOM_SITE_SPIP</title>
 </head>
 
 <body>
-Cette page va rediriger votre navigateur vers l'article <a href="#URL_SITE">#TITRE</a>.
+Cette page va rediriger votre navigateur vers l'article <a href="[(#GET{url}|quote_amp)]">#GET{titre}</a>.
 </body>
 </html>
-
-</BOUCLE_a>
-Erreur de redirection
-<pre>[(#ENV*|unserialize|var_export{1})]</pre>
-<//B_a>
