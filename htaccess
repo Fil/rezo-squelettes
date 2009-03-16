@@ -54,6 +54,12 @@ RewriteRule ^([0-9]{4}-[0-9]{2}-[0-9]{2})$	spip.php?page=sommaire&semaine=$1 [QS
 # ping + redirect article
 RewriteRule ^([0-9]+)$	spip.php?page=ping&id_article=$1 [QSA,L]
 
+# articles speciaux
+RewriteRule ^backend$	/a5 [QSA,L]
+
+# article du portail (intro seulement si pas interne)
+RewriteRule ^a([0-9]+)$  spip.php?page=article&id_article=$1 [QSA,L]
+
 # rezo.net/irc
 RewriteRule ^irc$	http://embed.mibbit.com/?server=irc.freenode.net&channel=#rezo [R,L]
 
