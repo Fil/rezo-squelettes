@@ -29,14 +29,25 @@ function rezo_post_syndication($data) {
 	if ($sites[$id_syndic]['statut'] == 'publie')
 		$update['type'] = 'article';
 
-	// bug sur certaines sources (http://blogs.lesoir.be/colette-braeckman/feed/) :
+	// detection de la langue
+	// attention sur certaines sources (http://blogs.lesoir.be/colette-braeckman/feed/)
 	// la langue indiquee est anglais, alors que les textes sont fr.
 	$update['lang'] = $data[2]['lang'];
-	if (strlen($sites[$id_syndic]['forcerlang']))
-		$update['lang'] = $sites[$id_syndic]['forcerlang'];
 
 	// attention aux fr-FR et autres joyeusetes
 	$update['lang'] = preg_replace(',^.*(fr|en|es).*$,i', '\1', $update['lang']);
+
+	// passer au detecteur de langue
+	include_spip('inc/lang_detect');
+	include_spip('inc/charsets');
+	list($lang, $certitude) = lang_detect(
+		translitteration($data[2]['titre'] . $data[2]['descriptif']),
+		array('fr', 'en', 'es')
+	);
+	spip_log(sprintf("lang_detect $lang (%02d", (100*$certitude))."%)");
+	if ($certitude > 0.02)
+		$update['lang'] = $lang;
+
 
 	// forcer fr si langue inconnue
 	if (!in_array($update['lang'], array('fr', 'en', 'es')))

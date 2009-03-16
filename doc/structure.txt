@@ -100,10 +100,6 @@ fetch.statut => 0,1,2,3
 frequence
 	=> champs extras2
 
-forcerlang
-	=> champs extras2
-
-mysql> alter table spip_syndic ADD forcerlang TINYTEXT NOT NULL;
 mysql> alter table spip_syndic ADD frequence BIGINT NOT NULL;
 
 
