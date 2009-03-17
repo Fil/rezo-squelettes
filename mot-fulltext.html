@@ -21,7 +21,7 @@
 
 [(#REM) Si on est dans 'tag', supprimer ceux dont un tag est '_tag']
 <BOUCLE_refus(ARTICLES)
-	{recherche _(#ENV{recherche}|replace{' '})}
+	{recherche _(#ENV{recherche}|replace{'[^a-z]'})}
 	{doublons}
 	{doublons refus}
 ></BOUCLE_refus>

@@ -52,7 +52,7 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 
 
 	## DECODER UNE URL
-	$mot = rawurldecode(preg_replace(',^/(backend|themes|sources)/,','', $i));
+	$mot = urldecode(preg_replace(',^/(backend|themes|sources)/,','', $i));
 
 	$f = charger_fonction('propres', 'urls');
 	$url = $f($mot, $entite, $args, $ancre);
@@ -61,6 +61,9 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 	if ($url[1] == ''
 	AND preg_match(',^.*/[^\.]+(\.html)?$,', $i))
 		$url[1] = '404';
+
+	if ($mot)
+		$url[0]['mot'] = $mot;
 
 	return $url;
 }

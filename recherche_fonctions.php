@@ -1,6 +1,6 @@
 <?php
 
-	if (strlen($r = rawurlencode($_REQUEST['recherche']))) {
+	if (strlen($r = urlencode($_REQUEST['recherche']))) {
 		$url = $GLOBALS['contexte']['id_rubrique']
 			? 'sources/'.$r
 			: 'themes/'.$r;
