@@ -1,0 +1,311 @@
+<?php
+        include_local('mes_fonctions.php3');
+	gerer_cookie_rezo();
+?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy, see www.w3.org">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="cache-control" content="no-cache,no-store">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Content-Type" content=
+"text/html;CHARSET=iso-8859-1">
+<meta name="ROBOTS" content="INDEX,FOLLOW,NOARCHIVE">
+<meta name="robots" content="index,follow">
+<meta name="Coverage" content="Worldwide">
+<meta name="language" content="fr">
+<meta name="description" content=
+"Le portail modeste et g&eacute;nial de l'Internet non commercial (sujets de soci&eacute;t&eacute;, m&eacute;dias, culture, multim&eacute;dia, &eacute;conomie)">
+<link rel="alternate" type="application/rss+xml" title="Le Portail des copains" href="/backend/portail">
+<title>#NOM_SITE_SPIP</title>
+<style type="text/css">
+<!--
+        a {text-decoration: none; }
+        a:hover {text-decoration: underline; }
+        .form {width: 150; background-color: #ffffff; padding: 3; border-style: solid ; border-width: 1; border-color: #e86519; color: #e86519}
+        .forml {width: 100%; background-color: #ffcc66; background-position: center bottom; float: none; color: #000000}
+        .formo {width: 100%; background-color: #970038; background-position: center bottom; float: none; color: #ffffff}
+        .formlc {width: 200; background-color: #ffcc66; background-position: center bottom; float: none; color: #000000}
+        .formoc {width: 200; background-color: #970038; background-position: center bottom; float: none; color: #ffffff}
+        .formcc {width: 150; background-color: #ffcc66; background-position: center bottom; float: none; color: #000000}
+        .cadre {border-style: solid ; border-width: 2; border-color: #6E003A}
+        .formcadre {width: 200; background-color: #970038; background-position: center bottom; float: none; color: #ffffff; font-family: helvetica, arial; font-size: 10}
+        .menu {width:315; background-color: #284751; background-position: center bottom; float: none; color: #ffffff; font-family: helvetica, arial; font-size: 12}
+        .google {background-color: #ffffff; border-color: #f04020; border-style: solid ; padding: 2; border-width: 1; background-position: center bottom; float: none; color: #aaaaaa; font-family: helvetica, arial; font-size: 12}
+        .google2 {background-color: #f04020; padding: 2; background-position: center bottom; float: none; color: #ffffff; font-family: helvetica, arial; font-size: 12}
+-->
+</style>
+<?php gerer_body('', 'background="/IMG/fond.gif" bgcolor="#ffffff" text="#000000" link="#284751" vlink="#f04020" alink="#ff9900"'); ?>
+<center><img src="/IMG/une-rezo.gif" alt="l'autre portail" width=
+"648" height="143" border="0" usemap="#map_haut"> <map name=
+"map_haut">
+<area shape="rect" coords="10,31,634,106" href="/">
+<area shape="rect" coords="122,4,300,31" href="/liste">
+<area shape="rect" coords="306,4,462,30" href="/pourquoi">
+<area shape="rect" coords="467,4,644,29" href="/demarrage">
+<area shape="rect" coords="264,111,328,139" href="/">
+<area shape="rect" coords="349,110,425,140" href="/">
+<area shape="rect" coords="445,110,530,141" href="/">
+<area shape="rect" coords="545,112,645,139" href="/">
+<area shape="rect" coords="127,112,245,138" href="/">
+</map><br>
+<br>
+<br>
+ 
+
+<table border="0" cellpadding="0" cellspacing="0" width="630">
+<tr>
+<td width="300" valign="bottom">
+<table border="0" cellpadding="1" cellspacing="0" width="300">
+<tr>
+<td bgcolor="#284751">
+<table border="0" cellpadding="4" cellspacing="0" width="100%">
+<tr>
+<td bgcolor="#284751" colspan="2" align="right">
+<font size="2" face=
+"Verdana, Helvetica, Arial" color="#ffffff"><b>&Agrave; LA
+UNE...&nbsp;</b></font> </td>
+</tr>
+
+<BOUCLE_une(ARTICLES){ps=5}{doublons}{date<(#DATE|limite_age{-1})}{par date}{inverse}{0,3}>
+<BOUCLE_rub_parent(RUBRIQUES){id_rubrique}><?php [$source='(#DESCRIPTIF)';] $titre_rub='[(#TITRE|texte_script)]'; ?></BOUCLE_rub_parent>
+<?php
+   $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub);
+?>
+<TR>
+<TD bgcolor="#ffffff"><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><IMG src="/IMG/logo30.gif" alt=
+"[X]" width="25" height="25" border="0"></A></TD>
+<TD bgcolor="#ffffff"><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><FONT size="3" face=
+"Helvetica, Arial"><B><?php echo $para["titre"]; ?></B><BR>
+<FONT color="#999999"><?php echo $para["auteur"]; ?></FONT></FONT></A></TD>
+</TR>
+</BOUCLE_une>
+
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td width="15">&nbsp;</td>
+<td width="315" valign="bottom" align="right">
+<table border="0" cellpadding="0" cellspacing="0" width="315">
+<tr>
+<BOUCLE_cita(BREVES){id_rubrique=1}{par hasard}{0,1}>
+<TD width="415" align="right"><FONT face=
+'georgia,garamond, Times New Roman, Times, serif' size="4" color=
+"#aaaaaa"><FONT color="#284751">«&#160;[(#TEXTE)]<FONT color=
+"#284751">&#160;»<BR>
+ <B>([(#TITRE)])</B></FONT></FONT></FONT></TD>
+</BOUCLE_cita>
+</tr>
+</table>
+
+<br>
+ 
+
+<form action="http://rezo.net/"  method="get">
+   <select name="sources" class="menu" onChange="if (options[selectedIndex].value) { location = 'http://rezo.net/sources/'+options[selectedIndex].value; }">
+   <option>Nos sources</option>
+   <BOUCLE_sources(RUBRIQUES){id_parent=0}{par titre}>
+   <BOUCLE_source_test(RUBRIQUES){id_rubrique}{age<30}><option label="#TITRE" value="#DESCRIPTIF" style="font-weight: bold;">#TITRE</option></BOUCLE_source_test><option label="#TITRE" value="#DESCRIPTIF">#TITRE</option><//B_source_test></BOUCLE_sources>
+    </select>
+</form>
+
+<FORM method="get" action="http://rezo.net/recherche.php3">
+<TABLE border="0" cellpadding="1" cellspacing="0" bgcolor="#cccccc"
+width="315">
+<TR>
+<TD>
+<FORM method="get" action="http://www.google.com/custom">
+<TABLE border="0" cellpadding="4" cellspacing="0" bgcolor="#ffffff"
+width="100%">
+<TR>
+<TD align="center" valign="middle">
+<CENTER><FONT size="2" face="Verdana, Helvetica, Arial" color=
+"#284751"><B>RECHERCHER SUR REZO.NET :</B><BR>
+ <INPUT type="text" name="q" size="20" value="" class="google"> <INPUT
+type="submit" name="sa" value="Rezo.net" class="google2"></FONT></CENTER>
+</TD>
+</TR>
+</TABLE>
+</FORM>
+
+</td>
+</tr>
+</table>
+</form>
+</td>
+</tr>
+</table>
+
+<br>
+<table border="0" cellpadding="0" cellspacing="0" width="630">
+<tr>
+<td colspan="3">
+<table border="0" cellpadding="1" cellspacing="0" bgcolor="#cccccc"
+width="415">
+<tr>
+<td>
+<table border="0" cellpadding="4" cellspacing="0" bgcolor="#ffffff"
+width="100%">
+<tr>
+<td align="center" valign="middle">
+<center><font size="2" face="Verdana, Helvetica, Arial" color=
+"#aaaaaa">Derni&egrave;re mise &agrave; jour :<br>
+<b><?php echo ereg_replace("À","à",strtoupper(html_entity_decode(majdate()))); ?></B></font></center>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<br>
+ </td>
+<td width="15">&nbsp;</td>
+<td valign="top" width="200" rowspan="2">
+<table border="0" cellpadding="1" cellspacing="0" width="200">
+<tr>
+<td bgcolor="#cccccc">
+<table border="0" cellpadding="4" cellspacing="0" width="100%">
+<tr>
+<td bgcolor="#f04020" colspan="2" align="center"><b>
+<font size="2" face=
+"Verdana,Helvetica, Arial" color=
+"#ffffff">D&Eacute;P&Ecirc;CHES</font></b> </td>
+</tr>
+
+
+      <BOUCLE_depeches(ARTICLES) {doublons} {lang=fr} {ps=2} {date<(#DATE|limite_age{-1})} {date>=(#DATE|limite_age{6})} {par date}{inverse}{0,15}>
+      <BOUCLE_rub_parent3(RUBRIQUES){id_rubrique}><?php [$source='(#DESCRIPTIF)';] $titre_rub='[(#TITRE|texte_script)]'; ?></BOUCLE_rub_parent3>
+
+<?php
+      $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'depeche', '[(#DATE)]', $titre_rub);
+?>
+
+<TR>
+<TD bgcolor="<?php if ($di) { echo "#eeeeee"; $di=0; } else { echo "#ffffff"; $di=1; } ?>"><FONT size="2" face="Helvetica, Arial"><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><?php
+echo $para["titre"]; ?></A> <FONT size="1" color="#999999">(<?php echo $para["auteur"]."&nbsp;".$para["date"]; ?>)</FONT></FONT></TD>
+</TR>
+
+</BOUCLE_depeches>
+
+</table>
+</td>
+</tr>
+</table>
+
+<div align="right"><a href="/backend"><img src="/IMG/xml.gif" alt=
+"fil XML" width="36" height="14" border="0"></a></div>
+</td>
+</tr>
+
+<?php
+
+
+        unset($bloc);
+        unset($pop_source);
+        $bloc_valeur = array();
+        $type_retitrage = 'blocrezo';
+
+        <BOUCLE_suiteune(ARTICLES){ps>=3}{doublons}{id_rubrique!=1}{id_rubrique!=79}{lang=fr} {date<(#DATE|limite_age{-1})} {date>=(#DATE|limite_age{4})} {par popularite}{inverse}{0,70}>
+                <BOUCLE_rub_parent2(RUBRIQUES){id_rubrique}>
+                        $id_rub='[(#DESCRIPTIF*|texte_script)]'; $titre_rub='[(#TITRE|texte_script)]'; $url_rub='[(#TEXTE|texte_script)]'; $code_rub='[(#DESCRIPTIF|texte_script)]';
+                </BOUCLE_rub_parent2>
+
+                // engranger les donnees sur les articles visibles dans la colonne du milieu
+                $datenum = [(#DATE|strtotime)];
+                $art=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', $type_retitrage, '[(#DATE)]', $titre_rub);
+                $art["jour"]="[(#DATE|nom_jour)] [(#DATE|jour)] [(#DATE|nom_mois)]";
+                if(date("Y")<>[(#DATE|annee)]) $art["jour"].= " [(#DATE|annee)]";
+                $art["source"]=$code_rub;
+                $art["date"] = $datenum;
+                $art["titre_rub"]=$titre_rub;
+                $art["href_rezo"] = href_rezo("#URL_SITE",#ID_ARTICLE);
+                $art["pop"] = (int)#POPULARITE_ABSOLUE;
+                $art['id_article'] = '#ID_ARTICLE';
+
+                // nourrir les blocs date et source et leurs criteres de tri
+               $NB['#ID_SECTEUR']++;
+               if ( ($NB['#ID_SECTEUR']<=5) && ($NBTOT<35) )
+		{
+                        $bloc[$id_rub][] = $art;
+                        $bloc_valeur[$id_rub] = max($bloc_valeur[$id_rub],$datenum);
+                        $bloc_direct[$id_rub] = $url_rub;
+                        if (!$url_rub) $bloc_direct[$id_rub]="/sources/".$id_rub;
+                        $bloc_titre[$id_rub] = majuscules(html_entity_decode($titre_rub));
+			$NBTOT++;
+		}
+        </BOUCLE_suiteune>
+
+        function tri ($a, $b) {
+                $critere = 'date';      // 'pop'
+                if ($a[$critere] == $b[$critere])
+                        return 0;
+                return ($a[$critere] > $b[$critere]) ? -1 : 1;
+        }
+
+        arsort($bloc_valeur);
+        
+	while (list($blocid,$valeur) = each($bloc_valeur)) {
+		$add = "<table border=0 cellpadding=1 cellspacing=0 width=200><tr><td bgcolor=\"#284751\"><table border=0 cellpadding=4 cellspacing=0 width=\"100%\">";
+                $add .= "<TR><TD bgcolor=\"#284751\" colspan=\"2\"><B><a href='sources/$blocid'><img src='/IMG/plus.gif' alt='+' border='0' align=right></a><a HREF=\"".$bloc_direct[$blocid]."\"><FONT size=\"2\" face=\"Verdana,Helvetica,Arial\" color=\"#ffffff\">".$bloc_titre[$blocid]."</FONT></A></B></TD></TR>";
+                $contenu = $bloc[$blocid];
+                usort($contenu, 'tri');
+                $di=0;
+                while (list(,$lig) = each($contenu)) {
+                        if ($di) { $bkcolor="#eeeeee"; $di=0; } else { $bkcolor="#ffffff"; $di=1; }
+                        $add.= "<TR><TD bgcolor=\"".$bkcolor."\"><A ".$lig["href_rezo"]."><FONT size=\"2\" face=\"Helvetica, Arial\">".$lig["titre"]." <FONT size=\"1\" color=\"#999999\">".$lig["auteur"]."</FONT></FONT></A></TD></TR>\n";
+                }
+                $add.= "</table></td></tr></table><BR>\n";
+                if (strlen($colonna)>strlen($colonnb)) { $colonnb.=$add; } else { $colonna.=$add; }
+        }
+
+?>
+
+<tr>
+<td valign="top" width="200">
+<table border="0" cellpadding="1" cellspacing="0" width="200" valign="top">
+<tr>
+<td>
+<?php echo $colonna; ?>
+</td>
+</tr>
+</table>
+</td>
+
+<td valign="top" width="200">
+<table border="0" cellpadding="1" cellspacing="0" width="200" valign="top">
+<tr>
+<td>
+<?php echo $colonnb; ?>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<br>
+</td>
+</tr>
+</table>
+
+<br>
+ <img src="/IMG/bas-rezo.gif" alt="Barre de navigation" width="648"
+height="85" border="0" usemap="#map_bas"> <map name="map_bas">
+<area shape="rect" coords="51,50,165,77" href="/">
+<area shape="rect" coords="268,52,331,76" href="/">
+<area shape="rect" coords="352,51,430,76" href="/">
+<area shape="rect" coords="449,50,527,76" href="/">
+<area shape="rect" coords="549,52,646,77" href="/">
+</map></center>
+
+<p>
+<?php echo "<IMG SRC=\"http://rezo.net/count.php?page=lautre&n=".date("dmHi")."\" WIDTH=1 HEIGHT=1 BORDER=0>\n"; ?>
+<img name='img_invisible' src='/bug.php3' width='1' height='1' alt=' ' />
+
+</p>
+</body>
+</html>
+

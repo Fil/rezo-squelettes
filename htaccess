@@ -39,8 +39,11 @@ RewriteBase /
 ################ REGLAGES PERSONNALISES ######################
 # Inscrivez ci-dessous vos reglages supplementaires
 
-# feed
+# feeds
 RewriteRule ^backend/(.*)$ spip.php?page=hatom2atom&mot=$1 [QSA,L]
+
+# microsummary
+RewriteRule ^microsummary(\.php?)$ spip.php?page=microsummary [QSA,L]
 
 # themes => garnir #ENV{mot}
 RewriteRule ^themes/(.+)$ spip.php?page=mot&mot=$1 [QSA,L]
@@ -71,6 +74,10 @@ RewriteRule ^toolbar/?$     /a6 [QSA,L]
 # ^livredor  (forum pour "Rezo.net a sept ans")
 # ^anniversaire (squelette base sur le look initial)
 # ^lautre  (squelette base sur le look v2)
+RewriteRule ^lautre$        spip.php?page=lautre [QSA,L]
+RewriteRule ^anniversaire$  spip.php?page=vieux [QSA,L]
+
+
 # article du portail (intro seulement si pas interne)
 RewriteRule ^a([0-9]+)$  spip.php?page=article&id_article=$1 [QSA,L]
 
@@ -78,7 +85,7 @@ RewriteRule ^a([0-9]+)$  spip.php?page=article&id_article=$1 [QSA,L]
 RewriteRule ^irc$	http://embed.mibbit.com/?server=irc.freenode.net&channel=#rezo [R,L]
 
 # vieilles URLs abandonnees
-RewriteRule ^(actu|calendrier.*|ical\.php3|large.*|semaine-.*)$	/ [R,L]
+RewriteRule ^(calendrier.*|ical\.php3|large.*|semaine-.*)$	/ [R,L]
 
 
 ################ GESTIONS DES URLS SPIP #######################

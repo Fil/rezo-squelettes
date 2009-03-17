@@ -1,0 +1,344 @@
+<HTML><HEAD>
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="cache-control" CONTENT="no-cache,no-store">
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+<META NAME="Author" CONTENT="Pierre Lazuly (lazuly@rezo.net)">
+<META NAME="robots" CONTENT="index,follow">
+<META NAME="Coverage" content="Worldwide">
+<META NAME="language" content="fr">
+<META NAME="description" content="Le portail modeste et génial de l'Internet non commercial (sujets de société, médias, culture, multimédia, économie)">
+<TITLE>Bienvenue sur Rezo.net</TITLE>
+<style>
+
+BODY    {   background: url(/PICSO/fond.gif) #186A6E; font-family: Helvetica, Arial, sans-serif; margin: 8px; margin-bottom: 20px;} 
+
+A:link  {   color: #eee; text-decoration: none;}
+A:visited  {   color: #999; text-decoration: none;}
+A:hover  {   color: #ff0; text-decoration: none;}
+A:active  {   color: #f00; text-decoration: none;}
+
+H1  {   font-size: 14px; font-weight: bold; text-align: center;}
+
+UL  {    margin-left: 1em; margin-top: 0px;}
+
+/* exclusion IE - garder ces trois lignes \*/
+HTML>BODY UL  {    margin-left /**/: -1.5em; margin-top /**/: -1em;}
+/* fin hack */
+
+LI A    {   font-size: 11px;}
+
+#cinqAns    {   width: 500px; background: url(/PICSO/fd_liens.gif) top
+left repeat-y #033; color: #fff; border: 1px solid #ff6300; border-left:
+0px; margin-bottom: 25px; text-align: left;}
+
+#lesLiens   {   width: 100%; border-top: 1px solid #ff6300; font-size:
+12px; background: url(/PICSO/fd_liens.gif) top left repeat-y #033;}
+
+#cinqAns P  {    padding: 5px; font-size: 12px;}
+
+#lesLiens A:link, #lesLiens A:visited, #lesLiens A:hover, #lesLiens A:active    {   padding-top: 2px; padding-bottom: 2px; display: block; float: left; width: 25%; text-align: center; background: url(/PICSO/fd_liens.gif) top right repeat-y; color: #fff;}
+
+#lesLiens A:hover    {   background-color: #fff; color: #003142;}
+
+.lienDroite {   background-image: none !important;}
+
+A.titreZine  {   color: #ff6300 !important; font-weight: bold;}
+
+</style>
+</HEAD>
+
+<BODY>
+
+<TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0><TR><TD VALIGN="top">
+<IMG SRC="/PICSO/frog.gif" WIDTH="527" HEIGHT="105" BORDER="0">
+</TD>
+<TD WIDTH="1%">&nbsp;</TD>
+<TD VALIGN="top" ALIGN="center">
+<FONT SIZE="2" COLOR="#ffffff">
+         <?php
+	        include_local('mes_fonctions.php3');
+		echo "<B>Derni&egrave;re mise &agrave; jour :</B><br> ".majdate(); 
+         ?>
+</FONT>
+
+</TD></TR>
+</TABLE>
+
+<CENTER>
+<BR>
+<BR>
+
+<TABLE CELLSPACING=20 BORDER=0>
+<TR><TD VALIGN="top" ALIGN="center">
+
+<TABLE BORDER=0 CELLPADDING=1 CELLSPACING=0 WIDTH=200 BGCOLOR="#ffffff">
+<TR><TD><A HREF="http://www.scarabee.com/"><IMG SRC="/PICSO/scarabee.gif" WIDTH="198" HEIGHT="26" BORDER="0"></A></TD></TR>
+<TR><TD WIDTH="198">
+<TABLE BORDER=0 CELLPADDING=5 CELLSPACING=0 WIDTH=198 BGCOLOR="#222222"><TR><TD>
+<FONT SIZE="3" COLOR="#ffffff">
+<BOUCLE_sca2(ARTICLES){ps=3}{id_rubrique=3}{par date}{inverse}{0,5}>
+<?php $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub); ?>
+<LI><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><?php echo $para["titre"]; ?></A>
+</BOUCLE_sca2>
+</FONT>
+</TD></TR></TABLE>
+</TD></TR>
+</TABLE>
+<BR><BR><TABLE BORDER=0 CELLPADDING=1 CELLSPACING=0 WIDTH=200 BGCOLOR="#ffffff">
+<TR><TD><A HREF="http://www.peripheries.net/"><IMG SRC="/PICSO/peripheries.gif" WIDTH="198" HEIGHT="26" BORDER="0"></A></TD></TR>
+<TR><TD WIDTH="198">
+<TABLE BORDER=0 CELLPADDING=5 CELLSPACING=0 WIDTH=198 BGCOLOR="#222222"><TR><TD>
+<FONT SIZE="3" COLOR="#ffffff">
+<BOUCLE_per2(ARTICLES){ps=3}{id_rubrique=20}{par date}{inverse}{0,5}>
+<?php $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub); ?>
+<LI><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><?php echo $para["titre"]; ?></A>
+</BOUCLE_per2>
+</FONT>
+</FONT>
+</TD></TR></TABLE>
+</TD></TR>
+</TABLE>
+<BR><BR><TABLE BORDER=0 CELLPADDING=1 CELLSPACING=0 WIDTH=200 BGCOLOR="#ffffff">
+<TR><TD><IMG SRC="/PICSO/etaussi.gif" WIDTH="198" HEIGHT="26" BORDER="0"></TD></TR>
+<TR><TD WIDTH="198">
+<TABLE BORDER=0 CELLPADDING=5 CELLSPACING=0 WIDTH=198 BGCOLOR="#222222"><TR><TD>
+<FONT SIZE="3" COLOR="#ffffff">
+<BOUCLE_rel2(ARTICLES){ps=3}{id_rubrique=33}{par date}{inverse}{0,5}>
+<?php $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub); ?>
+<LI><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><?php echo $para["titre"];
+?></A>
+</BOUCLE_rel2>
+</FONT>
+</FONT>
+</TD></TR></TABLE>
+</TD></TR>
+</TABLE>
+
+<BR><BR>
+<TABLE BORDER=0 CELLPADDING=5 CELLSPACING=0 WIDTH=198><TR><TD>
+<P ALIGN=center><BR>
+<font SIZE="2" COLOR="#cccccc"><A HREF="http://rezo.net/oldies/semaine.html">La semaine des copains, notre&nbsp;lettre hebdomadaire</A><BR><BR>
+<A HREF="http://rezo.net/oldies/portail.html">Pourquoi ce portail&nbsp;?</A><BR><BR>
+
+        <form style="padding: 0px; margin: 0px;" method="get" action="http://rezo.net/">
+<DIV align="center"><BR><FONT size="-1" color="#ffffff">
+        <select name="sources" class="sources" onChange="if (options[selectedIndex].value) { location = 'http://rezo.net/sources/'+options[selectedIndex].value; }">
+        <option style="color: black; font-weight: bold">Nos sources</option>
+        <BOUCLE_sources(RUBRIQUES){id_parent=0}{id_rubrique!=1}{id_rubrique!=120}{id_rubrique!=182}{descriptif!=''}{par titre}>
+                <BOUCLE_source_test(RUBRIQUES){id_rubrique}{age<30}><option label="#TITRE" value="#DESCRIPTIF" class="liste" style="font-weight: bold;">#TITRE</option></BOUCLE_source_test><option label="#TITRE" value="#DESCRIPTIF" class="liste">#TITRE</option><//B_source_test>
+        </BOUCLE_sources>
+        </select>
+         </FONT> </DIV>
+        </form>
+	<br>
+
+</TD></TR></TABLE>    
+
+</TD>
+
+
+<TD VALIGN=TOP ROWSPAN=2>
+
+<div id="cinqAns">
+<h1>D&Eacute;J&Agrave; SEPT ANS, LE REZO.NET !</h1>
+<p>L'occasion de le revoir tel qu'il était à l'origine, en novembre 99, mais aussi de revisiter ses différentes versions et de <a href="http://rezo.net/livredor"><U>signer le livre d'or</U></a>.
+</p>
+
+<div id="lesLiens">
+    <a href="http://rezo.net/lautre">L'Autre Portail (février&nbsp;2001)</a>
+    <a href="http://rezo.net/croissance">La Croissance (juin&nbsp;2003)</a>
+    <a href="http://rezo.net/rezo800">Rezo&nbsp;800 (janvier&nbsp;2004)</a>
+    <a href="http://rezo.net/large" class="lienDroite">Rezo&nbsp;1024 (janvier&nbsp;2004)</a>
+    <div style="clear: both;"></div>
+</div>
+
+</div>
+
+<form method=GET action="http://www.google.com/custom"><TABLE BORDER=0 CELLPADDING=1 CELLSPACING=0 BGCOLOR="#ff6300" WIDTH=500><TR><TD>
+<TABLE BORDER=0 CELLPADDING=10 CELLSPACING=0 BGCOLOR="#003333" WIDTH="100%"><TR><TD ALIGN="center" VALIGN="middle">
+<center><font SIZE="3" COLOR="#ffffff"><B>Rechercher sur le Web : </B><INPUT type=text name=q size=20 value="">
+<INPUT type=submit name=sa VALUE="Google"></font></center>
+<INPUT type=hidden name=hl value=fr>
+<INPUT type=hidden name=cof VALUE="GIMP:#ff6300;T:#ffffff;LW:527;BIMG:http://rezo.net/PICSO/fond.gif;ALC:#ff0000;L:http://rezo.net/PICSO/frog.gif;GFNT:black;LC:#eeeeee;LH:105;BGC:#186A6E;AH:left;VLC:#999999;GL:2;GALT:#ffffff;AWFID:794da9735562864e;">
+</TD></TR></TABLE></TD></TR></TABLE></form>
+<BR>
+
+       <BOUCLE_une(ARTICLES){ps=5}{doublons}{age_relatif>=0}{par date}{inverse}{0,1}>
+       <BOUCLE_rub_parent(RUBRIQUES){id_rubrique}><?php [$source='(#DESCRIPTIF)';] $titre_rub='[(#TITRE|texte_script)]'; ?></BOUCLE_rub_parent>
+       <?php
+              $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub);
+        ?>
+
+<P align=justify><TABLE BORDER=0 CELLPADDING=1 CELLSPACING=0 BGCOLOR="#ffffff" WIDTH=500><TR><TD> <TABLE BORDER=0 CELLPADDING=10 CELLSPACING=0 BGCOLOR="#186A6E" WIDTH="100%"><TR><TD ALIGN="center"><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><FONT SIZE="5" COLOR="#ff6300"><B><?php echo $para["titre"]; ?></B></FONT><BR> <FONT COLOR="#ffffff"><?php echo $para["auteur"]; ?></FONT> </A><BR> </TD></TR></TABLE> </TD></TR></TABLE> <BR><BR>
+</BOUCLE_une>
+
+<TABLE BORDER=0 CELLPADDING=1 CELLSPACING=0 BGCOLOR="#ffffff" WIDTH=500><TR><TD>
+<TABLE BORDER=0 CELLPADDING=10 CELLSPACING=0 BGCOLOR="#186A6E" WIDTH="100%"><TR><TD ALIGN="center">
+
+<TABLE WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN="center"><IMG SRC="/PICSO/webzines.gif" WIDTH="361" HEIGHT="33" BORDER="0" ALT="DANS LES WEBZINES"></TD></TR></TABLE>
+
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+<TD VALIGN=TOP WIDTH=470>
+<P>
+<?php
+
+        unset($bloc);
+        unset($pop_source);
+        $bloc_valeur = array();
+        $type_retitrage = 'blocrezo';
+
+        <BOUCLE_suiteune(ARTICLES){ps>=3}{doublons}{id_secteur!=118}{id_rubrique!=33}{lang=fr}{age_relatif>=0}{age_relatif<=4}{par popularite}{inverse}{0,70}>
+                <BOUCLE_rub_parent2(RUBRIQUES){id_rubrique}>
+                        $id_rub='[(#DESCRIPTIF*|texte_script)]'; $titre_rub='[(#TITRE|texte_script)]'; $url_rub='[(#TEXTE|texte_script)]'; $code_rub='[(#DESCRIPTIF|texte_script)]';
+                </BOUCLE_rub_parent2>
+
+                // engranger les donnees sur les articles visibles dans la colonne du milieu
+                $datenum = [(#DATE|strtotime)];
+                $art=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', $type_retitrage, '[(#DATE)]', $titre_rub);
+                $art["jour"]="[(#DATE|nom_jour)] [(#DATE|jour)] [(#DATE|nom_mois)]";
+                if(date("Y")<>[(#DATE|annee)]) $art["jour"].= " [(#DATE|annee)]";
+                $art["source"]=$code_rub;
+                $art["date"] = $datenum;
+                $art["titre_rub"]=$titre_rub;
+                $art["href_rezo"] = href_rezo("#URL_SITE",#ID_ARTICLE);
+                $art["pop"] = (int)#POPULARITE_ABSOLUE;
+                $art['id_article'] = '#ID_ARTICLE';
+
+                // nourrir les blocs date et source et leurs criteres de tri
+               $NB['#ID_SECTEUR']++;
+               if ( ($NB['#ID_SECTEUR']<=5) && ($NBTOT<25) )
+                {
+                        $bloc[$id_rub][] = $art;
+                        $bloc_valeur[$id_rub] = max($bloc_valeur[$id_rub],$datenum);
+                        $bloc_direct[$id_rub] = $url_rub;
+                        if (!$url_rub) $bloc_direct[$id_rub]="/sources/".$id_rub;
+                        $bloc_titre[$id_rub] = html_entity_decode($titre_rub);
+                        $NBTOT++;
+                }
+        </BOUCLE_suiteune>
+
+        function tri ($a, $b) {
+                $critere = 'date';      // 'pop'
+                if ($a[$critere] == $b[$critere])
+                        return 0;
+                return ($a[$critere] > $b[$critere]) ? -1 : 1;
+        }
+
+        arsort($bloc_valeur);
+
+        while (list($blocid,$valeur) = each($bloc_valeur)) {
+                $add = "<P><A HREF=\"".$bloc_direct[$blocid]."\" class=\"titreZine\">".$bloc_titre[$blocid]."</A><ul>";
+
+                $contenu = $bloc[$blocid];
+                usort($contenu, 'tri');
+                while (list(,$lig) = each($contenu)) {
+                        $add.= "<LI><A ".$lig["href_rezo"].">".$lig["titre"]."</A>\n";
+	}
+
+	$add.="</ul>";
+	echo $add;
+	}
+	
+?>
+
+</TD>
+</TR>
+
+</TABLE>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+
+<BR><BR>
+
+<TABLE BORDER=0 CELLPADDING=1 CELLSPACING=0 BGCOLOR="#ffffff" WIDTH=500><TR><TD>
+<TABLE BORDER=0 CELLPADDING=10 CELLSPACING=0 BGCOLOR="#186A6E" WIDTH="100%"><TR><TD ALIGN="center">
+
+<TABLE WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN="center"><IMG SRC="/PICSO/presse.gif" WIDTH="361" HEIGHT="33" BORDER="" ALT="DANS LA PRESSE"></TD></TR></TABLE>
+
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+<TD VALIGN=TOP WIDTH=470>
+<P>
+<?php
+
+        unset($bloc);
+	unset($bloc_valeur);
+        unset($pop_source);
+ 	unset($art);
+	unset($NBTOT);
+        $bloc_valeur = array();
+        $type_retitrage = 'blocrezo';
+
+        <BOUCLE_suiteune2(ARTICLES){ps>=3}{doublons}{id_secteur=118}{lang=fr}{age_relatif>=0}{age_relatif<=4}{par popularite}{inverse}{0,70}>
+                <BOUCLE_rub_parent3(RUBRIQUES){id_rubrique}>
+                        $id_rub='[(#DESCRIPTIF*|texte_script)]'; $titre_rub='[(#TITRE|texte_script)]'; $url_rub='[(#TEXTE|texte_script)]'; $code_rub='[(#DESCRIPTIF|texte_script)]';
+                </BOUCLE_rub_parent3>
+
+                // engranger les donnees sur les articles visibles dans la colonne du milieu
+                $datenum = [(#DATE|strtotime)];
+                $art=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', $type_retitrage, '[(#DATE)]', $titre_rub);
+                $art["jour"]="[(#DATE|nom_jour)] [(#DATE|jour)] [(#DATE|nom_mois)]";
+                if(date("Y")<>[(#DATE|annee)]) $art["jour"].= " [(#DATE|annee)]";
+                $art["source"]=$code_rub;
+                $art["date"] = $datenum;
+                $art["titre_rub"]=$titre_rub;
+                $art["href_rezo"] = href_rezo("#URL_SITE",#ID_ARTICLE);
+                $art["pop"] = (int)#POPULARITE_ABSOLUE;
+                $art['id_article'] = '#ID_ARTICLE';
+
+                // nourrir les blocs date et source et leurs criteres de tri
+               $NB['#ID_SECTEUR']++;
+               if ( ($NB['#ID_SECTEUR']<=5) && ($NBTOT<25) )
+                {
+                        $bloc[$id_rub][] = $art;
+                        $bloc_valeur[$id_rub] = max($bloc_valeur[$id_rub],$datenum);
+                        $bloc_direct[$id_rub] = $url_rub;
+                        if (!$url_rub) $bloc_direct[$id_rub]="/sources/".$id_rub;
+                        $bloc_titre[$id_rub] = html_entity_decode($titre_rub);
+                        $NBTOT++;
+               }
+        </BOUCLE_suiteune2>
+
+        arsort($bloc_valeur);
+
+        while (list($blocid,$valeur) = each($bloc_valeur)) {
+                $add = "<P><A HREF=\"".$bloc_direct[$blocid]."\" class=\"titreZine\">".$bloc_titre[$blocid]."</A><ul>";
+
+                $contenu = $bloc[$blocid];
+                usort($contenu, 'tri');
+                while (list(,$lig) = each($contenu)) {
+                        $add.= "<LI><A ".$lig["href_rezo"].">".$lig["titre"]."</A>\n";
+        }
+
+        $add.="</ul>";
+        echo $add;
+        }
+
+?>
+
+</TD>
+</TR>
+
+</TABLE>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+
+</TR>
+
+<TR><TD ALIGN="center" VALIGN="bottom">
+<BR>
+
+<A HREF="http://www.uzine.net"><IMG SRC="/PICSO/uzine-anim.gif" ALT="Logo uZine2" WIDTH="88" HEIGHT="46" BORDER="1"></A>
+<P><BR>
+<A HREF="http://rezo.net/"><IMG SRC="/PICSO/portail-logo.gif" WIDTH="88" HEIGHT="67" BORDER="1" ALT="Logo du Portail des Copains"></A>
+</TD></TR>
+</TABLE>
+<IMG src="http://rezo.net/count.php?page=anniv" width="1" height="1"
+border="0"></P>
+
+</CENTER>
+</BODY>
