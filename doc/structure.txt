@@ -1,9 +1,11 @@
 ﻿Pages à faire :
-liste des flux
-backend RSS (+urls de backend)
-pages spéciales (articles internes du portail)
+(ok) - liste des flux
+(ok) - pages spéciales (articles internes du portail)
+backend RSS (scraper le hatom)
 pied de page
 qqs traductions pour la page anglais
+
+pages tout bestof admin
 
 page "comment faire votre portail", avec opml etc.
 
@@ -19,10 +21,7 @@ abandonnés : ical, le "calendrier".
 problèmes :
 * éviter saturation par une source (acrimed)
 * charger le contenu texte
-* cron de syndication
-
-
-page admin
+* cron de syndication y compris sites non publies
 
 
 
