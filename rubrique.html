@@ -6,8 +6,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
 <head>
 <title>[(#TITRE|couper{50}|textebrut)][ - (#NOM_SITE_SPIP|textebrut)]</title>
-[<meta name="description" content="(#DESCRIPTIF|couper{150}|textebrut)" />]
-<INCLURE{fond=inc-head}{feed=#URL_RUBRIQUE}/>
+[(#REM)
+	Le descriptif est utilise pour definir l'url (pas terrible, a modifier)
+<meta name="description" content="( #DESCRIPTIF|couper{150}|textebrut)" />]
+<INCLURE{fond=inc-head}{feed=(#DESCRIPTIF*|strtolower)}/>
 </head>
 
 <body class="page_rubrique">

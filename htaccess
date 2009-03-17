@@ -40,7 +40,10 @@ RewriteBase /
 # Inscrivez ci-dessous vos reglages supplementaires
 
 # feed
-RewriteRule ^feed/(.*)$ spip.php?page=hatom2atom&uri=$1 [QSA,L]
+RewriteRule ^backend/(.*)$ spip.php?page=hatom2atom&mot=$1 [QSA,L]
+
+# themes => garnir #ENV{mot}
+RewriteRule ^themes/(.+)$ spip.php?page=mot&mot=$1 [QSA,L]
 
 # squelettes speciaux
 RewriteRule ^(anglais|actu|themes|sources|tout|admin)/?$ spip.php?page=$1 [QSA,L]

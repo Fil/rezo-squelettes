@@ -151,8 +151,8 @@ function microcache($id, $fond) {
 
 	$microcache = sous_repertoire(_DIR_CACHE,dechex($id%16)).$cle;
 
-	if (isset($_GET['var_mode'])
-	OR !@file_exists($microcache)
+	if (/*isset($_GET['var_mode'])
+	OR */!@file_exists($microcache)
 	OR filemtime($microcache) < time() - 60*10) {
 		$contenu = recuperer_fond($fond, array('id'=>$id));
 		ecrire_fichier($microcache, $contenu);
