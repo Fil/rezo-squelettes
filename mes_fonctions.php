@@ -200,3 +200,16 @@ if (!function_exists('singulier_ou_pluriel')){
 function singulier_ou_pluriel($nb,$chaine_un,$chaine_plusieurs,$var='nb'){
 return affiche_un_ou_plusieurs($nb,$chaine_un,$chaine_plusieurs,$var);}
 }
+
+
+### pour vieux squelettes (lautre, vieux)
+## retourne la date de comparaison au format MySQL
+## a utiliser comme critere {date>(#REM|limite_age{850})}
+function limite_age($maintenant, $jours) {
+	if ($maintenant)
+		$time = strtotime($maintenant);
+	else
+		$time = time();
+	return date('Y-m-d', $time-$jours*24*3600);
+}
+

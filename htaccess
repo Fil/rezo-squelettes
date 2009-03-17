@@ -74,8 +74,10 @@ RewriteRule ^toolbar/?$     /a6 [QSA,L]
 # ^livredor  (forum pour "Rezo.net a sept ans")
 # ^anniversaire (squelette base sur le look initial)
 # ^lautre  (squelette base sur le look v2)
+# ^croissance (le portail liberal)
 RewriteRule ^lautre$        spip.php?page=lautre [QSA,L]
 RewriteRule ^anniversaire$  spip.php?page=vieux [QSA,L]
+RewriteRule ^croissance$    croissance.htm [L]
 
 
 # article du portail (intro seulement si pas interne)

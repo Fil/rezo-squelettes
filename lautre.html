@@ -1,7 +1,4 @@
-<?php
-        include_local('mes_fonctions.php3');
-	gerer_cookie_rezo();
-?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <meta name="generator" content="HTML Tidy, see www.w3.org">
@@ -35,7 +32,8 @@
         .google2 {background-color: #f04020; padding: 2; background-position: center bottom; float: none; color: #ffffff; font-family: helvetica, arial; font-size: 12}
 -->
 </style>
-<?php gerer_body('', 'background="/IMG/fond.gif" bgcolor="#ffffff" text="#000000" link="#284751" vlink="#f04020" alink="#ff9900"'); ?>
+</head>
+<body ondblclick="switchadmin(); return false;" background="/IMG/fond.gif" bgcolor="#ffffff" text="#000000" link="#284751" vlink="#f04020" alink="#ff9900">
 <center><img src="/IMG/une-rezo.gif" alt="l'autre portail" width=
 "648" height="143" border="0" usemap="#map_haut"> <map name=
 "map_haut">
@@ -73,9 +71,9 @@ UNE...&nbsp;</b></font> </td>
    $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub);
 ?>
 <TR>
-<TD bgcolor="#ffffff"><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><IMG src="/IMG/logo30.gif" alt=
+<TD bgcolor="#ffffff"><A href="#URL_SITE"><IMG src="/IMG/logo30.gif" alt=
 "[X]" width="25" height="25" border="0"></A></TD>
-<TD bgcolor="#ffffff"><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><FONT size="3" face=
+<TD bgcolor="#ffffff"><A href="#URL_SITE"><FONT size="3" face=
 "Helvetica, Arial"><B><?php echo $para["titre"]; ?></B><BR>
 <FONT color="#999999"><?php echo $para["auteur"]; ?></FONT></FONT></A></TD>
 </TR>
@@ -152,7 +150,7 @@ width="100%">
 <td align="center" valign="middle">
 <center><font size="2" face="Verdana, Helvetica, Arial" color=
 "#aaaaaa">Derni&egrave;re mise &agrave; jour :<br>
-<b><?php echo ereg_replace("À","à",strtoupper(html_entity_decode(majdate()))); ?></B></font></center>
+<b>#DATE</B></font></center>
 </td>
 </tr>
 </table>
@@ -301,11 +299,6 @@ height="85" border="0" usemap="#map_bas"> <map name="map_bas">
 <area shape="rect" coords="549,52,646,77" href="/">
 </map></center>
 
-<p>
-<?php echo "<IMG SRC=\"http://rezo.net/count.php?page=lautre&n=".date("dmHi")."\" WIDTH=1 HEIGHT=1 BORDER=0>\n"; ?>
-<img name='img_invisible' src='/bug.php3' width='1' height='1' alt=' ' />
-
-</p>
 </body>
 </html>
 

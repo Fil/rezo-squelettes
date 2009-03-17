@@ -1,4 +1,5 @@
 <HTML><HEAD>
+<base href="http://rezo.net/" />
 <META HTTP-EQUIV="Expires" CONTENT="0">
 <META HTTP-EQUIV="cache-control" CONTENT="no-cache,no-store">
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
@@ -56,10 +57,7 @@ A.titreZine  {   color: #ff6300 !important; font-weight: bold;}
 <TD WIDTH="1%">&nbsp;</TD>
 <TD VALIGN="top" ALIGN="center">
 <FONT SIZE="2" COLOR="#ffffff">
-         <?php
-	        include_local('mes_fonctions.php3');
-		echo "<B>Derni&egrave;re mise &agrave; jour :</B><br> ".majdate(); 
-         ?>
+<B>Derni&egrave;re mise &agrave; jour :</B><br>#DATE
 </FONT>
 
 </TD></TR>
@@ -79,7 +77,7 @@ A.titreZine  {   color: #ff6300 !important; font-weight: bold;}
 <FONT SIZE="3" COLOR="#ffffff">
 <BOUCLE_sca2(ARTICLES){ps=3}{id_rubrique=3}{par date}{inverse}{0,5}>
 <?php $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub); ?>
-<LI><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><?php echo $para["titre"]; ?></A>
+<LI><A href="#URL_SITE"><?php echo $para["titre"]; ?></A>
 </BOUCLE_sca2>
 </FONT>
 </TD></TR></TABLE>
@@ -92,7 +90,7 @@ A.titreZine  {   color: #ff6300 !important; font-weight: bold;}
 <FONT SIZE="3" COLOR="#ffffff">
 <BOUCLE_per2(ARTICLES){ps=3}{id_rubrique=20}{par date}{inverse}{0,5}>
 <?php $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub); ?>
-<LI><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><?php echo $para["titre"]; ?></A>
+<LI><A href="#URL_SITE"><?php echo $para["titre"]; ?></A>
 </BOUCLE_per2>
 </FONT>
 </FONT>
@@ -106,7 +104,7 @@ A.titreZine  {   color: #ff6300 !important; font-weight: bold;}
 <FONT SIZE="3" COLOR="#ffffff">
 <BOUCLE_rel2(ARTICLES){ps=3}{id_rubrique=33}{par date}{inverse}{0,5}>
 <?php $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub); ?>
-<LI><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><?php echo $para["titre"];
+<LI><A href="#URL_SITE"><?php echo $para["titre"];
 ?></A>
 </BOUCLE_rel2>
 </FONT>
@@ -170,7 +168,7 @@ A.titreZine  {   color: #ff6300 !important; font-weight: bold;}
               $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub);
         ?>
 
-<P align=justify><TABLE BORDER=0 CELLPADDING=1 CELLSPACING=0 BGCOLOR="#ffffff" WIDTH=500><TR><TD> <TABLE BORDER=0 CELLPADDING=10 CELLSPACING=0 BGCOLOR="#186A6E" WIDTH="100%"><TR><TD ALIGN="center"><A <?php echo href_rezo("#URL_SITE",#ID_ARTICLE); ?>><FONT SIZE="5" COLOR="#ff6300"><B><?php echo $para["titre"]; ?></B></FONT><BR> <FONT COLOR="#ffffff"><?php echo $para["auteur"]; ?></FONT> </A><BR> </TD></TR></TABLE> </TD></TR></TABLE> <BR><BR>
+<P align=justify><TABLE BORDER=0 CELLPADDING=1 CELLSPACING=0 BGCOLOR="#ffffff" WIDTH=500><TR><TD> <TABLE BORDER=0 CELLPADDING=10 CELLSPACING=0 BGCOLOR="#186A6E" WIDTH="100%"><TR><TD ALIGN="center"><A href="#URL_SITE"><FONT SIZE="5" COLOR="#ff6300"><B><?php echo $para["titre"]; ?></B></FONT><BR> <FONT COLOR="#ffffff"><?php echo $para["auteur"]; ?></FONT> </A><BR> </TD></TR></TABLE> </TD></TR></TABLE> <BR><BR>
 </BOUCLE_une>
 
 <TABLE BORDER=0 CELLPADDING=1 CELLSPACING=0 BGCOLOR="#ffffff" WIDTH=500><TR><TD>
