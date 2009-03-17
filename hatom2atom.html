@@ -4,7 +4,7 @@
 	pour convertir nos pages en atom
 	http://rbach.priv.at/Microformats/hAtom2Atom/
 
-][(#SET{uri,themes/#ENV{mot}})
+][(#SET{uri,themes/[(#ENV*{mot}|rawurlencode)]})
 ][(#ID_RUBRIQUE|?{#SET{uri,#URL_RUBRIQUE}})
 ][(#ID_MOT|?{#SET{uri,#URL_MOT}})
 ][(#SET{hatom,[(#GET{uri}|url_absolue)]})

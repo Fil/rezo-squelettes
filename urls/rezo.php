@@ -52,14 +52,14 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 
 
 	## DECODER UNE URL
-	$mot = preg_replace(',^/(backend|themes|sources)/,','', $i);
+	$mot = rawurldecode(preg_replace(',^/(backend|themes|sources)/,','', $i));
 
 	$f = charger_fonction('propres', 'urls');
 	$url = $f($mot, $entite, $args, $ancre);
 
 	// Creer la 404 sur http://v3.rezo.net/dsds(.html)
 	if ($url[1] == ''
-	AND preg_match(',^.,', $i))
+	AND preg_match(',^.*/[^\.]+(\.html)?$,', $i))
 		$url[1] = '404';
 
 	return $url;

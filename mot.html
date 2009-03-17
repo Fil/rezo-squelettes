@@ -8,7 +8,7 @@
 [(#REM) Si le mot n'est pas dans la liste des mots, on balance une recherche normale sur le dernier membre de l'URI, cf. urls/rezo.php ]
 <INCLURE{fond=mot-fulltext}
 	{recherche=#ENV*{mot}}
-	{titre=#ENV*{mot}|ucfirst}
+	{titre=#ENV*{mot}|ucwords}
 	/>
 <//B_m>
 
