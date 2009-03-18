@@ -111,6 +111,11 @@
 		if (document.location.hash)
 			setTimeout(function(){ document.location = document.location.hash;}, 100);
 
+		// lien "une" clicable dans son integralite
+		$('#une').one('click', function(){
+			document.location = $('a[rel=bookmark]', this).click().attr('href');
+		});
+
 		// recuperer la date des mermet
 		$('#navigation>.ecouter .datehm')
 		.each(function(){
