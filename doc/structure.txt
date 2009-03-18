@@ -1,8 +1,15 @@
 ﻿Pages à faire :
-(ok) - liste des flux
-(ok) - pages spéciales (articles internes du portail)
+
 backend RSS (scraper le hatom)
-pied de page
+
+backend-bestof: type=une  (ajouter les "tres bien")
+backend: articles (+une+tresbien)
+backend-tout: articles+depeches
+/backend/tout
+/tout
+/backend/bestof
+/backend/bestof2
+
 qqs traductions pour la page anglais
 
 pages tout bestof admin
@@ -13,8 +20,7 @@ grossir les tags
 
 abandonnés : ical, le "calendrier".
 
-* page "news" : trier les mots-clé {!par popularite} devrait le faire
-	-> cf. actu.html
+* page "news" -> cf. actu.html
 
 * audio sera mieux que mermet
 

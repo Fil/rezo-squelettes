@@ -151,9 +151,9 @@
 
 		// Ajouter les boutons cookie/preference dans le pied de page
 		$('<span>Vos pr&#233;f&#233;rences d&#8217;affichage&nbsp;:  \
-		<a href="1024">large</a>,\
-		<a href="800">&#233;troit</a>,\
-		<a href="auto">automatique</a>.</span>')
+		<a href="1024">large</a> |\
+		<a href="800">&#233;troit</a> |\
+		<a href="auto">automatique</a></span>')
 		.find('a')
 		.click(function(){
 			$.cookie('affichage',$(this).attr('href'), {expires: 365});

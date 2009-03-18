@@ -213,3 +213,4 @@ function limite_age($maintenant, $jours) {
 	return date('Y-m-d', $time-$jours*24*3600);
 }
 
+include_spip('categorize');
