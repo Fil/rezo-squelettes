@@ -492,3 +492,8 @@ body.page_rubrique #conteneur {
 #footer span a:visited {
 	color: #444;
 }
+
+
+.source {
+	white-space: nowrap;
+}

@@ -53,7 +53,7 @@ function embellir_tags($tags, $dest='html') {
 				$tag = "<b>$tag</b>";
 				$join = ", ";
 			} elseif ($dest == 'dc') {
-				$tag = "<dc:subject>$tag</dc:subject>";
+				$tag = "<dc:subject>".texte_backend($tag)."</dc:subject>";
 				$join = "\n";
 			} elseif ($dest == 'reltag') {
 				$enc = strtolower(translitteration($tag));
