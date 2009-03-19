@@ -85,7 +85,7 @@
 		$('a[rel=bookmark]')
 		.click(function() {
 			var id  = $(this).parents('.hentry').attr('id');
-			if (id && id.match(/^a\d+/)) {
+			if (id && id.match(/^[ab]\d+/)) {
 				var url = this.href;
 				var me = this;
 				this.href = '/'+id.substr(1);
@@ -137,7 +137,7 @@
 					if ($('body').is('.admin')) {
 						var lien = $(this).attr('href');
 						var id = $(this).parents('.hentry')
-							.attr('id').replace(/^a/,'');
+							.attr('id').replace(/^[ab]/,'');
 						$(this)
 						.data('lien',lien)
 						.attr('href','/ecrire/?exec=articles&id_article='+id);

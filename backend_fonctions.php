@@ -6,8 +6,14 @@ function hatom2rss($uri) {
 	$feed = recuperer_page(url_absolue($uri));
 
 	// choper les liens presents
+	$type='a'; // a priori les articles
+	$max = 10;
+	if ($uri == 'tout') {
+		$type='[ab]'; // sauf pour backend/tout
+		$max = 100;
+	}
 	preg_match_all(
-	',<div\s+class="hentry"\s+id="a(\d+)".*<abbr class="updated" title="(.*)">,UmsS',
+	',<div\s+class="hentry"\s+id="'.$type.'(\d+)".*<abbr class="updated" title="(.*)">,UmsS',
 	$feed, $regs, PREG_SET_ORDER);
 
 	// trier par date et prendre les n plus recents
@@ -22,7 +28,7 @@ function hatom2rss($uri) {
 	}
 
 	krsort($recents);
-	$manquants = 5 - count($recents);
+	$manquants = $max - count($recents);
 	if ($manquants > 0) {
 		krsort($items);
 		$recents = array_merge($recents, array_slice($items,0,$manquants));

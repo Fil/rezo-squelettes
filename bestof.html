@@ -4,23 +4,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
 <head>
-<title>[(#NOM_SITE_SPIP|textebrut)] - Tous les articles r&#233;cents</title>
+<title>[(#NOM_SITE_SPIP|textebrut)] - Best Of</title>
 [<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
-<INCLURE{fond=inc-head}{feed=tout}/>
+<INCLURE{fond=inc-head}{feed=bestof}/>
 
 [(#ENV{semaine}|?{'<meta name="robots" content="noindex" />'})]
 </head>
 
-<body class="page_tout">
+<body class="page_sommaire">
 <div id="page">
 
 	[(#REM) Bandeau de la page ]
-	<INCLURE{fond=inc-bandeau}{semaine} />
+	<INCLURE{fond=inc-bandeau} />
 
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
 
-	<INCLURE{fond=inc-entete}{titre=} />
+	<INCLURE{fond=inc-entete}{titre=Best Of} />
 
 [(#REM) selectionner les recents pour eviter pb de perfs
 
@@ -28,29 +28,20 @@
 	(inclus, d'ou l'ajout de 24h00)
 
 ]
-<BOUCLE_auj(ARTICLES){!par date}{0,1}>
+<BOUCLE_auj(ARTICLES){type IN une,tresbien}{!par date}{0,1}>
 [(#SET{fin,[(#VAL{U}|date{#DATE|strtotime}|plus{86400})]})]
 </BOUCLE_auj>
 [(#ENV{semaine}|match{'^\d{4}-\d{2}-\d{2}$'}|?{
 	#SET{fin,#ENV{semaine}|strtotime|plus{86400}}
 })]
-
-
-[(#SET{debut,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{1209600})]})]})]
+[(#SET{debut,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{604800})]})]})]
 [(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
 
-<BOUCLE_recents(ARTICLES)
-	{date>=#GET{debut}}
-	{date<=#GET{fin}}
-	{doublons recents}
-	{id_rubrique!=79}
-	{lang}
-></BOUCLE_recents>
 
 	<div class="central">
 
 	[(#REM) A la une ]
-	<BOUCLE_une(ARTICLES) {type IN une,tresbien} {doublons}
+	<BOUCLE_une(ARTICLES) {type=une} {doublons}
 	{par date}{inverse}{0,1}
 	{date<=#GET{fin}}
 	>
@@ -79,12 +70,10 @@
 		<B_articles_recents>
 		<div class="menu articles">
 				<BOUCLE_articles_recents(ARTICLES)
-				{!doublons recents}
 				{doublons}
-				{type!=''}
-				{lang=fr}
+				{type IN une,tresbien}
 				{!par date}
-				{date>=#GET{debut}}
+				{0,50}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_articles_recents>
@@ -92,25 +81,22 @@
 		</B_articles_recents>
 
 		<B_english>
+		#ANCRE_PAGINATION
 		<div id="english" class="menu pavedepeches">
 		<a class="plus" title="In English" href="anglais">+</a>
 		<h4>In English</h4>
 				<BOUCLE_english(ARTICLES)
 				{date<=#GET{fin}}
 				{lang=en}
+				{type IN une,tresbien}
 				{doublons}
 				{!par date}
-				{date>#GET{debut}}
-				>
+				{pagination 10}>
 			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_english>
+		[<p class="pagination">(#PAGINATION)</p>]
 		</div>
 		</B_english>
-
-
-		<a id="precedente"
-		href="/[(#VAL{Y-m-d}|date{[(#GET{fin}|strtotime|moins{1209601})]})]"
-		rel="nofollow">il y a deux semaines...</a>
 
 
 	</div>[(#REM) #contenu]
@@ -118,19 +104,21 @@
 
 	<div id="navigation">
 
-		<B_breves>
-		<div id="depeches" class="menu pavedepeches">
-			<h4>D&#233;p&#234;ches</h4>
-				<BOUCLE_breves(ARTICLES)
-				{!doublons recents}
+		<B_aussi>
+		#ANCRE_PAGINATION
+		<div id="aussi" class="menu pavedepeches">
+			<h4>Et aussi...</h4>
+				<BOUCLE_aussi(ARTICLES)
 				{doublons}
-				{!par date}
-				{type=''}
+				{type IN une,tresbien}
+				{par date}{inverse}
+				{pagination 50}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_breves>
+				</BOUCLE_aussi>
+		[<p class="pagination">(#PAGINATION)</p>]
 		</div>
-		</B_breves>
+		</B_aussi>
 
 		<div class="menu pavedepeches">
 		<h2 style='display:none;'></h2>
@@ -141,34 +129,6 @@
 		<INCLURE{fond=inc-rubriques} />
 
 		</div>
-
-		<B_aussi>
-		<div id="aussi" class="menu pavedepeches">
-			<h4>La semaine pr&#233;c&#233;dente</h4>
-				<BOUCLE_aussi(ARTICLES)
-				{!doublons recents}
-				{doublons}
-				{type!=''}
-				{!par date}
-				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_aussi>
-		</div>
-		</B_aussi>
-
-		<B_radio>
-		<div class="menu pavedepeches ecouter">
-			<h4>&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</h4>
-				<BOUCLE_radio(ARTICLES)
-				{id_rubrique=79}
-				{par date}{inverse} {doublons}
-				{date<=#GET{fin}}
-				{date>=#GET{debut}}
-				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_radio>
-		</div>
-		</B_radio>
 
 	</div><!--#navigation-->
 
