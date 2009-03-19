@@ -32,7 +32,7 @@ function datehm($date) {
 // les tags arrivent sous forme d'une liste de mots seapares par des virgules
 // on remet les bons mots quand il s'agit de mots-cles connus, et on passe 
 // chaque mot en gras
-function embellir_tags($tags) {
+function embellir_tags($tags, $dest='html') {
 	static $alias;
 	if (!isset($alias)) {
 		$s = spip_query("SELECT descriptif,titre FROM spip_mots");
@@ -46,10 +46,31 @@ function embellir_tags($tags) {
 		if (isset($alias[$tag]))
 			$tag = $alias[$tag];
 		$tag = supprimer_numero($tag);
-		$mots[] = "<b>$tag</b>";
+
+		if (!preg_match(',^(affichage une|actualit.*|communiqu.*de presse)$,imsS', $tag)) {
+
+			if ($dest == 'html') {
+				$tag = "<b>$tag</b>";
+				$join = ", ";
+			} elseif ($dest == 'dc') {
+				$tag = "<dc:subject>$tag</dc:subject>";
+				$join = "\n";
+			} elseif ($dest == 'reltag') {
+				$enc = strtolower(translitteration($tag));
+				if (strstr($enc, ' '))
+					$enc = '"'.$enc.'"';
+				$url = url_absolue('/themes/'.urlencode($enc));
+				$tag = "<a rel='tag' href='$url'>$tag</a>";
+				$join = ", ";
+			}
+
+			$mots[] = $tag;
+
+		}
 	}
 
-	return join(', ', $mots);
+	if ($mots)
+		return join($join, $mots);
 }
 
 // Mettre a jour la popularite d'un mot-cle (cf. mot-fulltext.html)
@@ -213,4 +234,5 @@ function limite_age($maintenant, $jours) {
 	return date('Y-m-d', $time-$jours*24*3600);
 }
 
-include_spip('categorize');
+## fonction vocabulaire()
+##include_spip('categorize');

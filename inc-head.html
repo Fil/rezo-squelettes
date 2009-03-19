@@ -9,8 +9,8 @@
 <meta name="generator" content="SPIP[ (#SPIP_VERSION)]" />
 
 [(#REM) Lien vers le flux ATOM du site ]
-<link rel="alternate" type="application/atom+xml" title="<:syndiquer_site:>" href="/backend/" />
-[<link rel="alternate" type="application/atom+xml" title="Syndiquer la page #ENV{feed}" href="/backend/(#ENV{feed})" />]
+<link rel="alternate" type="application/rss+xml" title="<:syndiquer_site:>" href="/backend/" />
+[<link rel="alternate" type="application/rss+xml" title="Syndiquer la page #ENV{feed}" href="/backend/(#ENV{feed}|urlencode)" />]
 
 [(#REM) microsummary ]
 <link rel="microsummary" href="/microsummary" />

@@ -4,9 +4,9 @@
 #SET{source,#RETITRE|sinon{#TITRE}|retitrage{source}|sinon{#SOURCE}}
 #SET{auteurs,#RETITRE|retitrage{auteurs}|sinon{#SOUSTITRE}}
 #SET{url_rub,#URL_RUBRIQUE}
-#SET{origine,#SOURCE|sinon{#GET{source}}}
 [(#SET{titre_rub,[(#ID_RUBRIQUE|titre_rub)]})]
 #SET{source,#GET{source}|sinon{#GET{titre_rub}}}
+#SET{origine,#SOURCE|sinon{#GET{source}}}
 
 <div class="hentry" id="a#ID_ARTICLE"[ lang="(#LANG|replace{fr})"]>
 

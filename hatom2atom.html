@@ -1,20 +1,29 @@
 [(#REM)
 
-	Cette page utilise le proxy hatom2atom de luke arno
-	pour convertir nos pages en atom
-	http://rbach.priv.at/Microformats/hAtom2Atom/
+	Cette page utilise lit la page correspondante sur le site, en extrait
+	les id_article des articles selectionnes, et prend les plus recents pour les
+	presenter au format rss
 
-][(#SET{uri,themes/[(#ENV*{mot}|rawurlencode)]})
+][(#ENV{mot}?{[(#SET{uri,[themes/(#ENV*{mot}|rawurlencode)]})]})
 ][(#ID_RUBRIQUE|?{#SET{uri,#URL_RUBRIQUE}})
 ][(#ID_MOT|?{#SET{uri,#URL_MOT}})
-][(#SET{hatom,[(#GET{uri}|url_absolue)]})
-]#HTTP_HEADER{Content-Type: application/xml}
-[(#VAL{'http://www.lukearno.com/projects/hatom2atom/?ctype=application%2Fxml&tidy=yes'}
-	|parametre_url{url,#GET{hatom}}
-	|recuperer_page
-	|sinon{
-	<feed><title>Rezo.net - Echec de la conversion</title></feed>
-})]
+][(#HTTP_HEADER{Content-type: text/xml[; charset=(#CHARSET)]})]<?xml 
+version="1.0"[ encoding="(#CHARSET)"]?>
+<rss version="2.0" [(#REM) rss 2.0.9)]
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+>
+<channel[ xml:lang="(#LANG)"]>
+	<title>[(#ENV{mot}) - ][(#NOM_SITE_SPIP|texte_backend)]</title>
+	<link>#URL_SITE_SPIP/#GET{uri}</link>
+	<language>#LANG</language>
+	<generator>SPIP - www.spip.net</generator>
+	<description></description>
+	<atom:link href="#URL_SITE_SPIP/backend/#GET{mot}" rel="self" type="application/rss+xml" />
 
+	[(#VAL{/}|concat{#GET{uri}}|hatom2atom)]
 
-<!-- hatom=#GET{hatom} -->
+</channel>
+
+</rss>

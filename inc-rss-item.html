@@ -1,0 +1,38 @@
+﻿<BOUCLE_article(ARTICLES){id_article=#ID}{statut?}>
+
+#SET{titre,#RETITRE|sinon{#TITRE}|retitrage}
+#SET{source,#RETITRE|sinon{#TITRE}|retitrage{source}|sinon{#SOURCE}}
+#SET{auteurs,#RETITRE|retitrage{auteurs}|sinon{#SOUSTITRE}}
+#SET{url_rub,#URL_RUBRIQUE}
+[(#SET{titre_rub,[(#ID_RUBRIQUE|titre_rub)]})]
+#SET{source,#GET{source}|sinon{#GET{titre_rub}}}
+#SET{origine,#SOURCE|sinon{#GET{source}}}
+
+	<item[ xml:lang="(#LANG)"]>
+		<title>[(#GET{titre}|supprimer_tags|texte_backend)]</title>
+		<link>[(#URL_SITE|url_absolue)]</link>
+		[<guid isPermaLink="true">(#URL_SITE|url_absolue)</guid>]
+		[<dc:date>(#DATE|date_iso)</dc:date>]
+		<dc:format>text/html</dc:format>
+		[<dc:language>(#LANG)</dc:language>]
+		[<dc:creator>(#GET{auteurs}|supprimer_tags|texte_backend)</dc:creator>]
+
+		[(#RETAGS|trim|replace{',* +', ', '}
+			|sinon{[(#SURTITRE|afficher_tags|supprimer_tags)]}
+			|embellir_tags{dc})]
+		[<description>
+		[(#LOGO_ARTICLE||image_reduire{120}|texte_backend)]
+		(#CHAPO
+			|sinon{#DESCRIPTIF}
+			|sinon{[(#TEXTE*|replace{^x$}|couper{200})]}
+			|PtoBR|trim|texte_backend)
+		[&lt;div class='source'&gt;Source: &lt;b&gt;&lt;a[ href="(#URL_RUBRIQUE|url_absolue)"]&gt;(#GET{source})&lt;/a&gt;&lt;/b&gt;&lt;/div&gt;]
+		[(#RETAGS|trim|replace{',* +', ', '}
+			|sinon{[(#SURTITRE|afficher_tags|supprimer_tags)]}
+			|embellir_tags{reltag}|texte_backend)]
+		</description>
+		]
+		[<source[ url="(#URL_RUBRIQUE|url_absolue)"]>(#GET{origine})</source>]
+	</item>
+
+</BOUCLE_article>

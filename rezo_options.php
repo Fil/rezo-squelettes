@@ -2,6 +2,10 @@
 
 define('_SYNDICATION_CORRECTION', false);
 define('_SYNDICATION_URL_UNIQUE', true);
+define('_PERIODE_SYNDICATION', 10); // 10 min
+define('_PERIODE_SYNDICATION_SUSPENDUE', 60); // 1h
+
+
 define('_ID_WEBMESTRES', '3:13');  // Fil, Marcimat
 define('_FULLTEXT_MAX_RESULTS', 2000);
 define('_POPULARITE_TABLES', 'spip_rubriques');
@@ -26,7 +30,10 @@ function rezo_post_syndication($data) {
 
 	// valeur par defaut de la source
 	// si publiee : 'article' (sinon '' aka depeche)
-	if ($sites[$id_syndic]['statut'] == 'publie')
+	// un article qui arrive sans descriptif est automatiquement
+	// recale en depeche
+	if ($sites[$id_syndic]['statut'] == 'publie'
+	AND strlen($data[2]['descriptif']) > 10)
 		$update['type'] = 'article';
 
 	// detection de la langue
@@ -41,7 +48,7 @@ function rezo_post_syndication($data) {
 	include_spip('inc/lang_detect');
 	include_spip('inc/charsets');
 	list($lang, $certitude) = lang_detect(
-		translitteration($data[2]['titre'] . $data[2]['descriptif']),
+		translitteration($data[2]['titre'] . ' ' . $data[2]['descriptif']),
 		array('fr', 'en', 'es')
 	);
 	spip_log(sprintf("lang_detect $lang (%02d", (100*$certitude))."%)");
@@ -106,49 +113,9 @@ function rezo_post_syndication($data) {
 
 	lang_select();
 
+	// S'il y a un element publie : invalider
+	if ($data[2]['statut'] == 'publie')
+		ecrire_meta('derniere_modif', time());
+
 	return $data;
 }
-
-
-/*
-
-selon statut du site : prop ou publie
-et selon options 'moderation' du site 'oui' => breve, 'non' => 'article'
-
-<SELECT NAME="ps" SIZE="1">
-
-NON PUBLIES :======> statut 'prop' du site
-<option value=0 SELECTED>Dépêche Bof</option>
-<option value=1 >Article Bof</option>
-
-PUBLIES :========> statut 'publie' du site
-<option value=2 >Dépêche Bien</option>
-<option value=3 >Article Bien</option>
-
-Comment distinguer articles et depeches ? par defaut depeches sauf si le site a une particularité (titre commençant par ...) ?
-
-MANUEL :
-<option value=4 >(Très bien)</option>
-<option value=5 >A la Une</option>
-</SELECT>
-
-*/
-
-
-/*
-
-mysql> select id_article,titre from spip_articles where url_site='';
-+------------+-----------------------------------------------------------------------------+
-| id_article | titre                                                                       |
-+------------+-----------------------------------------------------------------------------+
-| 2          | La liste de diffusion                                                       |
-| 3          | Votre page de démarrage                                                     |
-| 6          | Découvrez notre « Toolbar » et recommandez en un clic vos es préférés |
-| 22619      | Brevetage et pneumopathie atypique, par Hervé Le Crosnier                   |
-| 53405      | Livre d'Or                                                                  |
-| 61805      | Les thèmes de rezo.net                                                      |
-+------------+-----------------------------------------------------------------------------+
-
-=> On pourrait ajouter un UNIQUE sur url_site, pour interdire les syndications en provenance de sites differents (ou manuel / automatique)
-
-*/

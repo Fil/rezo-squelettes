@@ -189,3 +189,6 @@ select t.id_article, SUM(MATCH(mots.`titre`) AGAINST ('banlieues')) AS scmot, 8*
 
 select titre,t.id_article, SUM(MATCH(auteurs.`nom`) AGAINST ('Lazuly')) AS scaut, 8*(MATCH(t.`titre`) AGAINST ('Lazuly')) + MATCH(t.`surtitre`,t.`titre`,t.`soustitre`,t.`chapo`,t.`texte`,t.`nom_site`,t.`url_site`,t.`descriptif`) AGAINST('Lazuly')+SUM(MATCH(auteurs.`nom`) AGAINST ('Lazuly')) as score from spip_articles AS t LEFT JOIN spip_auteurs_articles as lien ON lien.id_article=t.id_article LEFT JOIN spip_auteurs AS auteurs ON lien.id_auteur=auteurs.id_auteur  GROUP BY t.id_article ORDER BY score DESC limit 20,10;
 
+
+
+=> On pourrait ajouter un UNIQUE sur url_site, pour interdire les syndications en provenance de sites differents (ou manuel / automatique)
