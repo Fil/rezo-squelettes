@@ -107,6 +107,7 @@ function rezo_post_syndication($data) {
 		$update['tags'] = join(', ', $tags);
 
 	// Mettre a jour
+	spip_log($url . ': '.join(' | ',$update), 'syndic');
 	sql_updateq('spip_syndic_articles',
 		$update,
 		'url='.sql_quote($url).' AND id_syndic='.sql_quote($id_syndic));

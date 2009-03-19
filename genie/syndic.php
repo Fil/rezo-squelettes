@@ -35,7 +35,7 @@ function executer_une_syndication() {
 	// On va tenter un site 'sus' ou 'off' de plus de 24h, et le passer en 'off'
 	// s'il echoue
 	$where = sql_in("syndication", array('sus','off')) . "
-	AND statut='publie'
+/*	AND statut='publie' */
 	AND date_syndic < DATE_SUB(NOW(), INTERVAL
 	"._PERIODE_SYNDICATION_SUSPENDUE." MINUTE)";
 	$id_syndic = sql_getfetsel("id_syndic", "spip_syndic", $where, '', "date_syndic", "1");
@@ -45,7 +45,7 @@ function executer_une_syndication() {
 
 	// Et un site 'oui' de plus de 2 heures, qui passe en 'sus' s'il echoue
 	$where = "syndication='oui'
-	AND statut='publie'
+/*	AND statut='publie' */
 	AND date_syndic < DATE_SUB(NOW(), INTERVAL "._PERIODE_SYNDICATION." MINUTE)";
 	$id_syndic = sql_getfetsel("id_syndic", "spip_syndic", $where, '', "date_syndic", "1");
 
@@ -79,7 +79,7 @@ function syndic_a_jour($now_id_syndic, $statut = 'off') {
 	$url_site = $row['url_site'];
 
 	if ($row['moderation'] == 'oui')
-		$moderation = 'dispo';	// a valider
+		$moderation = 'prop';	// a valider
 	else
 		$moderation = 'publie';	// en ligne sans validation
 
