@@ -109,7 +109,7 @@
 
 		// en cas d'ancre il faut relancer, a cause du masquage temporaire
 		if (document.location.hash)
-			setTimeout(function(){ document.location = document.location.hash;}, 100);
+			setTimeout(function(){ document.location = document.location.href;}, 100);
 
 		// lien "une" clicable dans son integralite
 		$('#une').one('click', function(){
