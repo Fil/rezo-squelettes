@@ -48,10 +48,9 @@ RewriteRule ^microsummary(\.php?)$ spip.php?page=microsummary [QSA,L]
 # themes => garnir #ENV{mot}
 RewriteRule ^themes/(.+)$ spip.php?page=mot&mot=$1 [QSA,L]
 
-# squelettes speciaux (faits)
+# squelettes speciaux
 RewriteRule ^(anglais|themes|sources)/?$ spip.php?page=$1 [QSA,L]
-# squelettes speciaux (pas faits)
-RewriteRule ^(actu|bestof|tout|admin)/?$ spip.php?page=$1 [QSA,L]
+RewriteRule ^(actu|bestof|tout|admin|admina)([0-9]*)/?$ spip.php?page=$1&id_article=$2 [QSA,L]
 
 # raccourcis
 RewriteRule ^presse$ spip.php?page=rubrique&id_rubrique=118 [QSA,L]

@@ -170,9 +170,9 @@ function mots_article($id_article, $wrap='%s', $sep=', ') {
 function statut_admin($entry,$statut) {
 	preg_match(',<div class="hentry.*" id="[ab](\d+)">,US', $entry, $regs);
 	$entry = preg_replace(',hentry,S', '\0 '.$statut, $entry, 1);
-	$url_admin = '/?page=admina&amp;id_article='.$regs[1];
+	$url_admin = '/admina'.$regs[1];
 	$entry = preg_replace(',<a\b[^<>]*\bclass="plus".*</a>,UmsS',
-		'<a class="admin" href="'.$url_admin.'">'.$statut.'</a>', $entry, 1);
+		'\0<a class="admin" href="'.$url_admin.'">'.$statut.'</a>', $entry, 1);
 	return $entry;
 }
 

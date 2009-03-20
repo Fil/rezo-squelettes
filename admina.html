@@ -1,0 +1,143 @@
+[(#SESSION{statut}|sinon{
+	#EVAL{include_spip('inc/headers')&&redirige_par_entete('/?page=login&url=/'.self())}
+}|non)]<BOUCLE_principale(ARTICLES) {id_article} {statut?}>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
+<head>
+<title>[(#TITRE|textebrut) - ][(#NOM_SITE_SPIP|textebrut)]</title>
+[<meta name="description" content="(#INTRODUCTION{150}|attribut_html)" />]
+<INCLURE{fond=inc-head}>
+</head>
+
+<body class="page_article">
+<div id="page">
+
+	[(#REM) Bandeau de la page ]
+	<INCLURE{fond=inc-bandeau} />
+
+	[(#REM) Contenu principal : derniers articles publies ]
+	<div class="hfeed" id="conteneur">
+
+	[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
+
+
+	[(#SET{titre,[(#LOGO_ARTICLE|left
+		||inserer_attribut{class,logo})]
+		<span class="[(#EDIT{titre})]">#TITRE</span>
+	})]
+	<INCLURE{fond=inc-entete}{titre=#GET{titre}} />
+
+	[<p class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</p>]
+
+
+	<div class="central">
+
+	</div>[(#REM) /central ]
+
+	<div class="central">
+
+	<div id="marge">
+	</div>
+
+	<div id="contenu">
+
+        <div class="cartouche">
+
+			[(#REM) On utilise DATE_REDAC car nos articles speciaux n'affichent
+				pour la plupart pas de DATE
+			]
+            <p><small><abbr class="published" title="[(#DATE_REDAC|date_iso)]">[(#DATE_REDAC|nom_jour) ][(#DATE_REDAC|affdate)]</abbr>[, <:par_auteur:> (#LESAUTEURS)]</small></p>
+
+            [(#REM) Inclure le modele des liens de traductions ]
+            #MODELE{article_traductions}
+        </div>
+		
+        <div class="surlignable">
+			[<div class="#EDIT{chapo} chapo">(#CHAPO|image_reduire{500,0})</div>]
+
+			[(#REM)
+				Les articles de la rubrique 1 sont affichables, les autres
+				non
+			]
+			[<div class="#EDIT{texte} texte entry-content">(#ID_RUBRIQUE|=={1}|?{#TEXTE,#INTRODUCTION}
+				|image_reduire{500,0})</div>]
+		</div>
+
+		<BOUCLE_liste_backends(ARTICLES){id_article}{id_article=5}>
+	<hr />
+<a href="/feed/"><img src='/IMG/xml.gif' width='36' height='14' /></a> &nbsp; <a href="http://rezo.net/">Rezo.net, le portail des copains</a><br />
+<a href="/backend/bestof"><img src='/IMG/xml.gif' width='36' height='14' /></a> &nbsp; <a href="http://rezo.net/">La s&#233;lection du portail</a><br />
+	
+	<hr />
+	<BOUCLE_backends(RUBRIQUES){age<90}{texte!=}{par descriptif}{doublons}>
+<a href="backend/#DESCRIPTIF"><img src='/IMG/xml.gif' width='36' height='14' /></a> &nbsp; <a href="#URL_RUBRIQUE">#TITRE</a><br />
+	</BOUCLE_backends>
+
+        <hr />
+        <BOUCLE_backends2(MOTS){id_groupe<=5}{par titre}{doublons}>
+<a href="backend/#DESCRIPTIF"><img src='/IMG/xml.gif' width='36' height='14' /></a> &nbsp; <a href="#URL_MOT">#TITRE</a><br />
+        </BOUCLE_backends2>
+
+		</BOUCLE_liste_backends>
+
+
+		[<p class="#EDIT{hyperlien} hyperlien"><:voir_en_ligne:> : <a href="(#URL_SITE)" class="spip_out">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+        
+
+		[(#REM) Gestion du portfolio et des documents
+			Le critere {env} permet de passer d'autres arguments de la page
+			par exemple l'id_document choisi pour un affichage complet
+		]
+		[(#INCLURE{fond=inc-documents}{id_article}{env})]
+
+
+		[(#REM) Petition :
+		La petition ayant une PAGINATION il faut absolument {env}
+		et pourquoi pas ajax
+		][(#PETITION|?{' '})<INCLURE{fond=inc-petition}{id_article}{env}{ajax}>]
+
+        [<div class="notes surlignable"><h2 class="pas_surlignable"><:info_notes:></h2>(#NOTES)</div>]
+
+		[(#REM) Forum de l'article ]
+		<a href="#forum" name="forum" id="forum"></a>
+		<INCLURE{fond=inc-forum}{id_article} />
+		[<p class="repondre"><a href="(#PARAMETRES_FORUM|url_reponse_forum)" rel="noindex nofollow"><:repondre_article:></a></p>] 
+
+	</div><!--#contenu-->
+
+
+    [(#REM) Menu de navigation laterale ]
+    <div id="navigation">
+
+		<div class="menu pavedepeches">
+		<h2 style='display:none;'></h2>
+
+		[(#REM) Rechercher ]
+		#FORMULAIRE_RECHERCHE
+
+		[(#REM) Menu de navigation par rubriques ]
+		<INCLURE{fond=inc-rubriques} />
+
+		</div>
+
+	</div><!--#navigation-->
+
+
+	<div style="clear:both;"></div>
+
+	</div>[(#REM) /central ]
+
+	</div><!--#conteneur-->
+	
+
+	[(#REM) Pied de page ]
+	<INCLURE{fond=inc-pied} />
+	
+</div><!--#page-->
+</body>
+</html>
+</BOUCLE_principale>
+
+Article inexistant ##ID_ARTICLE
+
+<//B_principale>

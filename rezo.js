@@ -140,7 +140,7 @@
 							.attr('id').replace(/^[ab]/,'');
 						$(this)
 						.data('lien',lien)
-						.attr('href','/ecrire/?exec=articles&id_article='+id);
+						.attr('href','/admina'+id);
 					} else {
 						$(this)
 						.attr('href', $(this).data('lien'));

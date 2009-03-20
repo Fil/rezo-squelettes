@@ -497,3 +497,31 @@ body.page_rubrique #conteneur {
 .source {
 	white-space: nowrap;
 }
+
+
+/* pages admin */
+.hentry a.admin {
+background:red;
+}
+.prop a.admin {
+background:orange;
+}
+.dispo a.admin {
+background:cyan;
+}
+.publie a.admin {
+background:green;
+}
+.hentry {
+	clear:both;
+}
+a.admin{
+	display:block;
+	float:left;
+	margin-right:5px;
+	width:14px;
+	overflow:none;
+	height: 1.9em;
+	color:transparent;
+	margin-bottom:2px;
+}
