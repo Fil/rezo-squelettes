@@ -23,6 +23,12 @@ problèmes :
 abandonnés : ical, le "calendrier".
 
 
+Les articles qui viennent d'être syndiqués sont "dispo" ou 'publie' selon reglage du site
+Si on les valide => 'publie'
+Si on les devalide => 'prop'
+Si on les supprime => 'poubelle'
+
+
 Convertir le site en utf 8 :
 1) dump spip_articles
 2) vider spip_articles

@@ -19,10 +19,6 @@ function rezo_post_syndication($data) {
 		$sites[$id_syndic] = sql_fetsel('*', 'spip_syndic',
 		'id_syndic='.sql_quote($id_syndic));
 
-		/* statut idiot : on pourrait dire 'bof' = 'prop' */
-		/* attention la syndication demande le statut 'dispo' et non 'prop'
-		  (a changer dans le core) */
-
 	$update = array(
 		'id_rubrique' => $sites[$id_syndic]['id_rubrique'],
 		'id_secteur' => $sites[$id_syndic]['id_secteur']
