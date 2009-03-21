@@ -98,9 +98,10 @@
 
 		// le survol des liens affiche leur bloc introduction
 		$('#contenu a[rel=bookmark]')
-		.hover(function(){
+		.live('mouseover', function(){
 			$(this).parents('.hentry').find('.introduction').show();
-		}, function() {
+		})
+		.live('mouseout', function() {
 			$(this).parents('.hentry').find('.introduction').hide();
 		});
 
