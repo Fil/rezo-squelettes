@@ -3,12 +3,10 @@
 	Controleur pour le crayon 'id_rubrique', uniquement html
 
 ]
-#CACHE{0}
+#CACHE{3600}
 
-<BOUCLE_a(ARTICLES){id_article}{statut==.}>
 #SET{id,#ID_RUBRIQUE}
-</BOUCLE_a>
-
+#SET{date,#DATE|annee|moins{2}}
 
 <select class="crayon-active" name="#ENV{name_id_rubrique}"
  style="width:#ENV{largeur}px;#ENV{style}" >
@@ -17,12 +15,12 @@
 {titre==(Dans la presse|Relev.*sur le net|En anglais)}
 {doublons}>
 <option value="#ID_RUBRIQUE"[
-	(#GET{id}|=={#ID_RUBRIQUE}|?{selected})]>[(#TITRE|couper{50})]</option>
+	(#GET{id}|=={#ID_RUBRIQUE}|?{selected})]>#TITRE</option>
 </BOUCLE_pref>
 
 
-<BOUCLE_r(RUBRIQUES){par num titre, titre}{age<365}{doublons}>
+<BOUCLE_r(RUBRIQUES){par num titre, titre}{date>#GET{date}}{doublons}>
 <option value="#ID_RUBRIQUE"[
-	(#GET{id}|=={#ID_RUBRIQUE}|?{selected})]>[(#TITRE|couper{50})]</option>
+	(#GET{id}|=={#ID_RUBRIQUE}|?{selected})]>#TITRE</option>
 </BOUCLE_r>
 </select>
