@@ -8,7 +8,7 @@
 #SET{source,#GET{source}|sinon{#GET{titre_rub}}}
 #SET{origine,#SOURCE|sinon{#GET{source}}}
 
-<div class="hentry" id="[(#TYPE|?{a,b})]#ID_ARTICLE"[ lang="(#LANG|replace{fr})"]>
+<div class="hentry #STATUT #EDIT{rezo}" id="[(#TYPE|?{a,b})]#ID_ARTICLE"[ lang="(#LANG|replace{fr})"]>
 
 [<h5[ class="(#DATE|affdate{Y-m-d})"]>(#DATE|nom_jour) [(#DATE|affdate_jourcourt)]</h5>]
 

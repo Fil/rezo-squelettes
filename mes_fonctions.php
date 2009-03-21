@@ -167,22 +167,14 @@ function mots_article($id_article, $wrap='%s', $sep=', ') {
 	return join($sep, $mots);
 }
 
-function statut_admin($entry,$statut) {
-	preg_match(',<div class="hentry.*" id="[ab](\d+)">,US', $entry, $regs);
-	$entry = preg_replace(',hentry,S', '\0 '.$statut, $entry, 1);
-	$url_admin = '/admina'.$regs[1];
-	$entry = preg_replace(',<a\b[^<>]*\bclass="plus".*</a>,UmsS',
-		'\0<a class="admin" href="'.$url_admin.'">'.$statut.'</a>', $entry, 1);
-	return $entry;
-}
-
-function microcache($id, $fond) {
+function microcache($id, $fond, $calcul=false) {
 	$cle = "$fond-$id";
 
 	$microcache = sous_repertoire(_DIR_CACHE,dechex($id%16)).$cle;
 
-	if (/*isset($_GET['var_mode'])
-	OR */!@file_exists($microcache)
+	if ($calcul
+	/* OR isset($_GET['var_mode']) */
+	OR !@file_exists($microcache)
 	OR filemtime($microcache) < time() - 60*10) {
 		$contenu = recuperer_fond($fond, array('id'=>$id));
 		ecrire_fichier($microcache, $contenu);

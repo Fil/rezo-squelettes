@@ -433,11 +433,6 @@ a.plus, a.plus:hover {
 }
 
 
-body.admin a[rel=bookmark] {
-	background-color: yellow !important;
-}
-
-
 .pagination a {
 	font-size:9px;
 	font-family: arial, helvetica, sans;
@@ -524,4 +519,7 @@ a.admin{
 	height: 1.9em;
 	color:transparent;
 	margin-bottom:2px;
+}
+body.admin a[rel=bookmark] {
+/*	background-color: yellow !important; */
 }

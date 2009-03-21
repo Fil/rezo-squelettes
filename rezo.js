@@ -1,3 +1,4 @@
+;crayons_init_dynamique = function(){};
 ;(function($) {
 
 	var memo = {};
@@ -131,22 +132,31 @@
 		if ($.cookie('spip_admin')) {
 			$('body').bind('dblclick', function () {
 				$('body').toggleClass('admin');
-				$('a[rel=bookmark]')
-				.unbind('click')
-				.each(function() {
-					if ($('body').is('.admin')) {
-						var lien = $(this).attr('href');
+				if ($('body').is('.admin')) {
+					$('a[rel=bookmark]')
+					.each(function() {
 						var id = $(this).parents('.hentry')
 							.attr('id').replace(/^[ab]/,'');
 						$(this)
-						.data('lien',lien)
-						.attr('href','/admina'+id);
-					} else {
-						$(this)
-						.attr('href', $(this).data('lien'));
-					}
-				});
+						.prev()
+						.after(
+							$('<a class="admin"><\/a>')
+							.click(function(e){
+								cQuery(this)
+								.parents('.crayon:eq(0)')
+								.iconecrayon()
+								.addClass('crayon-autorise')
+								.opencrayon(e);
+								return false;
+							})
+						);
+;					});
+				} else {
+					$('a.admin').remove();
+				}
 			});
+			// lancer automatiquement l'admin sur la page admin
+			$('body.page_admin').dblclick();
 		}
 
 		// Ajouter les boutons cookie/preference dans le pied de page

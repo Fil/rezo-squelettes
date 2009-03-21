@@ -62,23 +62,26 @@ function rezo_post_syndication($data) {
 
 
 	// Indiquer le "bon" titre
-	$update['retitre'] = trim(preg_replace(',\s+,ims', ' ', $data[2]['titre']));
+	$update['titre'] = trim(preg_replace(',\s+,ims', ' ', $data[2]['titre']));
+
 	// Supprimer les trucs entre crochets, genre [by fil.rezo.net] de delicious
-	$update['retitre'] = trim(preg_replace(',[[].*[]],', '', $update['retitre']));
+	$retitre = trim(preg_replace(',[[].*[]],', '', $update['titre']));
 
 	// "titre, par auteur"
 	// "titre, par auteur (source)"
 	// ne pas prendre les auteurs contenant un @ (emails affiches dans le RSS)
 	if (strlen($aut = trim($data[2]['lesauteurs']))
 	AND !strpos($aut, '@')
+	AND $aut !== $sites[$id_syndic]['titre']
 	AND !preg_match('/, (par|by|por) /i', $update['retitre'])
 	AND !preg_match('/ [(].*[)]$/', $update['retitre'])
 	) {
 		$aut = couper($aut, 60);
-		$update['retitre'] = $update['retitre']
-		.', '._T('forum_par_auteur', array('auteur' => $aut));
+		$retitre .= ', '._T('forum_par_auteur', array('auteur' => $aut));
 	}
 
+	if (strlen($retitre))
+		$update['retitre'] = $retitre;
 
 	// Ajouter sous forme de tags les mots-cles associes au site source
 	$tags = array();
@@ -115,4 +118,10 @@ function rezo_post_syndication($data) {
 		ecrire_meta('derniere_modif', time());
 
 	return $data;
+}
+
+// pour le crayon de logo dans le controleur rezo
+function rezo_revision($id, $file, $type, $ref) {
+	logo_revision($id, $file, $type, $ref);
+	crayons_update_article($id, $file, $type, $ref);
 }

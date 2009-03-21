@@ -1,0 +1,72 @@
+[(#REM)
+
+	Controleur pour le crayon 'rezo' , uniquement html
+
+]
+#CACHE{0}
+<BOUCLE_a(ARTICLES){id_article}{statut?}>
+#SET{titre,#RETITRE|sinon{#TITRE}|retitrage}
+#SET{source,#RETITRE|sinon{#TITRE}|retitrage{source}|sinon{#SOURCE}}
+#SET{auteurs,#RETITRE|retitrage{auteurs}|sinon{#SOUSTITRE}}
+#SET{url_rub,#URL_RUBRIQUE}
+[(#SET{titre_rub,[(#ID_RUBRIQUE|titre_rub)]})]
+#SET{source,#GET{source}|sinon{#GET{titre_rub}}}
+#SET{origine,#SOURCE|sinon{#GET{source}}}
+
+
+<fieldset style="width:#ENV{largeur}px;#ENV{style}">
+<legend><strong>Article ##ID_ARTICLE</strong></legend>
+<div>
+	[<div style="float:#LANG_RIGHT;">(#LOGO_ARTICLE||image_reduire{120})</div>]
+	<a rel="bookmark" href="#URL_SITE" target="_blank"><strong class="entry-title">#GET{titre}</strong><span class='auteur'>[<span class='v'>,</span>
+	<:par_auteur:> <span class="author"><span class="vcard"><span class="fn">(#GET{auteurs})</span></span></span>]</span></a>
+</div>
+
+[(#REM) Titre ]
+<label>Titre&nbsp;: <input class="crayon-active" name="#ENV{name_retitre}"
+ style="width:#ENV{largeur}px; font-weight: bold;" value="[(#RETITRE**|sinon{#TITRE**}|replace{&nbsp;,~}|entites_html)]" /></label><br />
+
+<label>URL&nbsp;: <input class="crayon-active" name="#ENV{name_url_site}"
+ style="width:#ENV{largeur}px; font-weight: bold;" value="[(#URL_SITE**|entites_html)]" /></label><br />
+
+<label>Date&nbsp;: <input class="crayon-active" name="#ENV{name_date}"
+ style="width:16em;" value="[(#DATE**|entites_html)]" /></label><br />
+
+<label>Tags&nbsp;: <input class="crayon-active" name="#ENV{name_retags}"
+ style="width:#ENV{largeur}px;" value="[(#RETAGS**|sinon{#SURTITRE|afficher_tags|supprimer_tags}|entites_html)]" /></label><br />
+
+<label>Source&nbsp;: (menu)</label><br />
+
+
+<label>Type&nbsp;: article / depeche</label><br />
+<label>Statut&nbsp;: publi&#233; / propos&#233; / dispo / poubelle</label><br />
+<label>Langue&nbsp;: fr / en / es</label><br />
+<label>Popularit&#233;&nbsp;: <input class="crayon-active" name="#ENV{name_popularite}"
+ style="width:4em;" value="[(#CHAMP_SQL{popularite}|mult{10}|ceil|div{10})]" /></label><br />
+
+
+[(#REM) Si on modifie le resume => chapo ]
+<label>La&#239;us de pr&#233;sentation&nbsp;:
+<textarea class="crayon-active" name="#ENV{name_chapo}"
+ style="width:100%;[ height:(#ENV{hauteur}|mul{3})px;]">
+[(#CHAPO**
+	|sinon{#DESCRIPTIF**}
+	|sinon{[(#TEXTE**|replace{^x$}|couper{200})]}
+	|replace{&nbsp;,~}
+	|entites_html)]</textarea>
+
+
+<B_stats>
+Visites&nbsp;: <BOUCLE_stats(visites_articles){id_article}{par date}{n-10,10}{", "}><span title="[(#DATE|affdate_jourcourt)]">#VISITES</span></BOUCLE_stats><br />
+
+
+[<span class="source">((#GET{source})[<span class="datehm">
+	<abbr class="updated"[ title="(#DATE|date_iso)]">(#DATE|datehm)]</abbr></span>)</span>]
+
+
+[(#INCLURE{fond=controleurs/logo}{env})
+<!-- input class="crayon-active" name="#ENV{name_logo}" type="hidden" / -->
+]
+
+</fieldset>
+</BOUCLE_a>
