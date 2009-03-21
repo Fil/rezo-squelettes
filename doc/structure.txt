@@ -1,11 +1,18 @@
 ﻿qqs traductions pour la page anglais
 
-page admin
-
 boutons bien/editerbof
+bien = javascript:void(location.href='http://rezo.net/ecrire/toolbar.php3?action=1&url='+escape(location.href))
+bof = javascript:void(location.href='http://rezo.net/ecrire/toolbar.php3?action=0&url='+escape(location.href))
+editer = javascript:void(location.href='http://rezo.net/ecrire/editer.php3?url='+escape(location.href))
+
+delicious:
+javascript:location.href='http://del.icio.us/post?v=4;url='+encodeURIComponent(location.href)+';title='+encodeURIComponent(document.title)
+
+http://leftlogic.com/lounge/articles/microformats_bookmarklet :
+javascript:(function(){function%20l(u,i,t,b){var%20d=document;if(!d.getElementById(i)){var%20s=d.createElement('script');s.src=u;s.id=i;d.body.appendChild(s)}s=setInterval(function(){u=0;try{u=t.call()}catch(i){}if(u){clearInterval(s);b.call()}},200)}l('http://leftlogic.com/js/microformats.js','MF_loader',function(){return!!(typeof%20MicroformatsBookmarklet=='function')},%20function(){MicroformatsBookmarklet()})})();
+
 
 grossir les tags
-
 
 * page "news" -> cf. actu.html
 
@@ -20,7 +27,11 @@ problèmes :
 * charger le contenu texte
 
 
-abandonnés : ical, le "calendrier".
+
+
+abandonnés : ical, le "calendrier"
+
+syndic/encadre.txt (le truc en js) est utilisé exclusivement par http://fabienma.club.fr/annu-art/index.htm et http://www.insenses.org/DesSens/index.htm
 
 
 Les articles qui viennent d'être syndiqués sont "dispo" ou 'publie' selon reglage du site

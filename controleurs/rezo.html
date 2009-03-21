@@ -32,6 +32,7 @@
 class="rezoset" style="width:450px;#ENV{style}">
 <legend><strong>##ID_ARTICLE</strong></legend>
 <div>
+<img src="http://rezo.net/img_rezo/iconerezo.gif" style="float:#LANG_RIGHT;" />
 	<a rel="bookmark" href="#URL_SITE" target="_blank"><strong class="entry-title">#GET{titre}</strong><span class='auteur'>[<span class='v'>,</span>
 	<:par_auteur:> <span class="author"><span class="vcard"><span class="fn">(#GET{auteurs})</span></span></span>]</span></a>
 </div>
@@ -132,7 +133,7 @@ class="rezoset" style="width:450px;#ENV{style}">
 
 <br />
 
-<label class="micro">Popularit&#233;&nbsp;:</label> <input class="crayon-active" name="#ENV{name_popularite}"
+<label class="micro">Popul&#8230;&nbsp;:</label> <input class="crayon-active" name="#ENV{name_popularite}"
 style="width:4em;" value="[(#CHAMP_SQL{popularite}|mult{10}|ceil|div{10})]" />
  
 
