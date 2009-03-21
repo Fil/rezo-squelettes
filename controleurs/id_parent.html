@@ -1,0 +1,28 @@
+[(#REM)
+
+	Controleur pour le crayon 'id_rubrique', uniquement html
+
+]
+#CACHE{0}
+
+<BOUCLE_a(ARTICLES){id_article}{statut==.}>
+#SET{id,#ID_RUBRIQUE}
+</BOUCLE_a>
+
+
+<select class="crayon-active" name="#ENV{name_id_rubrique}"
+ style="width:#ENV{largeur}px;#ENV{style}" >
+
+<BOUCLE_pref(RUBRIQUES)
+{titre==(Dans la presse|Relev.*sur le net|En anglais)}
+{doublons}>
+<option value="#ID_RUBRIQUE"[
+	(#GET{id}|=={#ID_RUBRIQUE}|?{selected})]>[(#TITRE|couper{50})]</option>
+</BOUCLE_pref>
+
+
+<BOUCLE_r(RUBRIQUES){par num titre, titre}{age<365}{doublons}>
+<option value="#ID_RUBRIQUE"[
+	(#GET{id}|=={#ID_RUBRIQUE}|?{selected})]>[(#TITRE|couper{50})]</option>
+</BOUCLE_r>
+</select>

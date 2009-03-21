@@ -42,8 +42,9 @@ h4,h5 {
  z-index:1;
 }
 
-.articles .hentry {
+.hentry {
 	position: relative;
+	clear:both;
 }
 
 	body {
@@ -493,33 +494,16 @@ body.page_rubrique #conteneur {
 	white-space: nowrap;
 }
 
-
 /* pages admin */
-.hentry a.admin {
-background:red;
+body.admin .hentry a[rel=bookmark], option[value=poubelle] {
+	background:#F6CECE !important;
 }
-.prop a.admin {
-background:orange;
+body.admin .hentry.prop a[rel=bookmark], option[value=prop] {
+	background:#F6E3CE !important;
 }
-.dispo a.admin {
-background:cyan;
+body.admin .hentry.dispo a[rel=bookmark], option[value=dispo] {
+	background:#CEF6F5 !important;
 }
-.publie a.admin {
-background:green;
-}
-.hentry {
-	clear:both;
-}
-a.admin{
-	display:block;
-	float:left;
-	margin-right:5px;
-	width:14px;
-	overflow:none;
-	height: 1.9em;
-	color:transparent;
-	margin-bottom:2px;
-}
-body.admin a[rel=bookmark] {
-/*	background-color: yellow !important; */
+body.admin .hentry.publie a[rel=bookmark], option[value=publie] {
+	background:#E0F8EC !important;
 }

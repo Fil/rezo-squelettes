@@ -7,48 +7,114 @@
 <BOUCLE_a(ARTICLES){id_article}{statut?}>
 #SET{titre,#RETITRE|sinon{#TITRE}|retitrage}
 #SET{source,#RETITRE|sinon{#TITRE}|retitrage{source}|sinon{#SOURCE}}
-#SET{auteurs,#RETITRE|retitrage{auteurs}|sinon{#SOUSTITRE}}
+#SET{auteurs,#RETITRE|?{#RETITRE|retitrage{auteurs},#SOUSTITRE}}
 #SET{url_rub,#URL_RUBRIQUE}
 [(#SET{titre_rub,[(#ID_RUBRIQUE|titre_rub)]})]
 #SET{source,#GET{source}|sinon{#GET{titre_rub}}}
 #SET{origine,#SOURCE|sinon{#GET{source}}}
 
+<style type='text/css'>
+.rezoset label.micro {
+	width: 50px;
+	text-align:right;
+	margin-#LANG_RIGHT: 4px;
+	vertical-align:top;
+	float:#LANG_LEFT;
+}
 
-<fieldset style="width:#ENV{largeur}px;#ENV{style}">
-<legend><strong>Article ##ID_ARTICLE</strong></legend>
+.rezoset {
+	border: 4px solid #ccd1cc;
+}
+</style>
+
+
+<fieldset
+class="rezoset" style="width:450px;#ENV{style}">
+<legend><strong>##ID_ARTICLE</strong></legend>
 <div>
-	[<div style="float:#LANG_RIGHT;">(#LOGO_ARTICLE||image_reduire{120})</div>]
 	<a rel="bookmark" href="#URL_SITE" target="_blank"><strong class="entry-title">#GET{titre}</strong><span class='auteur'>[<span class='v'>,</span>
 	<:par_auteur:> <span class="author"><span class="vcard"><span class="fn">(#GET{auteurs})</span></span></span>]</span></a>
 </div>
+[<span class="source">((#GET{source})[<span class="datehm">
+	<abbr class="updated"[ title="(#DATE|date_iso)]">(#DATE|datehm)]</abbr></span>)</span>]
 
 [(#REM) Titre ]
-<label>Titre&nbsp;: <input class="crayon-active" name="#ENV{name_retitre}"
- style="width:#ENV{largeur}px; font-weight: bold;" value="[(#RETITRE**|sinon{#TITRE**}|replace{&nbsp;,~}|entites_html)]" /></label><br />
+<p>
+<label class="micro">Titre&nbsp;:</label> <input class="crayon-active" name="#ENV{name_retitre}"
+ style="width:380px; font-weight: bold;" value="[(#RETITRE**|sinon{#TITRE**}|replace{&nbsp;,~}|entites_html)]" />
+</p>
 
-<label>URL&nbsp;: <input class="crayon-active" name="#ENV{name_url_site}"
- style="width:#ENV{largeur}px; font-weight: bold;" value="[(#URL_SITE**|entites_html)]" /></label><br />
+<p>
+<label class="micro">URL&nbsp;:</label> <input class="crayon-active" name="#ENV{name_url_site}"
+ style="width:380px; font-family: courier;" value="[(#URL_SITE**|entites_html)]" /></p>
 
-<label>Date&nbsp;: <input class="crayon-active" name="#ENV{name_date}"
- style="width:16em;" value="[(#DATE**|entites_html)]" /></label><br />
+<p>
+<label class="micro">Tags&nbsp;:</label> <input class="crayon-active" name="#ENV{name_retags}"
+ style="width:380px;" value="[(#RETAGS**|sinon{#SURTITRE|afficher_tags|supprimer_tags}|entites_html)]" /></p>
 
-<label>Tags&nbsp;: <input class="crayon-active" name="#ENV{name_retags}"
- style="width:#ENV{largeur}px;" value="[(#RETAGS**|sinon{#SURTITRE|afficher_tags|supprimer_tags}|entites_html)]" /></label><br />
+<p>
+<label class="micro">Source&nbsp;:</label>
+[(#INCLURE{fond=controleurs/id_parent}{env})
+<!-- input class="crayon-active" name="#ENV{name_id_rubrique}" type="hidden" / -->]
+</p>
 
-<label>Source&nbsp;: (menu)</label><br />
+
+[<div style="float:#LANG_RIGHT;">(#INCLURE{fond=controleurs/logo}{env})
+<!-- input class="crayon-active" name="#ENV{name_logo}" type="hidden" / -->
+</div>
+]
 
 
-<label>Type&nbsp;: article / depeche</label><br />
-<label>Statut&nbsp;: publi&#233; / propos&#233; / dispo / poubelle</label><br />
-<label>Langue&nbsp;: fr / en / es</label><br />
-<label>Popularit&#233;&nbsp;: <input class="crayon-active" name="#ENV{name_popularite}"
- style="width:4em;" value="[(#CHAMP_SQL{popularite}|mult{10}|ceil|div{10})]" /></label><br />
+<div>
+<label class="micro">Type&nbsp;:</label>
+	#SET{id,#CHAMP_SQL{type}}
+	<select class="crayon-active" name="#ENV{name_type}">
+	<option value="une"[
+		(#GET{id}|=={une}|?{selected})="selected"]>&#192; la une</option>
+	<option value="tresbien"[
+		(#GET{id}|=={tresbien}|?{selected})="selected"]>tr&#232;s bien</option>
+	<option value="article"[
+		(#GET{id}|=={article}|?{selected})="selected"]>article</option>
+	<option value=""[
+		(#GET{id}|?{'',selected})="selected"]>d&#233;p&#234;che</option>
+	</select>
+
+	[(#REM) TODO: Ne pas proposer ce menu pour les articles une et tresbien]
+	[(#GET{id}|match{^(une|tresbien)?$}|non)]
+	#SET{id,#STATUT}
+	<select class="crayon-active" name="#ENV{name_statut}">
+	<option value="publie"[
+		(#GET{id}|=={publie}|?{selected})="selected"]>publi&#233;</option>
+	[<option value="dispo"
+		(#GET{id}|=={dispo}|?{selected})="selected">&#224; valider</option>]
+	<option value="prop"[
+		(#GET{id}|=={prop}|?{selected})="selected"]>bof</option>
+	<option value="poubelle"[
+		(#GET{id}|=={poubelle}|?{selected})="selected"]>refus&#233;</option>
+	</select>
+
+<br />
+
+<label class="micro">Langue&nbsp;:</label>
+	#SET{id,#LANG}
+	<select class="crayon-active" name="#ENV{name_lang}">
+	<option value="fr"[
+		(#GET{id}|=={fr}|?{selected})="selected"]>fran&#231;ais</option>
+	<option value="en"[
+		(#GET{id}|=={en}|?{selected})="selected"]>anglais</option>
+	<option value="es"[
+		(#GET{id}|=={dispo}|?{selected})="selected"]>espagnol</option>
+	</select>
+	
+ </div><!-- float -->
+
+<div style='clear:both'></div>
 
 
 [(#REM) Si on modifie le resume => chapo ]
-<label>La&#239;us de pr&#233;sentation&nbsp;:
+<label class="micro">La&#239;us&nbsp;:</label>
 <textarea class="crayon-active" name="#ENV{name_chapo}"
- style="width:100%;[ height:(#ENV{hauteur}|mul{3})px;]">
+ style="width:380px;height:90px;">
 [(#CHAPO**
 	|sinon{#DESCRIPTIF**}
 	|sinon{[(#TEXTE**|replace{^x$}|couper{200})]}
@@ -57,16 +123,18 @@
 
 
 <B_stats>
-Visites&nbsp;: <BOUCLE_stats(visites_articles){id_article}{par date}{n-10,10}{", "}><span title="[(#DATE|affdate_jourcourt)]">#VISITES</span></BOUCLE_stats><br />
+<p>
+<label class="micro">Visites&nbsp;:</label> <BOUCLE_stats(visites_articles){id_article}{par date}{n-10,10}{", "}><span title="[(#DATE|affdate_jourcourt)]">#VISITES</span></BOUCLE_stats></p>
 
+<label class="micro">Date&nbsp;:</label>
+<input class="crayon-active" name="#ENV{name_date}"
+ style="width:12em;" value="[(#DATE**|entites_html)]" />
 
-[<span class="source">((#GET{source})[<span class="datehm">
-	<abbr class="updated"[ title="(#DATE|date_iso)]">(#DATE|datehm)]</abbr></span>)</span>]
+<br />
 
-
-[(#INCLURE{fond=controleurs/logo}{env})
-<!-- input class="crayon-active" name="#ENV{name_logo}" type="hidden" / -->
-]
+<label class="micro">Popularit&#233;&nbsp;:</label> <input class="crayon-active" name="#ENV{name_popularite}"
+style="width:4em;" value="[(#CHAMP_SQL{popularite}|mult{10}|ceil|div{10})]" />
+ 
 
 </fieldset>
 </BOUCLE_a>

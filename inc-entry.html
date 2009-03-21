@@ -2,7 +2,7 @@
 
 #SET{titre,#RETITRE|sinon{#TITRE}|retitrage}
 #SET{source,#RETITRE|sinon{#TITRE}|retitrage{source}|sinon{#SOURCE}}
-#SET{auteurs,#RETITRE|retitrage{auteurs}|sinon{#SOUSTITRE}}
+#SET{auteurs,#RETITRE|?{#RETITRE|retitrage{auteurs},#SOUSTITRE}}
 #SET{url_rub,#URL_RUBRIQUE}
 [(#SET{titre_rub,[(#ID_RUBRIQUE|titre_rub)]})]
 #SET{source,#GET{source}|sinon{#GET{titre_rub}}}

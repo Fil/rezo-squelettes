@@ -36,6 +36,7 @@
 	}
 
 	var large_ou_etroit = function() {
+		if ($('body').is('.page_admin')) return;
 		if ($.cookie('affichage') == '1024')
 			return large();
 		if ($.cookie('affichage') == '800')
@@ -74,6 +75,7 @@
 				$('a[rel=bookmark]', this)
 				.clone()
 				.html('')
+				.attr('rel','')
 				.append(im)
 				.insertAfter($('h5:eq(0)',this));
 				image=4;
@@ -83,7 +85,7 @@
 
 		// cliquer un lien provoque un redirect pour les stats
 		// mais on remet le bon url dans le DOM
-		$('a[rel=bookmark]')
+		$('a')
 		.click(function() {
 			var id  = $(this).parents('.hentry').attr('id');
 			if (id && id.match(/^[ab]\d+/)) {
@@ -114,6 +116,7 @@
 
 		// lien "une" clicable dans son integralite
 		$('#une').one('click', function(){
+			if (!$('body').is('.admin'))
 			document.location = $('a[rel=bookmark]', this).click().attr('href');
 		});
 
@@ -130,33 +133,23 @@
 
 		// pour les admins ajouter le dblclick d'edition
 		if ($.cookie('spip_admin')) {
-			$('body').bind('dblclick', function () {
-				$('body').toggleClass('admin');
+			$('body')
+			.dblclick(function(e) {
+				if ($(e.originalTarget).parents('fieldset').length == 0)
+					$('body').toggleClass('admin');
+			});
+			$('body.page_admin').addClass('admin');
+			$('a[rel=bookmark]')
+			.live('click', function(e){
 				if ($('body').is('.admin')) {
-					$('a[rel=bookmark]')
-					.each(function() {
-						var id = $(this).parents('.hentry')
-							.attr('id').replace(/^[ab]/,'');
-						$(this)
-						.prev()
-						.after(
-							$('<a class="admin"><\/a>')
-							.click(function(e){
-								cQuery(this)
-								.parents('.crayon:eq(0)')
-								.iconecrayon()
-								.addClass('crayon-autorise')
-								.opencrayon(e);
-								return false;
-							})
-						);
-;					});
-				} else {
-					$('a.admin').remove();
+					cQuery(this)
+					.parents('.crayon:eq(0)')
+					.iconecrayon()
+					.addClass('crayon-autorise')
+					.opencrayon(e);
+					return false;
 				}
 			});
-			// lancer automatiquement l'admin sur la page admin
-			$('body.page_admin').dblclick();
 		}
 
 		// Ajouter les boutons cookie/preference dans le pied de page
