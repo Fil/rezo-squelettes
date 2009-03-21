@@ -77,10 +77,13 @@ RewriteRule ^toolbar/?$     /a6 [QSA,L]
 RewriteRule ^lautre$        spip.php?page=lautre [QSA,L]
 RewriteRule ^anniversaire$  spip.php?page=vieux [QSA,L]
 RewriteRule ^croissance$    croissance.htm [L]
-
+RewriteRule ^syndic/encadre\.txt$	spip.php?page=distrib [QSA,L]
 
 # article du portail (intro seulement si pas interne)
 RewriteRule ^a([0-9]+)$  spip.php?page=article&id_article=$1 [QSA,L]
+
+# ancien bouton bien/bof/editer
+RewriteRule ^ecrire/(toolbar|editer).php3 spip.php?page=$1 [QSA,L]
 
 # rezo.net/irc
 RewriteRule ^irc$	http://embed.mibbit.com/?server=irc.freenode.net&channel=#rezo [R,L]
