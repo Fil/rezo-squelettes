@@ -1,0 +1,86 @@
+#CACHE{0}
+#HTTP_HEADER{Content-Type: text/html; charset=#CHARSET}
+
+[(#REM)
+
+	plus_fonctions.php positionne id sur l'id_article s'il existe deja,
+	sinon sur 'new'
+]
+#SET{id,#EVAL{$GLOBALS['hack_id_article']}}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
+<head>
+<title>[(#TITRE|textebrut) - ][(#NOM_SITE_SPIP|textebrut)]</title>
+[<meta name="description" content="(#INTRODUCTION{150}|attribut_html)" />]
+<INCLURE{fond=inc-head}>
+</head>
+
+<body class="page_article">
+<div id="page">
+
+	[(#REM) Bandeau de la page ]
+	<INCLURE{fond=inc-bandeau} />
+
+
+<div id="entete" class="central">
+
+<div id="accueil">
+<a rel="start home" href="#URL_SITE_SPIP/"><img alt="#NOM_SITE_SPIP"
+src="http://rezo.net/img_rezo/iconerezo.gif" /> Accueil</a>
+<br />
+<a href="/admin"><img alt=""
+src="http://rezo.net/img_rezo/iconerezo.gif" /> Admin</a>
+
+</div>
+</div>
+
+
+	<div class="central">
+
+	<BOUCLE_modif(ARTICLES){id_article=#GET{id}}{statut?}>
+
+	<div style="margin-#LANG_LEFT:100px; width:445px;">
+	<form enctype="multipart/form-data" action="/?action=crayons_store" method="post" class="formulaire_crayon">
+	#CRAYON{rezo}
+
+	<div class="crayon-boutons"><div>
+	<a title="Enregistrer" class="crayon-submit"><img width="20" height="20" src="http://v3.rezo.net/plugins/crayons/images/ok.png"
+	onclick="$('form').submit();"
+	/></a>[<a title="Annuler" class="crayon-cancel"><img width="20" height="20" src="http://v3.rezo.net/plugins/crayons/images/cancel.png"
+	onclick="window.location=(#URL_SITE*|_q);"
+	/></a>]
+
+
+	</div></div>
+	</form>
+
+
+
+<script>
+	$('form')
+	.ajaxForm({
+		"dataType":"json",
+		"success": function(d) {
+			window.location=[(#URL_SITE*|_q)];
+		}
+	})
+	.one('submit', function(){
+		$('form')
+		.css('opacity', 0.5)
+		.after(configCrayons.mkimg('searching')) // icone d'attente
+		.find(".crayon-boutons,.resizehandle")
+		.hide();
+	});
+</script>
+
+
+
+	</BOUCLE_modif>
+
+	</div>
+	</div>
+
+
+</div>
+</body>
+</html>

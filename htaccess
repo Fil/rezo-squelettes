@@ -61,6 +61,9 @@ RewriteRule ^([0-9]{4}-[0-9]{2}-[0-9]{2})$	spip.php?page=sommaire&semaine=$1 [QS
 # ping + redirect article
 RewriteRule ^([0-9]+)$	spip.php?page=ping&id_article=$1 [QSA,L]
 
+# bookmarklet moderne
+RewriteRule ^plus$ spip.php?page=plus [QSA,L]
+
 # articles speciaux
 RewriteRule ^pourquoi/?$    /a1 [QSA,L]
 RewriteRule ^liste/?$       /a2 [QSA,L]
@@ -83,7 +86,7 @@ RewriteRule ^syndic/encadre\.txt$	spip.php?page=distrib [QSA,L]
 RewriteRule ^a([0-9]+)$  spip.php?page=article&id_article=$1 [QSA,L]
 
 # ancien bouton bien/bof/editer
-RewriteRule ^ecrire/(toolbar|editer).php3 /plus?qs%{QUERY_STRING} [QSA,R]
+RewriteRule ^ecrire/(toolbar|editer).php3 /plus?qs:%{QUERY_STRING} [R]
 
 # rezo.net/irc
 RewriteRule ^irc$	http://embed.mibbit.com/?server=irc.freenode.net&channel=#rezo [R,L]
