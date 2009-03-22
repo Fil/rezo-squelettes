@@ -83,7 +83,7 @@ RewriteRule ^syndic/encadre\.txt$	spip.php?page=distrib [QSA,L]
 RewriteRule ^a([0-9]+)$  spip.php?page=article&id_article=$1 [QSA,L]
 
 # ancien bouton bien/bof/editer
-RewriteRule ^ecrire/(toolbar|editer).php3 spip.php?page=$1 [QSA,L]
+RewriteRule ^ecrire/(toolbar|editer).php3 /plus?qs%{QUERY_STRING} [QSA,R]
 
 # rezo.net/irc
 RewriteRule ^irc$	http://embed.mibbit.com/?server=irc.freenode.net&channel=#rezo [R,L]

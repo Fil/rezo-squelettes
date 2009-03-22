@@ -1,12 +1,11 @@
 <div id="bandeau">
 <div class="central">
-
 	<div class="maj">[(#ENV{semaine}|?{
 	[la s&#233;lection du (#ENV{semaine}|nom_jour) ][(#ENV{semaine}|affdate).]
 	}|sinon{
-		derni&egrave;re mise &agrave; jour&nbsp;:<br />
+		<:lastup:><br />
 		<b>[(#DATE|nom_jour) ][(#DATE|jour) ][(#DATE|nom_mois)
-		][&#224;
+		][<:lastupat:>
 		(#DATE|affdate{H\hi}|replace{(1|2|3|4)$,0}|replace{(6|7|8|9)$,5})]</b>
 	})]
 	</div>

@@ -1,6 +1,4 @@
-﻿qqs traductions pour la page anglais
-
-boutons bien/editerbof
+﻿boutons bien/editerbof
 bien = javascript:void(location.href='http://rezo.net/ecrire/toolbar.php3?action=1&url='+escape(location.href))
 bof = javascript:void(location.href='http://rezo.net/ecrire/toolbar.php3?action=0&url='+escape(location.href))
 editer = javascript:void(location.href='http://rezo.net/ecrire/editer.php3?url='+escape(location.href))

@@ -29,6 +29,7 @@
 <BOUCLE_cut(ARTICLES)
 {lang}{type!=''}
 {!par popularite}
+{doublons cut}
 {0,50}
 ></BOUCLE_cut>
 
@@ -80,7 +81,7 @@
 		<B_breves>
 		<div id="depeches" class="menu pavedepeches">
 		#ANCRE_PAGINATION
-			<h4>D&#233;p&#234;ches</h4>
+			<h4>News in brief</h4>
 				<BOUCLE_breves(ARTICLES)
 				{lang}
 				{doublons}
@@ -97,7 +98,7 @@
 		<B_aussi>
 		<div id="aussi" class="menu pavedepeches">
 		#ANCRE_PAGINATION
-			<h4>Et aussi...</h4>
+			<h4>And also...</h4>
 				<BOUCLE_aussi(ARTICLES)
 				{lang}
 				{doublons}
