@@ -513,3 +513,15 @@ body.admin .hentry.publie a[rel=bookmark], option[value=publie] {
 .rezoset a:visited {
 	color: #224422;
 }
+.en_lignes {
+	margin:auto;
+	text-align:center;
+	border-bottom: dotted 1px gray;
+	margin-bottom:3px;
+	color: #333;
+}
+.en_lignes a,.en_lignes a:visited {
+	color: #222;
+	font-weight: bold;
+	margin-right: 10px;
+}

@@ -29,6 +29,11 @@ function datehm($date) {
 		: date('d/m', $u);
 }
 
+// pour que les crayons fonctionnent chez les redacteurs
+function autoriser_modifier_article($quoi, $id, $qui) {
+	return in_array($qui['statut'], array('0minirezo', '1comite'));
+}
+
 // les tags arrivent sous forme d'une liste de mots seapares par des virgules
 // on remet les bons mots quand il s'agit de mots-cles connus, et on passe 
 // chaque mot en gras

@@ -19,5 +19,20 @@
 	</div>
 
 <div style='clear:both;'></div>
+
 </div>
+
+	<?php
+		if ($GLOBALS['auteur_session']) {
+			include_spip('inc/commencer_page');
+			include_spip('inc/actions');
+			include_spip('inc/texte');
+			echo "<div class='en_lignes'>";
+			echo "<a href='/admin'>Admin</a>";
+			if ($r = auteurs_recemment_connectes( $GLOBALS['auteur_session']['id_auteur'])) {
+				echo " &mdash; ". supprimer_tags($r);
+			}
+			echo "</div>\n";
+		}
+	?>
 

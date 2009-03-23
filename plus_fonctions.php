@@ -2,19 +2,56 @@
 
 if (!defined("_ECRIRE_INC_VERSION")) return;
 
-function get_content(&$node) {
-	if (preg_match(',\bconten,i', $node->attribute['class'].' '.$node->attribute['id'])) {
-		include_spip('inc/sale');
-		return sale($node->value);
+function get_content3(&$node) {
+	static $scores = array(); static $nodes = array();
+	static $cpt = 0;
+
+	if (in_array($node->name, array('script', 'style', 'head', 'iframe', 'frame'))) {
+		unset($node);
+		return '';
+	}
+	if (in_array($node->attribute['id'], array('navigation', 'footer' /* , 'mj_header', 'ticker', 'rightSidebar' */))) {
+		unset($node);
+		return '';
 	}
 
+	$scores[$cpt]=1;
+
+	$c = array();
 	if ($node->hasChildren()) {
-		foreach($node->child as $child) {
-			if ($a = get_content($child))
-				return $a;
+		foreach($node->child as $i=>$child) {
+			$c[$child->name]++;
+			if ($child->name == 'p') {
+				$txt = trim(supprimer_tags($child->value));
+				$scores[$cpt] += 5 * ($n=10*count(preg_split('/,\s/msS', $txt)) + sqrt(count(preg_split('/\s+/msS', $txt))) -11);
+			} else {
+				$blob = get_content3($child);
+				if (is_array($blob)) {
+					list($s) = @each($blob);
+					$s = intval(substr($s,1))-100000;
+					$scores[$cpt] += $s/200;
+				}
+			}
 		}
 	}
+
+	if ($c['img'] > $c['p'] OR $c['li'] > $c['p'] OR $c['a'] > $c['p'])
+		$scores[$cpt] *= 0.1;
+
+	$nodes[$cpt] = preg_replace(',<!--\s.*\s-->,UmsS', '', $node->value);
+
+	$scores[$cpt] *= 2/(2+log(100+$node->line));
+	#$scores[$cpt] *= log(1+strlen(supprimer_tags($nodes[$cpt])));
+	$scores[$cpt] += 20 * preg_match('/\b(post|hentry|entry[-]?(content|text|body)?|article[-]?(content|text|body)?)\b/iS', $node->attribute['class']);
+
+	$cpt++;
+
+	foreach ($scores as $m => $n)
+		$blob["a".(100000+ceil(100*$n))] = $nodes[$m];
+	krsort($blob);
+	return $blob;
 }
+
 
 if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 
@@ -28,19 +65,29 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 	}
 	// sinon on regarde si cet auteur a deja un article temporaire
 	// de plus de 15minutes, et on le prend ; sinon on le cree
-	/* else */ {
+	else
+	{
 		if ($s = sql_query("SELECT a.id_article FROM spip_auteurs_articles AS l LEFT JOIN spip_articles AS a ON (l.id_auteur=$id_auteur AND l.id_article=a.id_article)
-	 	WHERE a.statut='prepa' AND a.date<".sql_quote(date('Y-m-d H:i:s', time()-15*60))
-		." ORDER BY a.date DESC LIMIT 1")
+	 	WHERE a.statut='prepa' AND a.date_modif<".sql_quote(date('Y-m-d H:i:s', time()-15*60))
+		." ORDER BY a.date_modif DESC LIMIT 1")
 		AND $t = sql_fetch($s)) {
 			$id_article = $t['id_article'];
+			sql_updateq('spip_articles',
+				array(
+				'retitre' => '',
+				'retags' => '',
+				'titre' => '',
+				'descriptif' => '',
+				'chapo' => ''),
+				'id_article='.$id_article
+			);
 		}
 		else if (!$id_article) {
 			$id_article = sql_insertq('spip_articles', array());
+			// Donner un auteur
+			sql_insertq('spip_auteurs_articles', array('id_auteur' => $id_auteur, 'id_article' => $id_article));
 		}
 
-		// Donner un auteur
-		sql_insertq('spip_auteurs_articles', array('id_auteur' => $id_auteur, 'id_article' => $id_article));
 
 		//
 		// On va chercher le contenu
@@ -51,7 +98,11 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 
 		$head = extraire_balise($page, 'head');
 		if (!$body = extraire_balise($page, 'body'))
-			$body = $page;
+			$body = str_replace($head, '', $page);
+
+		// supprimer les blocs style ou script qui trainent
+		foreach(array_merge(extraire_balises($body, 'script'),extraire_balises($body, 'style')) as $script)
+			$body = str_replace($script, '', $body);
 
 		// le titre
 		$titre = importer_charset(_request('title'), 'utf-8');
@@ -61,11 +112,19 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 		}
 
 		// le texte & le descriptif...
+		$page = preg_replace(',<(span)\b.*>,Uims', '', $page);
+		$page = preg_replace('/(<br\b.*>(\s|&nbsp;)*){2,}/Uims', '<p>', $page);
+
+		// sale pour remettre en spip
+		include_spip('inc/sale');
+
 		$tidy = new tidy;
 		$tidy->parseString($page);
 		$tidy->cleanRepair();
-		if (!$texte = get_content($tidy->root()))
-			$texte = supprimer_tags($body);
+		if (!$texte = get_content3($tidy->root())
+		OR !$texte = trim(sale(array_shift($texte)))) {
+			$texte = trim(sale($body));
+		}
 
 		if ($metas = extraire_balises($head, 'meta'))
 			foreach($metas as $meta)
@@ -76,8 +135,8 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 			$descriptif = couper($texte, 600);
 
 		// Le logo
-		if ($imgs = extraire_balises($body, 'img'))
-			foreach($imgs as $img)
+		if ($imgs = extraire_balises($texte, 'img')) {
+			foreach($imgs as $img) {
 				if (preg_match(',logos?\b,i', extraire_attribut($img, 'class'))) {
 					$logo = extraire_attribut($img, 'src');
 					$base = sinon(extraire_attribut(extraire_balise('base', 'head'), 'href'), $url);
@@ -91,13 +150,14 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 					}
 					break;
 				}
+			}
+		}
 
-
-		// les tags !
+		// les tags : microformat relTag
 		$tags = array();
 		foreach(extraire_balises($page, 'a') as $a) {
 			if (extraire_attribut($a, 'rel') == 'tag')
-				$tags[] = $a;
+				$tags[] = str_replace('&nbsp;', ' ', $a);
 		}
 		$surtitre = join(', ', $tags);
 
@@ -132,6 +192,7 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 				'id_rubrique' => $rub,
 				'id_secteur' => $rub,
 				'date' => date('Y-m-d H:i:s'),
+				'date_modif' => date('Y-m-d H:i:s'),
 				'titre' => sinon($titre, '(Sans titre)'),
 				'descriptif' => $descriptif,
 				'texte' => $texte,
@@ -142,6 +203,8 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 			),
 			'id_article='.$id_article
 		);
+
+		$GLOBALS['hack_new'] = 1;
 	}
 
 	$GLOBALS['hack_id_article'] = $id_article;
