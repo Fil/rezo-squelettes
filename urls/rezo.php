@@ -10,7 +10,12 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 	if (is_numeric($i)) {
 		// si #URL_ARTICLE est demande, pas la peine de chercher dans spip_urls.
 		if ($entite === 'article') {
-			return _DIR_RACINE.'a'.$i;
+			$url = _DIR_RACINE.'a'.$i;
+			if ($args)
+				$url .= '?'.$args;
+			if ($ancre)
+				$url .= '#'.$ancre;
+			return $url;
 		}
 		// si #URL_RUBRIQUE ou #URL_MOT est demandee, utiliser le static
 		else if (in_array($entite, array('mot','rubrique'))) {
@@ -56,6 +61,7 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 
 	$f = charger_fonction('propres', 'urls');
 	$url = $f($mot, $entite, $args, $ancre);
+
 
 	// Creer la 404 sur http://v3.rezo.net/dsds(.html)
 	if ($url[1] == ''
