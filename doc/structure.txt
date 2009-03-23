@@ -165,37 +165,21 @@ TODO:
 
 index fulltext (necessite MyISAM)
 
+plugin FULLTEXT
+
 mysql> ALTER TABLE spip_articles ENGINE = MyISAM;
 Query OK, 123869 rows affected (10.46 sec)
 Records: 123869  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE spip_articles CHANGE `texte` `texte` LONGTEXT NOT NULL;
 
 mysql> ALTER TABLE spip_articles ADD FULLTEXT `full1` (`surtitre`,`titre`,`soustitre`,`chapo`,`texte`,`nom_site`,`url_site`,`descriptif`); 
 mysql> ALTER TABLE spip_articles ADD FULLTEXT `titre` (`titre`); 
 
 
-+ patch sur inc/rechercher.php pour gerer le fulltext
-
-mysql> select count(id_article) from spip_articles where MATCH(surtitre,titre,descriptif,chapo,texte) AGAINST('nouveaux polars') ;
-+-------------------+
-| count(id_article) |
-+-------------------+
-|              4804 | 
-+-------------------+
-1 row in set (0.08 sec)
-
-
-
-select id_article, 8*(MATCH(`titre`) AGAINST ('nouveaux|polars')) + MATCH(`surtitre`,`titre`,`soustitre`,`chapo`,`texte`,`nom_site`,`url_site`,`descriptif`) AGAINST('nouveaux|polars') as score from spip_articles where MATCH(`surtitre`,`titre`,`soustitre`,`chapo`,`texte`,`nom_site`,`url_site`,`descriptif`) AGAINST('nouveaux|polars')  ORDER BY score DESC limit 10
-
-
-
-
-
-select t.id_article, SUM(MATCH(mots.`titre`) AGAINST ('banlieues')) AS scmot, 8*(MATCH(t.`titre`) AGAINST ('banlieues')) + MATCH(t.`surtitre`,t.`titre`,t.`soustitre`,t.`chapo`,t.`texte`,t.`nom_site`,t.`url_site`,t.`descriptif`) AGAINST('banlieues')+SUM(MATCH(mots.`titre`) AGAINST ('banlieues')) as score from spip_articles AS t LEFT JOIN spip_mots_articles as lien ON lien.id_article=t.id_article LEFT JOIN spip_mots AS mots ON lien.id_mot=mots.id_mot GROUP BY t.id_article ORDER BY score DESC limit 10;
-
-
-select titre,t.id_article, SUM(MATCH(auteurs.`nom`) AGAINST ('Lazuly')) AS scaut, 8*(MATCH(t.`titre`) AGAINST ('Lazuly')) + MATCH(t.`surtitre`,t.`titre`,t.`soustitre`,t.`chapo`,t.`texte`,t.`nom_site`,t.`url_site`,t.`descriptif`) AGAINST('Lazuly')+SUM(MATCH(auteurs.`nom`) AGAINST ('Lazuly')) as score from spip_articles AS t LEFT JOIN spip_auteurs_articles as lien ON lien.id_article=t.id_article LEFT JOIN spip_auteurs AS auteurs ON lien.id_auteur=auteurs.id_auteur  GROUP BY t.id_article ORDER BY score DESC limit 20,10;
-
-
 
 => On pourrait ajouter un UNIQUE sur url_site, pour interdire les syndications en provenance de sites differents (ou manuel / automatique)
+
+
+
+Supprimer IMG/cache-*

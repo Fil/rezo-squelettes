@@ -24,6 +24,9 @@ DROP TABLE spip_syndic_articles;
 ALTER TABLE spip_articles ADD id_syndic BIGINT(21) NOT NULL DEFAULT '0';
 ALTER TABLE spip_articles ADD url_source TINYTEXT NOT NULL DEFAULT '';
 ALTER TABLE spip_articles ADD source TINYTEXT NOT NULL DEFAULT '';
+ALTER TABLE spip_articles ADD type TINYTEXT NOT NULL DEFAULT '';
+ALTER TABLE spip_articles ADD retitre TINYTEXT NOT NULL DEFAULT '';
+ALTER TABLE spip_articles ADD retags TINYTEXT NOT NULL DEFAULT '';
 
 pour accelerer la syndication :
 ALTER TABLE spip_articles ADD INDEX syndic (url_site,id_syndic);

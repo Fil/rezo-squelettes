@@ -85,7 +85,6 @@
 		<B_articles_recents>
 		<div class="menu articles">
 				<BOUCLE_articles_recents(ARTICLES)
-				{!doublons recents}
 				{doublons}
 				{type!=''}
 				{!doublons cut}
@@ -129,7 +128,8 @@
 				{!doublons recents}
 				{doublons}
 				{type=''}
-				{par date}{inverse} {doublons}
+				{lang=fr}
+				{!par date}
 				{0,10}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
@@ -143,8 +143,9 @@
 				<BOUCLE_aussi(ARTICLES)
 				{!doublons recents}
 				{doublons}
+				{lang=fr}
 				{type!=''}
-				{par date}{inverse} {doublons}
+				{!par date}
 				{0,18}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
