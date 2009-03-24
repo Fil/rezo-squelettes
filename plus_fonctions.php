@@ -118,13 +118,15 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 		// sale pour remettre en spip
 		include_spip('inc/sale');
 
-		$tidy = new tidy;
-		$tidy->parseString($page);
-		$tidy->cleanRepair();
-		if (!$texte = get_content3($tidy->root())
-		OR !$texte = trim(sale(array_shift($texte)))) {
-			$texte = trim(sale($body));
+		if (class_exists('tidy')) {
+			$tidy = new tidy;
+			$tidy->parseString($page);
+			$tidy->cleanRepair();
+			if ($texte = get_content3($tidy->root()))
+				$texte = trim(sale(array_shift($texte)));
 		}
+		if (!$texte)
+			$texte = trim(sale($body));
 
 		if ($metas = extraire_balises($head, 'meta'))
 			foreach($metas as $meta)

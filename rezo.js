@@ -85,7 +85,7 @@
 
 		// cliquer un lien provoque un redirect pour les stats
 		// mais on remet le bon url dans le DOM
-		$('a')
+		$('a[rel=bookmark]')
 		.click(function() {
 			var id  = $(this).parents('.hentry').attr('id');
 			if (id && id.match(/^[ab]\d+/)) {

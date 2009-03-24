@@ -13,7 +13,7 @@ function hatom2rss($uri) {
 		$max = 100;
 	}
 	preg_match_all(
-	',<div\s+class="hentry"\s+id="'.$type.'(\d+)".*<abbr class="updated" title="(.*)">,UmsS',
+	',<div\s+class="hentry\b[^<>"]*"\s+id="'.$type.'(\d+)".*<abbr class="updated" title="(.*)">,UmsS',
 	$feed, $regs, PREG_SET_ORDER);
 
 	// trier par date et prendre les n plus recents

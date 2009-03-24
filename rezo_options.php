@@ -6,7 +6,7 @@ define('_PERIODE_SYNDICATION', 10); // 10 min
 define('_PERIODE_SYNDICATION_SUSPENDUE', 60); // 1h
 
 
-define('_ID_WEBMESTRES', '3:13');  // Fil, Marcimat
+define('_ID_WEBMESTRES', '3');  // Fil
 define('_FULLTEXT_MAX_RESULTS', 2000);
 define('_POPULARITE_TABLES', 'spip_rubriques');
 
@@ -125,3 +125,6 @@ function rezo_revision($id, $file, $type, $ref) {
 	logo_revision($id, $file, $type, $ref);
 	crayons_update_article($id, $file, $type, $ref);
 }
+
+// typo sur #RETITRE
+$GLOBALS['table_des_traitements']['RETITRE'][]= 'typo(supprimer_numero(%s))';

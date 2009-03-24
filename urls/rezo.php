@@ -19,6 +19,26 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 		}
 		// si #URL_RUBRIQUE ou #URL_MOT est demandee, utiliser le static
 		else if (in_array($entite, array('mot','rubrique'))) {
+			# recalcul d'url
+			if (_request('action')=='redirect') {
+				$s = spip_query("SELECT descriptif FROM spip_".$entite."s WHERE id_".$entite."=".sql_quote($i));
+				$t = sql_fetch($s);
+				include_spip('inc/charsets');
+				$url = str_replace(' ', '', translitteration($t['descriptif']));
+				# regarder si l'url existe deja
+				if ($url
+				AND $s = spip_query("SELECT * FROM spip_urls WHERE url=".sql_quote($url))
+				AND !$t = sql_fetch($s)) {
+					sql_insertq('spip_urls',
+						array(
+						'id_objet' => $i,
+						'type' => $entite,
+						'url' => $url,
+						'date' => date('Y-m-d H:i:s')
+						)
+					);
+				}
+			}
 			if (!isset($cache[$entite])) {
 				$tmp = array();
 				include_spip('base/abstract_sql');
@@ -33,6 +53,7 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 				}
 				$cache[$entite] = $tmp;
 			}
+
 		}
 
 		if (isset($cache[$entite])
@@ -40,10 +61,10 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 			$url = $cache[$entite][$i];
 			switch ($entite) {
 				case 'mot':
-					$url = 'themes/'.$url;
+					$url = _DIR_RACINE.'themes/'.$url;
 					break;
 				case 'rubrique';
-					$url = 'sources/'.$url;
+					$url = _DIR_RACINE.'sources/'.$url;
 					break;
 			}
 		}
@@ -65,8 +86,9 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 
 	// Creer la 404 sur http://v3.rezo.net/dsds(.html)
 	if ($url[1] == ''
-	AND preg_match(',^.*/[^\.]+(\.html)?$,', $i))
+	AND preg_match(',^.*/[^\.]+(\.html)?$,', $i)) {
 		$url[1] = '404';
+	}
 
 	if ($mot)
 		$url[0]['mot'] = $mot;
