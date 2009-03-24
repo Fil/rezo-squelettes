@@ -123,7 +123,6 @@ UPDATE spip_articles set statut='publie' where ps > 1;
 ajouter spip_articles.type === spip_syndic_articles.type = '' (depeche) / 'article' / 'tresbien' / 'une'
 
 ALTER TABLE spip_articles ADD type TINYTEXT NOT NULL DEFAULT '';
-CREATE VIEW spip_syndic_articles AS SELECT id_article AS id_syndic_article, id_syndic AS id_syndic, titre AS titre, url_site AS url, date AS date, soustitre AS lesauteurs, surtitre AS tags, maj AS maj, statut AS statut, texte AS descriptif, lang AS lang, url_source AS url_source, source AS source, texte AS texte, chapo AS chapo, ps AS ps, id_rubrique AS id_rubrique, type AS type, id_secteur AS id_secteur FROM spip_articles;
 
 update spip_articles set type='' where ps IN (0,2);
 update spip_articles set type='article' where ps IN (1,3);
@@ -134,18 +133,21 @@ ALTER TABLE spip_articles ADD INDEX type (type (3));
 ALTER TABLE spip_articles ADD INDEX id_syndic (id_syndic);
 
 ALTER TABLE spip_articles ADD INDEX popularite (popularite);
+ALTER TABLE spip_articles ADD INDEX url_site (url_site);
+ALTER TABLE spip_articles ADD INDEX lang (lang);
 
+CREATE VIEW spip_syndic_articles AS SELECT id_article AS id_syndic_article, id_syndic AS id_syndic, titre AS titre, url_site AS url, date AS date, soustitre AS lesauteurs, surtitre AS tags, maj AS maj, statut AS statut, texte AS descriptif, lang AS lang, url_source AS url_source, source AS source, texte AS texte, chapo AS chapo, ps AS ps, id_rubrique AS id_rubrique, type AS type, id_secteur AS id_secteur FROM spip_articles;
 
 
 Vieilleries:
-mysql> ALTER TABLE spip_articles DROP url_propre;
-mysql> ALTER TABLE spip_breves DROP url_propre;
-mysql> ALTER TABLE spip_mots DROP url_propre;
-mysql> ALTER TABLE spip_rubriques DROP url_propre;
-mysql> ALTER TABLE spip_syndic DROP url_propre;
-mysql> ALTER TABLE spip_auteurs DROP url_propre;
-mysql> ALTER TABLE spip_auteurs DROP sedna;
-mysql> ALTER TABLE spip_auteurs DROP sedition;
+ALTER TABLE spip_articles DROP url_propre;
+ALTER TABLE spip_breves DROP url_propre;
+ALTER TABLE spip_mots DROP url_propre;
+ALTER TABLE spip_rubriques DROP url_propre;
+ALTER TABLE spip_syndic DROP url_propre;
+ALTER TABLE spip_auteurs DROP url_propre;
+ALTER TABLE spip_auteurs DROP sedna;
+ALTER TABLE spip_auteurs DROP sedition;
 
 
 * Indiquer "Le portail des copains" dans la configuration > Description du site
@@ -155,7 +157,7 @@ mysql> ALTER TABLE spip_auteurs DROP sedition;
 
 TODO:
 
-22:50 < _fil_> mysql> select NOW();  
+22:50 < _fil_> select NOW();  
 22:50 < _fil_> 2009-03-11 21:48:25 
 22:50 < _fil_> date
 22:50 < _fil_> mercredi 11 mars 2009, 22:48:31 (UTC+0100)
@@ -167,18 +169,24 @@ index fulltext (necessite MyISAM)
 
 plugin FULLTEXT
 
-mysql> ALTER TABLE spip_articles ENGINE = MyISAM;
+ALTER TABLE spip_articles ENGINE = MyISAM;
 Query OK, 123869 rows affected (10.46 sec)
 Records: 123869  Duplicates: 0  Warnings: 0
 
-mysql> ALTER TABLE spip_articles CHANGE `texte` `texte` LONGTEXT NOT NULL;
+ALTER TABLE spip_articles CHANGE `texte` `texte` LONGTEXT NOT NULL;
 
-mysql> ALTER TABLE spip_articles ADD FULLTEXT `full1` (`surtitre`,`titre`,`soustitre`,`chapo`,`texte`,`nom_site`,`url_site`,`descriptif`); 
-mysql> ALTER TABLE spip_articles ADD FULLTEXT `titre` (`titre`); 
+###ALTER TABLE spip_articles ADD FULLTEXT `full1` (`surtitre`,`titre`,`soustitre`,`chapo`,`texte`,`nom_site`,`url_site`,`descriptif`); 
+ALTER TABLE spip_articles ADD FULLTEXT `titre` (`titre`); 
 
+ALTER TABLE spip_articles ADD FULLTEXT `fullrezo` (`titre`,`retitre`,`surtitre`,`retags`,`soustitre`,`chapo`,`url_site`,`descriptif`,`texte`); 
 
+ALTER TABLE spip_articles ADD FULLTEXT `petitrezo` (`titre`,`retitre`,`retags`,`chapo`);
 
 => On pourrait ajouter un UNIQUE sur url_site, pour interdire les syndications en provenance de sites differents (ou manuel / automatique)
+
+
+transformer les mots-cles en retags
+php plugins/rezo/retag.php
 
 
 
