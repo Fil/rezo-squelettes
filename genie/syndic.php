@@ -79,7 +79,7 @@ function syndic_a_jour($now_id_syndic, $statut = 'off') {
 	$url_site = $row['url_site'];
 
 	if ($row['moderation'] == 'oui')
-		$moderation = 'prop';	// a valider
+		$moderation = 'dispo';	// a valider
 	else
 		$moderation = 'publie';	// en ligne sans validation
 

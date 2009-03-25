@@ -124,7 +124,7 @@ function nuage_tags($ignore, $n=25, $random=1) {
 		if ($random)
 			usort($l, 'random_sort');
 
-		return join("\n", $l);
+		return '<a href="/bestof">La s&#233;lection du Portail</a> '. join("\n", $l);
 	}
 }
 
