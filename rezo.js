@@ -35,7 +35,7 @@
 	}
 
 	var large_ou_etroit = function() {
-		if ($('body').is('.page_admin')) return;
+		// if ($('body').is('.page_admin')) return;
 		if ($.cookie('affichage') == '1024')
 			return large();
 		if ($.cookie('affichage') == '800')
@@ -131,25 +131,10 @@
 		$('#navigation>.ecouter div a.plus')
 		.remove();
 
-		// pour les admins ajouter le dblclick d'edition
+		// pour les admins ajouter les couleurs de statut
 		if ($.cookie('spip_admin')) {
 			$('body')
-			.dblclick(function(e) {
-				if ($(e.originalTarget).parents('fieldset').length == 0)
-					$('body').toggleClass('admin');
-			});
-			$('body.page_admin').addClass('admin');
-			$('a[rel=bookmark]')
-			.live('click', function(e){
-				if ($('body').is('.admin')) {
-					cQuery(this)
-					.parents('.crayon:eq(0)')
-					.iconecrayon()
-					.addClass('crayon-autorise')
-					.opencrayon(e);
-					return false;
-				}
-			});
+			.toggleClass('admin');
 		}
 
 		// Ajouter les boutons cookie/preference dans le pied de page

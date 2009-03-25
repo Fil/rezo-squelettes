@@ -178,7 +178,7 @@ function microcache($id, $fond, $calcul=false) {
 	$microcache = sous_repertoire(_DIR_CACHE,dechex($id%16)).$cle;
 
 	if ($calcul
-	/* OR isset($_GET['var_mode']) */
+	OR in_array($_GET['var_mode'], array('recalcul', 'debug'))
 	OR !@file_exists($microcache)
 	OR filemtime($microcache) < time() - 60*10) {
 		$contenu = recuperer_fond($fond, array('id'=>$id));

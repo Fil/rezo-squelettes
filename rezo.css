@@ -495,7 +495,7 @@ body.page_rubrique #conteneur {
 }
 
 /* pages admin */
-body.admin .hentry a[rel=bookmark], option[value=poubelle] {
+body.admin .hentry.poubelle a[rel=bookmark], option[value=poubelle] {
 	background:#F6CECE !important;
 }
 body.admin .hentry.prop a[rel=bookmark], option[value=prop] {
@@ -504,14 +504,15 @@ body.admin .hentry.prop a[rel=bookmark], option[value=prop] {
 body.admin .hentry.dispo a[rel=bookmark], option[value=dispo] {
 	background:#FFE87C !important;
 }
-body.admin .hentry.publie a[rel=bookmark], option[value=publie] {
-	background:#E0F8EC !important;
-}
 .rezoset a {
 	color: #114411;
 }
 .rezoset a:visited {
 	color: #224422;
+}
+.crayon-icones {
+	left: -10px !important;
+	top: 2px !important;
 }
 .en_lignes {
 	margin:auto;

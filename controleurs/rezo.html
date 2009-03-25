@@ -6,12 +6,12 @@
 #CACHE{0}
 <BOUCLE_a(ARTICLES){id_article}{statut?}>
 #SET{titre,#RETITRE|sinon{#TITRE}|retitrage}
-#SET{source,#RETITRE|sinon{#TITRE}|retitrage{source}|sinon{#SOURCE}}
+#SET{source,#RETITRE|sinon{#TITRE}|retitrage{source}}
 #SET{auteurs,#RETITRE|?{#RETITRE|retitrage{auteurs},#SOUSTITRE}}
 #SET{url_rub,#URL_RUBRIQUE}
 [(#SET{titre_rub,[(#ID_RUBRIQUE|titre_rub)]})]
 #SET{source,#GET{source}|sinon{#GET{titre_rub}}}
-#SET{origine,#SOURCE|sinon{#GET{source}}}
+#SET{origine,#SOURCE*|replace{"^(.+)'s bookmarks$","Recommand&#233; par \1"}|typo|sinon{#GET{source}}}
 
 <style type='text/css'>
 .rezoset label.micro {
@@ -36,7 +36,7 @@ class="rezoset" style="width:450px;#ENV{style}">
 	<a rel="bookmark" href="#URL_SITE" target="_blank"><strong class="entry-title">#GET{titre}</strong><span class='auteur'>[<span class='v'>,</span>
 	<:par_auteur:> <span class="author"><span class="vcard"><span class="fn">(#GET{auteurs})</span></span></span>]</span></a>
 </div>
-[<span class="source">((#GET{source})[<span class="datehm">
+[<span class="source">((#GET{origine})[<span class="datehm">
 	<abbr class="updated"[ title="(#DATE|date_iso)]">(#DATE|datehm)]</abbr></span>)</span>]
 
 [(#REM) Titre ]
@@ -80,8 +80,8 @@ class="rezoset" style="width:450px;#ENV{style}">
 		(#GET{id}|?{'',selected})="selected"]>d&#233;p&#234;che</option>
 	</select>
 
-	[(#REM) TODO: Ne pas proposer ce menu pour les articles une et tresbien]
-	[(#GET{id}|match{^(une|tresbien)?$}|non)]
+[(#REM) Ne pas proposer ce menu pour les articles une et tresbien]
+[(#GET{id}|match{^(une|tresbien)?$}|non)
 	#SET{id,#STATUT}
 	<select class="crayon-active" name="#ENV{name_statut}">
 	<option value="publie"[
@@ -93,6 +93,7 @@ class="rezoset" style="width:450px;#ENV{style}">
 	<option value="poubelle"[
 		(#GET{id}|=={poubelle}|?{selected})="selected"]>refus&#233;</option>
 	</select>
+]
 
 <br />
 

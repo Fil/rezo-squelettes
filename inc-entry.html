@@ -1,12 +1,11 @@
 ﻿<BOUCLE_article(ARTICLES){id_article=#ID}{statut?}>
-
 #SET{titre,#RETITRE|sinon{#TITRE}|retitrage}
-#SET{source,#RETITRE|sinon{#TITRE}|retitrage{source}|sinon{#SOURCE}}
+#SET{source,#RETITRE|sinon{#TITRE}|retitrage{source}}
 #SET{auteurs,#RETITRE|?{#RETITRE|retitrage{auteurs},#SOUSTITRE}}
 #SET{url_rub,#URL_RUBRIQUE}
 [(#SET{titre_rub,[(#ID_RUBRIQUE|titre_rub)]})]
 #SET{source,#GET{source}|sinon{#GET{titre_rub}}}
-#SET{origine,#SOURCE|sinon{#GET{source}}}
+#SET{origine,#SOURCE*|replace{"^(.+)'s bookmarks$","Recommand&#233; par \1"}|typo|sinon{#GET{source}}}
 
 <div class="hentry #STATUT #EDIT{rezo}" id="[(#TYPE|?{a,b})]#ID_ARTICLE"[ lang="(#LANG|replace{fr})"]>
 
@@ -15,7 +14,6 @@
 <a href="#GET{url_rub}" class="plus"[
 title="(#GET{titre_rub}|texte_backend)"]>+</a>
 
-[<!-- <div style='float:right'>(#SURTITRE|afficher_enclosures)</div> -->]
 <a rel="bookmark" href="#URL_SITE">
 	<strong class="entry-title">#GET{titre}</strong><span class='auteur'>[<span class='v'>,</span>
 	<:par_auteur:>

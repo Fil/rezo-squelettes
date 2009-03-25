@@ -29,7 +29,7 @@
 	(inclus, d'ou l'ajout de 24h00)
 
 ]
-<BOUCLE_auj(ARTICLES){statut?}{!par date}{0,1}>
+<BOUCLE_auj(ARTICLES){statut IN prop,dispo}{!par date}{0,1}>
 [(#SET{fin,[(#VAL{U}|date{#DATE|strtotime}|plus{86400})]})]
 </BOUCLE_auj>
 [(#ENV{semaine}|match{'^\d{4}-\d{2}-\d{2}$'}|?{
@@ -41,7 +41,7 @@
 [(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
 
 <BOUCLE_recents(ARTICLES)
-	{statut?}
+	{statut IN prop,dispo}
 	{date>=#GET{debut}}
 	{date<=#GET{fin}}
 	{doublons recents}
@@ -51,7 +51,7 @@
 	<div class="central">
 
 	[(#REM) A la une ]
-	<BOUCLE_une(ARTICLES) {statut?} {type=une} {doublons}
+	<BOUCLE_une(ARTICLES) {statut IN prop,dispo} {type=une} {doublons}
 	{par date}{inverse}{0,1}
 	{date<=#GET{fin}}
 	>
@@ -60,19 +60,20 @@
 	</div></div>
 	</BOUCLE_une>
 
-	<div id="citation">
+	<div id="nuage">
 	<h4>L&#233;gende</h4>
+
 	<div class='hentry publie'>
 		<a rel="bookmark" style='display:block;width:100%;'>Publi&#233;</a></div>
 	<div class='hentry dispo'>
 		<a rel="bookmark" style='display:block;width:100%;'>&#192; valider</a></div>
 	<div class='hentry prop'>
 		<a rel="bookmark" style='display:block;width:100%;'>Bof</a></div>
-	<div class='hentry'>
+	<div class='hentry poubelle'>
 		<a rel="bookmark" style='display:block;width:100%;'>Supprim&#233;</a></div>
 
 	<h4>Bookmarklet</h4>
-	<a href="javascript:void(location.href='#URL_SITE_SPIP/plus?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title))" onclick="alert('A placer dans votre barre de liens');return false;">+rezo</a>
+	<a href="javascript:void(location.href='#URL_SITE_SPIP/plus?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title))" onclick="alert('A placer dans votre barre de liens');return false;">+rezo</a>
 
 	</div>
 
@@ -94,10 +95,11 @@
 		<B_articles_recents>
 		<div class="menu articles">
 				<BOUCLE_articles_recents(ARTICLES)
-				{statut?}
+				{statut IN prop,dispo}
 				{!doublons recents}
 				{doublons}
 				{type!=''}
+				{id_syndic!=117}
 				{!par date}
 				{date>=#GET{debut}}
 				>
@@ -116,20 +118,58 @@
 
 	<div id="navigation">
 
-		<B_breves>
-		<div id="depeches" class="menu pavedepeches">
-			<h4>D&#233;p&#234;ches</h4>
-				<BOUCLE_breves(ARTICLES)
-				{statut?}
-				{!doublons recents}
+		<B_aussi>
+		<div id="aussi" class="menu pavedepeches">
+			#ANCRE_PAGINATION
+			<h4>Recommand&#233;s</h4>
+				<BOUCLE_aussi(ARTICLES)
+				{statut IN prop,dispo}
+				{doublons}
+				{id_syndic=117}
+				{!par date}
+				{pagination 30}
+				>
+			[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_aussi>
+			[<p class="pagination">(#PAGINATION)</p>]
+		</div>
+		</B_aussi>
+
+		<B_juste>
+		<div id="juste" class="menu pavedepeches">
+			#ANCRE_PAGINATION
+			<h4>Tout juste publi&#233;s</h4>
+				<BOUCLE_juste(ARTICLES)
 				{doublons}
 				{!par date}
+				{pagination 10}
+				>
+			[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_juste>
+			[<p class="pagination">(#PAGINATION)</p>]
+		</div>
+		</B_juste>
+
+
+		<B_breves>
+		<div id="depeches" class="menu pavedepeches">
+			#ANCRE_PAGINATION
+			<h4>D&#233;p&#234;ches</h4>
+				<BOUCLE_breves(ARTICLES)
+				{statut IN prop,dispo}
+				{!doublons recents}
+				{doublons}
+				{id_syndic!=117}
+				{!par date}
 				{type=''}
+				{pagination 150}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_breves>
+			[<p class="pagination">(#PAGINATION)</p>]
 		</div>
 		</B_breves>
+
 
 		<div class="menu pavedepeches">
 		<h2 style='display:none;'></h2>
