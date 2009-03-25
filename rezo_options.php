@@ -73,14 +73,15 @@ function rezo_post_syndication($data) {
 	if (strlen($aut = trim($data[2]['lesauteurs']))
 	AND !strpos($aut, '@')
 	AND $aut !== $sites[$id_syndic]['titre']
-	AND !preg_match('/, (par|by|por) /i', $update['retitre'])
-	AND !preg_match('/ [(].*[)]$/', $update['retitre'])
+	AND !preg_match('/, (par|by|por) /i', $retitre)
+	AND !preg_match('/ [(].*[)]$/', $retitre)
 	) {
 		$aut = couper($aut, 60);
 		$retitre .= ', '._T('forum_par_auteur', array('auteur' => $aut));
 	}
 
-	if (strlen($retitre))
+	if (strlen($retitre)
+	AND $retitre != $titre)
 		$update['retitre'] = $retitre;
 
 	// Ajouter sous forme de tags les mots-cles associes au site source
@@ -104,6 +105,9 @@ function rezo_post_syndication($data) {
 	}
 	if ($tags)
 		$update['tags'] = join(', ', $tags);
+
+	// la date c'est maintenant !
+	$update['date'] = date('Y-m-d H:i:s');
 
 	// Mettre a jour
 	spip_log($url . ': '.join(' | ',$update), 'syndic');
