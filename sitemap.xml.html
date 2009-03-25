@@ -26,13 +26,7 @@
 <BOUCLE_r(RUBRIQUES){!par date}{0,1000}>[
 <url><loc>(#URL_RUBRIQUE|url_absolue)</loc></url>]</BOUCLE_r>
 
-[(#REM) Articles ]
-[(#SET{recent,[(#VAL{'Y-m-d H:i:s'}|date{[(#DATE|affdate{U}|moins{86400})]})]})]
-<BOUCLE_a(ARTICLES){!par date_modif}{!par date}{0,2000}>[
-<url><loc>(#URL_ARTICLE|url_absolue)</loc>[(#DATE_MODIF|>{#GET{recent}}|?{[<lastmod>(#DATE_MODIF|date_iso)</lastmod>]})]</url>]</BOUCLE_a>
-
-[(#REM) Breves ]
-<BOUCLE_b(BREVES){!par date}{0,1000}>[
-<url><loc>(#URL_BREVE|url_absolue)</loc></url>]</BOUCLE_b>
+<BOUCLE_m(MOTS){0,1000}>[
+<url><loc>(#URL_MOT|url_absolue)</loc></url>]</BOUCLE_m>
 
 </urlset>
