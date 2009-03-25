@@ -1,4 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<?php
+
+function href_rezo($url_site,$id_article) {
+	return "href='".$url_site."' onclick=\"window.location='/".$id_article."';\"";
+}
+
+// Retitrage : calcule les titres, auteurs et date à afficher selon le "mode"
+// d'affichage de la page
+// article : col. centrale dans sommaire.html (auteur=nom d'auteur et tjs la source)
+// depeche : col. de droite dans sommaire.html (auteur=nom de la source seul)
+// rubrique: pour la page "+" d'une source (auteur=nom d'auteur et source si précisée)
+// bloc    : col. centrale en mode regroupé par source
+//           (auteur=nom d'auteur, date et source si précisée entre parenthèses)
+// blocrezo: titrage pour slots ancien Rezo
+
+function lautre_retitrage($titre='...', $extraire='tout', $mode='article', $date='', $titre_rub='')
+{
+  // Ne jamais prendre la source de référence pour les affichages mono-sources
+  if (($mode!="rubrique")&&($mode!="bloc")&&($mode!="blocrezo")) 
+  	$auteur=ereg_replace(" ","&nbsp;",$titre_rub);
+  
+  // Calculer la date à afficher (heure, date JJ/MM ou JJ/MM/YY)
+  if (substr($date,0,10)!=date("Y-m-d")) { $ladate=substr($date,8,2)."/".substr($date,5,2); }
+  else { $ladate=ereg_replace(":","h",substr($date,11,5)); }
+  if (substr($date,0,4)!=date("Y")) { $ladate.="/".substr($date,2,2); }
+
+  // Extraire d'abord la source précisée entre parenthèses, s'il y en a une
+  // Dans ce cas elle écrase la source de référence - vrai dans tous les modes
+  if (ereg("(.*) \((.*)\)$",$titre,$regs) AND !ereg("^[0-9]+$",$regs[2]))
+  {
+    $titre=$regs[1];
+    $auteur=ereg_replace(" ","&nbsp;",$regs[2]);
+    $oversource=1;
+  }
+
+  // Extraire le nom d'auteur précisé par ", par", s'il y en a un
+  // On l'ignore en mode "depeche" (moins de place) 
+  if (strpos($titre,", par "))
+  {
+     if ($mode!="depeche")
+       $par=substr($titre,strpos($titre,", par ")+2);
+     if ($mode!="blocrezo")
+       $titre=substr($titre,0,strpos($titre,", par "));
+  }
+  else if (strpos($titre,", by ")) // idem en anglais
+  {
+     if ($mode!="depeche")
+       $par=substr($titre,strpos($titre,", by ")+2);
+     if ($mode!="blocrezo")
+       $titre=substr($titre,0,strpos($titre,", by "));
+  }
+
+  // Vrai auteur puis source vraie ou précisée
+  if ($mode=="article")
+    $auteur=trim($par.(($auteur) ? " (".$auteur.")" : ""));
+
+  // Vrai auteur puis source si précisée
+  if ($mode=="rubrique")
+    $auteur=trim($par.(($oversource) ? " (".$auteur.")" : ""));
+
+  // Seulement la source, vraie ou précisée, en non-sécable
+  if ($mode=="depeche")
+    $auteur=ereg_replace(" ","&nbsp;",$auteur);
+ 
+  // Vrai auteur, et entre parenthèses source si précisée et date
+  if ($mode=="bloc")
+    $auteur=trim($par." (".trim($auteur." ".$ladate).")");
+
+  // Entre parenthèses source si précisée 
+  if ($mode=="blocrezo")
+        if ($auteur) $auteur="(".trim($auteur).")";
+
+  $ret["titre"]=$titre;
+  $ret["auteur"]=$auteur;
+  $ret["date"]=$ladate;
+  if ($extraire == 'tout')
+    return $ret;
+  else
+    return $ret[$extraire];
+}
+?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <meta name="generator" content="HTML Tidy, see www.w3.org">
@@ -68,7 +148,7 @@ UNE...&nbsp;</b></font> </td>
 <BOUCLE_une(ARTICLES){ps=5}{doublons}{date<(#DATE|limite_age{-1})}{par date}{inverse}{0,3}>
 <BOUCLE_rub_parent(RUBRIQUES){id_rubrique}><?php [$source='(#DESCRIPTIF)';] $titre_rub='[(#TITRE|texte_script)]'; ?></BOUCLE_rub_parent>
 <?php
-   $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub);
+   $para=lautre_retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub);
 ?>
 <TR>
 <TD bgcolor="#ffffff"><A href="#URL_SITE"><IMG src="/IMG/logo30.gif" alt=
@@ -91,7 +171,7 @@ UNE...&nbsp;</b></font> </td>
 <BOUCLE_cita(BREVES){id_rubrique=1}{par hasard}{0,1}>
 <TD width="415" align="right"><FONT face=
 'georgia,garamond, Times New Roman, Times, serif' size="4" color=
-"#aaaaaa"><FONT color="#284751">«&#160;[(#TEXTE)]<FONT color=
+"#aaaaaa"><FONT color="#284751">«&#160;[(#TEXTE|PtoBR)]<FONT color=
 "#284751">&#160;»<BR>
  <B>([(#TITRE)])</B></FONT></FONT></FONT></TD>
 </BOUCLE_cita>
@@ -178,7 +258,7 @@ width="100%">
       <BOUCLE_rub_parent3(RUBRIQUES){id_rubrique}><?php [$source='(#DESCRIPTIF)';] $titre_rub='[(#TITRE|texte_script)]'; ?></BOUCLE_rub_parent3>
 
 <?php
-      $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'depeche', '[(#DATE)]', $titre_rub);
+      $para=lautre_retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'depeche', '[(#DATE)]', $titre_rub);
 ?>
 
 <TR>
@@ -213,7 +293,7 @@ echo $para["titre"]; ?></A> <FONT size="1" color="#999999">(<?php echo $para["au
 
                 // engranger les donnees sur les articles visibles dans la colonne du milieu
                 $datenum = [(#DATE|strtotime)];
-                $art=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', $type_retitrage, '[(#DATE)]', $titre_rub);
+                $art=lautre_retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', $type_retitrage, '[(#DATE)]', $titre_rub);
                 $art["jour"]="[(#DATE|nom_jour)] [(#DATE|jour)] [(#DATE|nom_mois)]";
                 if(date("Y")<>[(#DATE|annee)]) $art["jour"].= " [(#DATE|annee)]";
                 $art["source"]=$code_rub;
@@ -231,7 +311,7 @@ echo $para["titre"]; ?></A> <FONT size="1" color="#999999">(<?php echo $para["au
                         $bloc_valeur[$id_rub] = max($bloc_valeur[$id_rub],$datenum);
                         $bloc_direct[$id_rub] = $url_rub;
                         if (!$url_rub) $bloc_direct[$id_rub]="/sources/".$id_rub;
-                        $bloc_titre[$id_rub] = majuscules(html_entity_decode($titre_rub));
+                        $bloc_titre[$id_rub] = (html_entity_decode($titre_rub));
 			$NBTOT++;
 		}
         </BOUCLE_suiteune>
