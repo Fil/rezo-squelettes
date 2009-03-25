@@ -484,6 +484,7 @@ body.page_rubrique #conteneur {
 }
 #footer span a {
 	color: #444;
+	margin:5px;
 }
 #footer span a:visited {
 	color: #444;

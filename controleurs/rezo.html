@@ -81,7 +81,7 @@ class="rezoset" style="width:450px;#ENV{style}">
 	</select>
 
 [(#REM) Ne pas proposer ce menu pour les articles une et tresbien]
-[(#GET{id}|match{^(une|tresbien)?$}|non)
+[(#GET{id}|replace{^$,A}|match{^(une|tresbien)?$}|non)
 	#SET{id,#STATUT}
 	<select class="crayon-active" name="#ENV{name_statut}">
 	<option value="publie"[

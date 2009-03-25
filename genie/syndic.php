@@ -148,7 +148,7 @@ function inserer_article_syndique ($data, $now_id_syndic, $statut, $url_site, $u
 	// S'il y a plusieurs liens qui repondent, il faut choisir le plus proche
 	// (ie meme titre et pas deja fait), le mettre a jour et ignorer les autres
 	$n = 0;
-	$s = sql_select("id_syndic_article,titre,id_syndic", "spip_syndic_articles",
+	$s = sql_select("id_syndic_article,titre,id_syndic,statut", "spip_syndic_articles",
 		"url=" . sql_quote($le_lien)
 		. (_SYNDICATION_URL_UNIQUE
 			? ''
@@ -180,8 +180,9 @@ function inserer_article_syndique ($data, $now_id_syndic, $statut, $url_site, $u
 
 	// Si le lien n'est pas nouveau, plusieurs options :
 	if (!$ajout) {
-		// 1. On ne corrige pas ?
-		if (!_SYNDICATION_CORRECTION) {
+		// 1. Lien deja publie : on corrige ou pas ?
+		if (!_SYNDICATION_CORRECTION
+		AND $a['statut'] == 'publie') {
 			return;
 		}
 		// 2. Le lien existait deja, lie a un autre spip_syndic
