@@ -4,7 +4,7 @@
 	les id_article des articles selectionnes, et prend les plus recents pour les
 	presenter au format rss
 
-][(#ENV{mot}?{[(#SET{uri,[themes/(#ENV*{mot}|rawurlencode)]})]})
+][(#ENV{mot}?{[(#SET{uri,[themes/(#ENV*{mot}|replace{^portail$}|rawurlencode)]})]})
 ][(#ID_RUBRIQUE|?{#SET{uri,#URL_RUBRIQUE}})
 ][(#ID_MOT|?{#SET{uri,#URL_MOT}})
 ][(#HTTP_HEADER{Content-type: text/xml[; charset=(#CHARSET)]})]<?xml 

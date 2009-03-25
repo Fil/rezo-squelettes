@@ -1,4 +1,3 @@
-;crayons_init_dynamique = function(){};
 ;(function($) {
 
 	var memo = {};
