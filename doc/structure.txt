@@ -178,14 +178,14 @@ ALTER TABLE spip_articles CHANGE `texte` `texte` LONGTEXT NOT NULL;
 ###ALTER TABLE spip_articles ADD FULLTEXT `full1` (`surtitre`,`titre`,`soustitre`,`chapo`,`texte`,`nom_site`,`url_site`,`descriptif`); 
 ALTER TABLE spip_articles ADD FULLTEXT `titre` (`titre`); 
 
-ALTER TABLE spip_articles ADD FULLTEXT `fullrezo` (`titre`,`retitre`,`surtitre`,`retags`,`soustitre`,`chapo`,`url_site`,`descriptif`,`texte`); 
+ALTER TABLE spip_articles ADD FULLTEXT `fullrezo` (`titre`,`surtitre`,`soustitre`,`url_site`,`descriptif`,`texte`); 
 
-ALTER TABLE spip_articles ADD FULLTEXT `petitrezo` (`titre`,`retitre`,`retags`,`chapo`);
+ALTER TABLE spip_articles ADD FULLTEXT `petitrezo` (`titre`,`descriptif`);
 
 => On pourrait ajouter un UNIQUE sur url_site, pour interdire les syndications en provenance de sites differents (ou manuel / automatique)
 
 
-transformer les mots-cles en retags
+transformer les mots-cles en tags (surtitre)
 php plugins/rezo/retag.php
 
 

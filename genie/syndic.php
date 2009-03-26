@@ -180,9 +180,8 @@ function inserer_article_syndique ($data, $now_id_syndic, $statut, $url_site, $u
 
 	// Si le lien n'est pas nouveau, plusieurs options :
 	if (!$ajout) {
-		// 1. Lien deja publie : on corrige ou pas ?
-		if (!_SYNDICATION_CORRECTION
-		AND $a['statut'] == 'publie') {
+		// 1. Lien existant : on corrige ou pas ?
+		if (!_SYNDICATION_CORRECTION) {
 			return;
 		}
 		// 2. Le lien existait deja, lie a un autre spip_syndic

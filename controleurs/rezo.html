@@ -5,13 +5,13 @@
 ]
 #CACHE{0}
 <BOUCLE_a(ARTICLES){id_article}{statut?}>
-#SET{titre,#RETITRE|sinon{#TITRE}|retitrage}
-#SET{source,#RETITRE|sinon{#TITRE}|retitrage{source}}
-#SET{auteurs,#RETITRE|?{#RETITRE|retitrage{auteurs},#SOUSTITRE}}
+#SET{titre,#TITRE*|retitrage}
+#SET{sourcet,#TITRE*|retitrage{source}}
+#SET{auteurs,#TITRE*|retitrage{auteurs}|sinon{#SOUSTITRE*}}
 #SET{url_rub,#URL_RUBRIQUE}
 [(#SET{titre_rub,[(#ID_RUBRIQUE|titre_rub)]})]
-#SET{source,#GET{source}|sinon{#GET{titre_rub}}}
-#SET{origine,#SOURCE*|replace{"^(.+)'s bookmarks$","Recommand&#233; par \1"}|typo|sinon{#GET{source}}}
+#SET{source,#GET{sourcet}|sinon{#GET{titre_rub}}}
+#SET{origine,#SOURCE**|replace{"^(.+)'s bookmarks$","Recommand&#233; par \1"}|typo|sinon{#GET{source}}}
 
 <style type='text/css'>
 .rezoset label.micro {
@@ -33,16 +33,17 @@ class="rezoset" style="width:450px;#ENV{style}">
 <legend><strong><a href="ecrire/?exec=articles&id_article=#ID_ARTICLE">##ID_ARTICLE</a></strong></legend>
 <div>
 <img src="http://rezo.net/img_rezo/iconerezo.gif" style="float:#LANG_RIGHT;" />
-	<a rel="bookmark" href="#URL_SITE" target="_blank"><strong class="entry-title">#GET{titre}</strong><span class='auteur'>[<span class='v'>,</span>
-	<:par_auteur:> <span class="author"><span class="vcard"><span class="fn">(#GET{auteurs})</span></span></span>]</span></a>
+	<a rel="bookmark" href="#URL_SITE" target="_blank"><strong class="entry-title">[(#GET{titre}|typo)]</strong><span class='auteur'>[<span class='v'>,</span>
+	<:par_auteur:> <span class="author"><span class="vcard"><span class="fn">(#GET{auteurs}|typo)</span></span></span>]</span></a>
 </div>
 [<span class="source">((#GET{origine})[<span class="datehm">
 	<abbr class="updated"[ title="(#DATE|date_iso)]">(#DATE|datehm)]</abbr></span>)</span>]
 
-[(#REM) Titre ]
+[(#REM) Titre, auteur et source ]
 <p>
-<label class="micro">Titre&nbsp;:</label> <input class="crayon-active" name="#ENV{name_retitre}"
- style="width:380px; font-weight: bold;" value="[(#RETITRE**|sinon{#TITRE**}|replace{&nbsp;,~}|entites_html)]" />
+<label class="micro">Titre&nbsp;:</label> <input class="crayon-active" name="#ENV{name_titre}"
+ style="width:380px; font-weight: bold;" value="[(#GET**{titre}|replace{&nbsp;,~}|entites_html)][, <:par_auteur:>(#GET**{auteurs}|entites_html)][ ((#GET**{sourcet}|entites_html))]" />
+ <input name="#ENV{name_soustitre}" type="hidden" value="" />
 </p>
 
 <p>
@@ -50,9 +51,8 @@ class="rezoset" style="width:450px;#ENV{style}">
  style="width:380px; font-family: courier;" value="[(#URL_SITE**|entites_html)]" /></p>
 
 <p>
-<label class="micro">Tags&nbsp;:</label> <input class="crayon-active" name="#ENV{name_retags}"
- style="width:380px;" value="[(#RETAGS**|sinon{#SURTITRE|afficher_tags|supprimer_tags}|entites_html)]" /></p>
-
+<label class="micro">Tags&nbsp;:</label> <input class="crayon-active" name="#ENV{name_surtitre}"
+ style="width:380px;" value="[(#SURTITRE**|rezo_tags|entites_html)]" /></p>
 <p>
 <label class="micro">Source&nbsp;:</label>
 <INCLURE{fond=controleurs/id_parent}{id_rubrique}{name_id_rubrique} />
@@ -113,12 +113,11 @@ class="rezoset" style="width:450px;#ENV{style}">
 <div style='clear:both'></div>
 
 
-[(#REM) Si on modifie le resume => chapo ]
+[(#REM) Si on modifie le resume => descriptif ]
 <label class="micro">La&#239;us&nbsp;:</label>
-<textarea class="crayon-active" name="#ENV{name_chapo}"
+<textarea class="crayon-active" name="#ENV{name_descriptif}"
  style="width:380px;height:90px;">
-[(#CHAPO**
-	|sinon{#DESCRIPTIF**}
+[(#DESCRIPTIF**
 	|sinon{[(#TEXTE**|replace{^x$}|couper{200})]}
 	|replace{&nbsp;,~}
 	|entites_html)]</textarea>

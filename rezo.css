@@ -505,6 +505,9 @@ body.admin .hentry.prop a[rel=bookmark], option[value=prop] {
 body.admin .hentry.dispo a[rel=bookmark], option[value=dispo] {
 	background:#FFE87C !important;
 }
+body.admin .hentry.publie a[rel=bookmark], option[value=publie] {
+	background:transparent !important;
+}
 .rezoset a {
 	color: #114411;
 }

@@ -11,7 +11,7 @@ echo "okn";
 function convert_mots_retags_push($id_article, $mots) {
 	if (!$id_article) return; # premier appel
 	$mots = join(' ', $mots);
-	spip_query($q = "UPDATE spip_articles SET retags=".sql_quote($mots)." WHERE id_article=".$id_article);
+	spip_query($q = "UPDATE spip_articles SET surtitre=".sql_quote($mots)." WHERE id_article=".$id_article);
 	echo $q."\n";
 }
 

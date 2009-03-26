@@ -74,8 +74,6 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 			$id_article = $t['id_article'];
 			sql_updateq('spip_articles',
 				array(
-				'retitre' => '',
-				'retags' => '',
 				'titre' => '',
 				'descriptif' => '',
 				'chapo' => ''),

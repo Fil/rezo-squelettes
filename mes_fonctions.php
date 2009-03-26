@@ -190,7 +190,26 @@ function microcache($id, $fond, $calcul=false) {
 	return $contenu;
 }
 
+// separer les tags qui peuvent etre de trois sortes :
+// <a rel='tag'>XXX</a>
+// <a rel='enclosure'>XXX</a>
+// un mot, un autre
+function rezo_tags($tags) {
+	$mots = array();
+	foreach (extraire_balises($tags, 'a') as $t) {
+		$tags = str_replace($t, '', $tags);
+		if (extraire_attribut($t, 'rel') == 'enclosure'
+		AND preg_match(',mp3,', extraire_attribut($t, 'href')))
+			$mots[] = 'Audio';
+		if (extraire_attribut($t, 'rel') == 'tag')
+			$mots[] = supprimer_tags($t);
+	}
+	foreach(explode(',', $tags) as $m)
+		if ($m = trim($m))
+			$mots[] = $m;
 
+	return join(', ', array_unique($mots));
+}
 
 // fonctions pour le plugin core/sites
 if (!function_exists('balise_img')){
