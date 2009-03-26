@@ -8,7 +8,9 @@
 #SET{origine,#SOURCE*|replace{"^(.+)'s bookmarks$","Recommand&#233; par \1"}|typo|sinon{#GET{source}}}
 
 
-[(#REM) TODO : il faudrait mettre le # EDIT{rezo} dans un div englobant ]
+[(#REM) TODO : il faudrait mettre le # EDIT{rezo} dans un div englobant
+	ainsi que le h5 de date dont on ne veut pas partout
+]
 <div class="hentry #STATUT #EDIT{rezo}" id="[(#TYPE|?{a,b})]#ID_ARTICLE"[ lang="(#LANG|replace{fr})"]>
 
 [<h5[ class="(#DATE|affdate{Y-m-d})"]>(#DATE|nom_jour) [(#DATE|affdate_jourcourt)]</h5>]
