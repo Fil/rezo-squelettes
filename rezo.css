@@ -93,7 +93,7 @@ h4,h5 {
 		display:none; /* le js large() l'affichera */
 	}
 
-	#une .source, #une .datehm, .articles .datehm  {
+	#une .datehm, .articles .datehm  {
 		display: none;
 	}
 	#une {
