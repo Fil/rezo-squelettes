@@ -81,7 +81,6 @@ function lautre_retitrage($titre='...', $extraire='tout', $mode='article', $date
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta name="generator" content="HTML Tidy, see www.w3.org">
 <meta http-equiv="Expires" content="0">
 <meta http-equiv="cache-control" content="no-cache,no-store">
 <meta http-equiv="pragma" content="no-cache">
@@ -145,7 +144,7 @@ function lautre_retitrage($titre='...', $extraire='tout', $mode='article', $date
 UNE...&nbsp;</b></font> </td>
 </tr>
 
-<BOUCLE_une(ARTICLES){ps=5}{doublons}{date<(#DATE|limite_age{-1})}{par date}{inverse}{0,3}>
+<BOUCLE_une(ARTICLES){type=une}{doublons}{date<(#DATE|limite_age{-1})}{par date}{inverse}{0,3}>
 <BOUCLE_rub_parent(RUBRIQUES){id_rubrique}><?php [$source='(#DESCRIPTIF)';] $titre_rub='[(#TITRE|texte_script)]'; ?></BOUCLE_rub_parent>
 <?php
    $para=lautre_retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub);
@@ -254,7 +253,7 @@ width="100%">
 </tr>
 
 
-      <BOUCLE_depeches(ARTICLES) {doublons} {lang=fr} {ps=2} {date<(#DATE|limite_age{-1})} {date>=(#DATE|limite_age{6})} {par date}{inverse}{0,15}>
+      <BOUCLE_depeches(ARTICLES) {doublons} {lang=fr} {type!=''} {date<(#DATE|limite_age{-1})} {date>=(#DATE|limite_age{6})} {par date}{inverse}{0,15}>
       <BOUCLE_rub_parent3(RUBRIQUES){id_rubrique}><?php [$source='(#DESCRIPTIF)';] $titre_rub='[(#TITRE|texte_script)]'; ?></BOUCLE_rub_parent3>
 
 <?php
@@ -286,7 +285,7 @@ echo $para["titre"]; ?></A> <FONT size="1" color="#999999">(<?php echo $para["au
         $bloc_valeur = array();
         $type_retitrage = 'blocrezo';
 
-        <BOUCLE_suiteune(ARTICLES){ps>=3}{doublons}{id_rubrique!=1}{id_rubrique!=79}{lang=fr} {date<(#DATE|limite_age{-1})} {date>=(#DATE|limite_age{4})} {par popularite}{inverse}{0,70}>
+        <BOUCLE_suiteune(ARTICLES){type!=''}{doublons}{id_rubrique!=1}{id_rubrique!=79}{lang=fr} {date<(#DATE|limite_age{-1})} {date>=(#DATE|limite_age{4})} {par popularite}{inverse}{0,70}>
                 <BOUCLE_rub_parent2(RUBRIQUES){id_rubrique}>
                         $id_rub='[(#DESCRIPTIF*|texte_script)]'; $titre_rub='[(#TITRE|texte_script)]'; $url_rub='[(#TEXTE|texte_script)]'; $code_rub='[(#DESCRIPTIF|texte_script)]';
                 </BOUCLE_rub_parent2>
