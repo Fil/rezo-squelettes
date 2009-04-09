@@ -91,6 +91,7 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 		// On va chercher le contenu
 		//
 		include_spip('inc/distant');
+		include_spip('inc/charsets');
 		if (!$page = recuperer_page($url, $munge_charset = true))
 			echo "Erreur, impossible de lire la page.";
 
@@ -107,6 +108,7 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 		if ($title = extraire_balise($head, 'title')
 		OR $title = extraire_balise($page, 'title')) {
 			$titre = trim(preg_replace(',\s+,ms', ' ', supprimer_tags($title)));
+			$titre = unicode2charset(html2unicode($titre));
 		}
 
 		// le texte & le descriptif...
