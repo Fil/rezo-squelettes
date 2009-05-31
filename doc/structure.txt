@@ -185,8 +185,7 @@ ALTER TABLE spip_articles ADD FULLTEXT `petitrezo` (`titre`,`descriptif`);
 => On pourrait ajouter un UNIQUE sur url_site, pour interdire les syndications en provenance de sites differents (ou manuel / automatique)
 
 
-transformer les mots-cles en tags (surtitre)
-php plugins/rezo/retag.php
+(abandonné) transformer les mots-cles en tags (surtitre) php plugins/rezo/retag.php
 
 
 
