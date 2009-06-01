@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
 <head>
 <title>[(#ENV*{titre}|couper{50}|textebrut)][ - (#NOM_SITE_SPIP|textebrut)]</title>
-<INCLURE{fond=inc-head}{feed=(#ENV{titre}|strtolower)} />
+<INCLURE{fond=inc-head}{couleur=8385b2}{feed=(#ENV{titre}|strtolower)} />
 </head>
 
 <body class="page_mot">
@@ -17,7 +17,7 @@
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
 
-	<INCLURE{fond=inc-entete}{titre} />
+	<INCLURE{fond=inc-entete}{couleur=8385b2}{onglet=actu}{titre} />
 
 [(#REM) Si on est dans 'tag', supprimer ceux dont un tag est '_tag']
 <BOUCLE_refus(ARTICLES)
@@ -39,11 +39,12 @@
 {type!=''}
 {doublons refus}
 {doublons cut}
+{age < 30}
 >
 [(#SET{popmot,#GET{popmot}|plus{#CHAMP_SQL{popularite}}})]</BOUCLE_cut>
 <BOUCLE_cut2(ARTICLES)
 {recherche}
-{!par points}
+{!par popularite}
 {0,10}
 {type!=''}
 {doublons refus}
@@ -62,17 +63,11 @@
 	>
 	<div id="chandelle"><div id="une">
 		[(#ID_ARTICLE|microcache{inc-entry})]
+		<div style="clear: both"></div>
 	</div></div>
 	</BOUCLE_une>
 
 
-	<div id="nuage">[(#REM|nuage_tags)
-	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
-	]
-	
-	[(#REM)  Le vocabulaire peut servir... quand il sera pret
-	<!-- ( #ID_MOT|vocabulaire ) -->]
-	</div>
 
 	</div>[(#REM) /central ]
 
@@ -121,7 +116,7 @@
 
 	<div id="navigation">
 		<B_breves>
-		<div id="depeches" class="menu pavedepeches">
+		<div id="aussi" class="menu pavedepeches">
 		#ANCRE_PAGINATION
 			<h4>D&#233;p&#234;ches</h4>
 				<BOUCLE_breves(ARTICLES)
@@ -140,50 +135,6 @@
 		[<div id="logo">
 		(#LOGO_MOT||image_reduire{275,99999}|inserer_attribut{class,logo})
 		</div>]
-
-		<B_aussi>
-		<div id="aussi" class="menu pavedepeches">
-		#ANCRE_PAGINATION
-			<h4>Et aussi...</h4>
-				<BOUCLE_aussi(ARTICLES)
-				{recherche}
-				{doublons}
-				{type!=''}
-				{par date}{inverse}
-				{pagination 50}
-				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_aussi>
-		[<p class="pagination">(#PAGINATION)</p>]
-		</div>
-		</B_aussi>
-
-		<div class="menu pavedepeches">
-		<h2 style='display:none;'></h2>
-
-		[(#REM) Rechercher ]
-		#FORMULAIRE_RECHERCHE
-
-		[(#REM) Menu de navigation par rubriques ]
-		<INCLURE{fond=inc-rubriques} />
-
-		</div>
-
-		<B_radio>
-		<div class="menu pavedepeches ecouter">
-		#ANCRE_PAGINATION
-			<h4>&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</h4>
-				<BOUCLE_radio(ARTICLES)
-				{id_rubrique=79}
-				{par date}{inverse} {doublons}
-				{pagination 10}
-				{recherche}
-				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_radio>
-		[<p class="pagination">(#PAGINATION)</p>]
-		</div>
-		</B_radio>
 
 	</div><!--#navigation-->
 

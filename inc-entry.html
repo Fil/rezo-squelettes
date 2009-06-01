@@ -11,9 +11,18 @@
 [(#REM) TODO : il faudrait mettre le # EDIT{rezo} dans un div englobant
 	ainsi que le h5 de date dont on ne veut pas partout
 ]
-<div class="hentry #STATUT #EDIT{rezo}" id="[(#TYPE|?{a,b})]#ID_ARTICLE"[ lang="(#LANG|replace{fr})"]>
+<div class="hentry #STATUT #TYPE #EDIT{rezo}" id="[(#TYPE|?{a,b})]#ID_ARTICLE"[ lang="(#LANG|replace{fr})"]>
 
 [<h5[ class="(#DATE|affdate{Y-m-d})"]>(#DATE|nom_jour) [(#DATE|affdate_jourcourt)]</h5>]
+
+<BOUCLE_la_rub(RUBRIQUES){id_rubrique}{texte==^http}>
+	[(#SET{favicon,[(#TEXTE*|recuperer_favicon)]})]
+</BOUCLE_la_rub>
+	[(#GET{favicon}|extraire_attribut{src}|?{"", " "})
+		[(#SET{favicon,[(#URL_SITE|recuperer_favicon)]})]
+	]
+	[<a href="#GET{url_rub}" class="favicon"[ title="(#GET{titre_rub}|texte_backend)"]>(#GET{favicon})</a>]
+
 
 <a href="#GET{url_rub}" class="plus"[
 title="(#GET{titre_rub}|texte_backend)"]>+</a>
@@ -28,10 +37,10 @@ title="(#GET{titre_rub}|texte_backend)"]>+</a>
 
 [<div class="entry-content">
 	<div class='introduction'>
-		[(#LOGO_ARTICLE||image_reduire{120})]
+		[(#LOGO_ARTICLE||image_reduire{135})]
 		(#DESCRIPTIF
 			|sinon{[(#TEXTE*|replace{^x$}|couper{200})]}
-			|PtoBR|trim)
+			|PtoBR|trim|cesure{#LANG})
 		[<div class='source'>Source&nbsp;: <b>(#GET{origine})</b></div>]
 		[<div class='tags'>Th&egrave;me(s)&nbsp;:
 			(#SURTITRE|rezo_tags|embellir_tags)</div>]

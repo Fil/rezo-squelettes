@@ -1,30 +1,60 @@
 [(#REM)
- Un cache plus court, pour la boucle syndic_articles
+	Un cache plus court, pour la boucle syndic_articles
 ]#CACHE{3600}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
 <head>
-<title>Les sources[ de (#NOM_SITE_SPIP|textebrut)]</title>
+<title>[(#NOM_SITE_SPIP|textebrut)] - Les sources</title>
 [<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
-<INCLURE{fond=inc-head}{feed=}/>
+<INCLURE{fond=inc-head}{couleur=9a9962}{feed=}/>
+
+[(#ENV{semaine}|?{'<meta name="robots" content="noindex" />'})]
 </head>
 
 <body class="page_sources">
 <div id="page">
 
 	[(#REM) Bandeau de la page ]
-	<INCLURE{fond=inc-bandeau}{titre=Nos sources} />
+	<INCLURE{fond=inc-bandeau}{semaine} />
 
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
 
-	<INCLURE{fond=inc-entete}{titre=Nos sources} />
+	<INCLURE{fond=inc-entete}{titre=Les sources}{couleur=9a9962}{onglet=sources} />
+
+[(#REM) selectionner les recents pour eviter pb de perfs
+
+	Le critere semaine indique la date du dernier jour a prendre en compte
+	(inclus, d'ou l'ajout de 24h00)
+
+]
+<BOUCLE_auj(ARTICLES){!par date}{0,1}>
+[(#SET{fin,[(#VAL{U}|date{#DATE|strtotime}|plus{86400})]})]
+</BOUCLE_auj>
+[(#ENV{semaine}|match{'^\d{4}-\d{2}-\d{2}$'}|?{
+	#SET{fin,#ENV{semaine}|strtotime|plus{86400}}
+})]
+[(#SET{debut,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{604800})]})]})]
+[(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
+
+
+[(#REM) rubrique 79 = mermet, traitee a part]
+<BOUCLE_recents(ARTICLES)
+	{date>=#GET{debut}}
+	{date<=#GET{fin}}
+	{doublons recents}
+	{id_rubrique!=79}
+	/>
+<BOUCLE_cut(ARTICLES)
+	{!doublons recents}
+	{!par popularite}
+	{type!=''}
+	{0,35}
+	{doublons cut}
+	/>
 
 	<div class="central">
 
-	<div id="nuage">[(#REM|nuage_tags)
-	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
-	]</div>
 
 	</div>[(#REM) /central ]
 
@@ -36,18 +66,122 @@
 	<div id="marge">
 	</div>
 
-	<div id="contenu" class="articles">
+	<div id="contenu">
 
-        <BOUCLE_secteurs(RUBRIQUES) {racine} {!par popularite}
-        {titre !IN Dans la presse,En anglais,Inactives}>
-        
-        <h2><a rel="bookmark" href="#URL_RUBRIQUE">#TITRE</a></h2>
-        
-            <BOUCLE_rubriques(RUBRIQUES) {id_parent} {par titre}>
-			<p><a rel="bookmark" href="#URL_RUBRIQUE">#TITRE</a></p>
-            </BOUCLE_rubriques>
+		<div class="menu articles">
+			<BOUCLE_secteurs(RUBRIQUES) {!par popularite}
+			{titre !IN Dans la presse,En anglais,Inactives}>
+			
+			<B_articles>
+				<h5 class="source#ID_RUBRIQUE source">
+					[<a href="#URL_RUBRIQUE" class="favicon">(#TEXTE*|recuperer_favicon)</a>]
+					<a rel="bookmark" href="#URL_RUBRIQUE"><strong>#TITRE</strong><br />#TEXTE*</a>
+				</h5>
+			
+				<BOUCLE_articles(ARTICLES){id_rubrique}{par date}{inverse}{!doublons cut}{type!=''}>
+					[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_articles>
+			</B_articles>
+				
+			</BOUCLE_secteurs>
 
-        </BOUCLE_secteurs>
+				
+		</div>
+
+
+
+		<div id="depeches" class="menu pavedepeches">
+
+			<BOUCLE_presse(RUBRIQUES){titre IN Dans la presse}>
+				<h4>#TITRE</h4>
+
+				[(#SET{compteur,1})]
+
+				<BOUCLE_secteurs_liste2(RUBRIQUES) {id_parent} {par titre}{texte==^http}>
+				
+					<BOUCLE_test_site2(ARTICLES){id_rubrique}{age<90}{0,1}>
+					[(#GET{compteur}|=={1}|?{" ",""})
+						[(#SET{compteur,2})]
+					]
+					[(#GET{compteur}|=={0}|?{" ",""})
+						[(#SET{compteur,1})]
+					]
+
+
+					[(#GET{compteur}|=={2}|?{" ",""})
+						<div style="clear: left;"></div>
+						[(#SET{compteur,0})]
+					]
+					
+					
+					<div class="hentry liste-sites" lang="fr">
+						[<a href="#URL_RUBRIQUE" class="favicon">(#_secteurs_liste2:TEXTE*|recuperer_favicon)</a>]
+					
+						<a rel="bookmark" href="#URL_RUBRIQUE"><strong class="entry-title">#_secteurs_liste2:TITRE</strong></a>
+					</div>
+					</BOUCLE_test_site2>
+					
+				</BOUCLE_secteurs_liste2>
+			
+			</BOUCLE_presse>
+			<div style="clear:left;"></div>
+
+		</div>
+
+
+		<B_english>
+		<div id="english" class="menu pavedepeches">
+
+			<BOUCLE_english(RUBRIQUES){titre IN En anglais}>
+				<h4>#TITRE</h4>
+				[(#SET{compteur,1})]
+
+				<BOUCLE_secteurs_liste3(RUBRIQUES) {id_parent} {par titre}{texte==^http}>
+				
+					<BOUCLE_test_site3(ARTICLES){id_rubrique}{age<90}{0,1}>
+					
+					[(#GET{compteur}|=={1}|?{" ",""})
+						[(#SET{compteur,2})]
+					]
+					[(#GET{compteur}|=={0}|?{" ",""})
+						[(#SET{compteur,1})]
+					]
+
+					[(#GET{compteur}|=={2}|?{" ",""})
+						<div style="clear: left;"></div>
+						[(#SET{compteur,0})]
+					]
+					
+					
+					<div class="hentry liste-sites" lang="fr">
+						[<a href="#URL_RUBRIQUE" class="favicon">(#_secteurs_liste3:TEXTE*|recuperer_favicon)</a>]
+					
+						<a rel="bookmark" href="#URL_RUBRIQUE"><strong class="entry-title">#_secteurs_liste3:TITRE</strong></a>
+					</div>
+					</BOUCLE_test_site3>
+					
+				</BOUCLE_secteurs_liste3>
+			
+			</BOUCLE_english>
+			<div style="clear:left;"></div>
+
+		</div>
+		</B_english>
+
+
+		<B_radio>
+		<div class="menu pavedepeches ecouter">
+			<h4>&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</h4>
+				<BOUCLE_radio(ARTICLES)
+				{id_rubrique=79}
+				{par date}{inverse} {doublons}
+				{0,5}
+				{date<=#GET{fin}}
+				>
+			[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_radio>
+		</div>
+		</B_radio>
 
 
 	</div>[(#REM) #contenu]
@@ -55,31 +189,41 @@
 
 	<div id="navigation">
 
-        <BOUCLE_secteurs2(RUBRIQUES) {racine} {par titre}
-        {titre IN Dans la presse,En anglais}>
 
 		<div class="menu pavedepeches">
-        
-		[<a class="plus" href="(#ID_RUBRIQUE|=={118}|?{presse,anglais})">+</a>]
-        <h4>#TITRE</h2>
-        
-           <BOUCLE_rubriques2(RUBRIQUES) {id_parent} {!par popularite}>
-            <p><a rel="bookmark" href="#URL_RUBRIQUE">#TITRE</a></p>
-            </BOUCLE_rubriques2>
-        </B_rubriques2>
+			<h4>Nos sources...</h4>
+				[(#SET{compteur,1})]
 
+			<BOUCLE_secteurs_liste(RUBRIQUES) {racine} {par titre}{texte==^http}
+			{titre !IN Dans la presse,En anglais,Inactives}>
+			
+				<BOUCLE_test_site(ARTICLES){id_rubrique}{age<90}{0,1}>
+					[(#GET{compteur}|=={1}|?{" ",""})
+						[(#SET{compteur,2})]
+					]
+					[(#GET{compteur}|=={0}|?{" ",""})
+						[(#SET{compteur,1})]
+					]
+
+					[(#GET{compteur}|=={2}|?{" ",""})
+						<div style="clear: left;"></div>
+						[(#SET{compteur,0})]
+					]
+
+
+				<div class="hentry liste-sites" lang="fr">
+					[<a href="#URL_RUBRIQUE" class="favicon">(#_secteurs_liste:TEXTE*|recuperer_favicon)</a>]
+				
+					<a rel="bookmark" href="#URL_RUBRIQUE"><strong class="entry-title">#_secteurs_liste:TITRE</strong></a>
+				</div>
+				</BOUCLE_test_site>
+				
+			</BOUCLE_secteurs_liste>
+			<div style="clear:left;"></div>
 
 		</div>
-        </BOUCLE_secteurs2>
 
 
-
-
-		[(#REM) Rechercher ]
-		#FORMULAIRE_RECHERCHE
-
-		[(#REM) Menu de navigation par rubriques ]
-		<INCLURE{fond=inc-rubriques} />
 
 	</div><!--#navigation-->
 
@@ -97,4 +241,3 @@
 </div><!--#page-->
 </body>
 </html>
-</BOUCLE_m>

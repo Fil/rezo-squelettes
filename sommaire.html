@@ -6,7 +6,7 @@
 <head>
 <title>[(#NOM_SITE_SPIP|textebrut)][ - (#DESCRIPTIF_SITE_SPIP|couper{50}|textebrut)][ - (#ENV{semaine}|affdate)]</title>
 [<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
-<INCLURE{fond=inc-head}{feed=}/>
+<INCLURE{fond=inc-head}{couleur=649d95}{feed=}/>
 
 [(#ENV{semaine}|?{'<meta name="robots" content="noindex" />'})]
 </head>
@@ -20,7 +20,7 @@
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
 
-	<INCLURE{fond=inc-entete} />
+	<INCLURE{fond=inc-entete}{couleur=698b84}{onglet=date} />
 
 [(#REM) selectionner les recents pour eviter pb de perfs
 
@@ -44,14 +44,14 @@
 	{date<=#GET{fin}}
 	{doublons recents}
 	{id_rubrique!=79}
-></BOUCLE_recents>
+	/>
 <BOUCLE_cut(ARTICLES)
-{!doublons recents}
-{!par popularite}
-{type!=''}
-{0,35}
-{doublons cut}
-></BOUCLE_cut>
+	{!doublons recents}
+	{!par popularite}
+	{type!=''}
+	{0,35}
+	{doublons cut}
+	/>
 
 	<div class="central">
 
@@ -65,10 +65,12 @@
 	</div></div>
 	</BOUCLE_une>
 
-
+	<!--
 	<div id="nuage">[(#REM|nuage_tags)
 	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
 	]</div>
+	
+	-->
 
 	</div>[(#REM) /central ]
 
@@ -82,18 +84,106 @@
 
 	<div id="contenu">
 
-		<B_articles_recents>
 		<div class="menu articles">
-				<BOUCLE_articles_recents(ARTICLES)
+				<BOUCLE_articles_recents0(ARTICLES)
 				{doublons}
+				{!doublons recents}
 				{type!=''}
-				{!doublons cut}
-				{!par date}
+				{!par popularite}
+				{age <= 1}
+				{0,7}
+				{lang!=en}
+				{doublons articles_centre}
 				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_articles_recents>
+				</BOUCLE_articles_recents0>
+
+				<BOUCLE_articles_recents1(ARTICLES)
+				{doublons}
+				{!doublons recents}
+				{type!=''}
+				{!par popularite}
+				{age > 1}
+				{age <= 2}
+				{0,7}
+				{lang!=en}
+				{doublons articles_centre}
+				>
+				</BOUCLE_articles_recents1>
+
+				<BOUCLE_articles_recents2(ARTICLES)
+				{doublons}
+				{!doublons recents}
+				{type!=''}
+				{!par popularite}
+				{age > 2}
+				{age <= 3}
+				{0,6}
+				{lang!=en}
+				{doublons articles_centre}
+				>
+				</BOUCLE_articles_recents2>
+
+				<BOUCLE_articles_recents3(ARTICLES)
+				{doublons}
+				{!doublons recents}
+				{type!=''}
+				{!par popularite}
+				{age > 3}
+				{age <= 4}
+				{0,5}
+				{lang!=en}
+				{doublons articles_centre}
+				>
+				</BOUCLE_articles_recents3>
+
+				<BOUCLE_articles_recents4(ARTICLES)
+				{doublons}
+				{!doublons recents}
+				{type!=''}
+				{!par popularite}
+				{age > 4}
+				{age <= 5}
+				{0,5}
+				{lang!=en}
+				{doublons articles_centre}
+				>
+				</BOUCLE_articles_recents4>
+
+				<BOUCLE_articles_recents5(ARTICLES)
+				{doublons}
+				{!doublons recents}
+				{type!=''}
+				{!par popularite}
+				{age > 5}
+				{age <= 6}
+				{0,5}
+				{lang!=en}
+				{doublons articles_centre}
+				>
+				</BOUCLE_articles_recents5>
+
+				<BOUCLE_articles_recents6(ARTICLES)
+				{doublons}
+				{!doublons recents}
+				{type!=''}
+				{!par popularite}
+				{age > 6}
+				{age <= 7}
+				{0,5}
+				{lang!=en}
+				{doublons articles_centre}
+				>
+				</BOUCLE_articles_recents6>
+				
+				<BOUCLE_afficher_articles_centre(ARTICLES)
+					{!doublons articles_centre}
+					{!par date}	
+				>
+					[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_afficher_articles_centre>
+
+				
 		</div>
-		</B_articles_recents>
 
 		<B_english>
 		<div id="english" class="menu pavedepeches">

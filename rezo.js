@@ -19,10 +19,11 @@
 	var large = function() {
 		if ($('body').is('.large')) return;
 		$('body').addClass('large');
-		$('#citation')
+/*		$('#citation')
 			.memove('#accueil');
 		$('#nuage')
 			.memove('#entete');
+			*/
 		/* .add() pour conserver l'ordre */
 		$('#une').add('#depeches').add('#english')
 			.memove('#marge');
@@ -65,6 +66,12 @@
 				$(this).show();
 			}
 		});
+		
+		$('.page_sources #contenu h5').hide();
+		$('.page_sources #contenu h5.source').show();
+
+		$('.page_actu #contenu h5').hide();
+		$('.page_actu #contenu h5.theme').show();
 
 		// ressortir quelques images
 		var image=0;
@@ -102,6 +109,14 @@
 		})
 		.live('mouseout', function() {
 			$(this).parents('.hentry').find('.introduction').hide();
+		});
+		
+		$('#contenu .articlemotune a[rel=bookmark]')
+		.live('mouseover', function(){
+			$(this).parents('.hentry').find('.introduction').show();
+		})
+		.live('mouseout', function() {
+			$(this).parents('.hentry').find('.introduction').show();
 		});
 
 		// Supprimer les abbr[title] des microformats

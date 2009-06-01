@@ -9,10 +9,10 @@
 [(#REM)
 	Le descriptif est utilise pour definir l'url (pas terrible, a modifier)
 <meta name="description" content="( #DESCRIPTIF|couper{150}|textebrut)" />]
-<INCLURE{fond=inc-head}{feed=(#DESCRIPTIF*|strtolower)}/>
+<INCLURE{fond=inc-head}{couleur=9bb372}{feed=(#DESCRIPTIF*|strtolower)}/>
 </head>
 
-<body class="page_rubrique">
+<body class="page_rubrique[(#ID_RUBRIQUE|=={33}|?{"_favicons",""})]">
 <div id="page">
 
 	[(#REM) Bandeau de la page ]
@@ -21,7 +21,7 @@
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
 
-	<INCLURE{fond=inc-entete}{titre} />
+	<INCLURE{fond=inc-entete}{couleur=9bb372}{onglet=sources}{titre} />
 
 [(#REM) selectionner les recents pour eviter pb de perfs
 
@@ -50,9 +50,6 @@
 	</BOUCLE_une>
 
 
-	<div id="nuage">[(#REM|nuage_tags)
-	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
-	]</div>
 
 	</div>[(#REM) /central ]
 
@@ -129,7 +126,7 @@
 				{doublons}
 				{type!=''}
 				{par date}{inverse}
-				{pagination 50}
+				{pagination 20}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_aussi>

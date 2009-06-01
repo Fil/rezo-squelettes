@@ -4,7 +4,7 @@
 <head>
 <title>[(#TITRE|textebrut) - ][(#NOM_SITE_SPIP|textebrut)]</title>
 [<meta name="description" content="(#INTRODUCTION{150}|attribut_html)" />]
-<INCLURE{fond=inc-head}>
+<INCLURE{fond=inc-head}{couleur=8e4072}>
 </head>
 
 <body class="page_article">
@@ -18,7 +18,7 @@
 
 	[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
 
-	<INCLURE{fond=inc-entete}{titre=(#LOGO_ARTICLE|left
+	<INCLURE{fond=inc-entete}{onglet=date}{couleur=8e4072}{titre=(#LOGO_ARTICLE|left
 		||inserer_attribut{class,logo}) #TITRE} />
 
 	[<p class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</p>]

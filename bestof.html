@@ -4,14 +4,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
 <head>
-<title>[(#NOM_SITE_SPIP|textebrut)] - Best Of</title>
+<title>[(#NOM_SITE_SPIP|textebrut)] - La sélection</title>
 [<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
-<INCLURE{fond=inc-head}{feed=bestof}/>
+<INCLURE{fond=inc-head}{couleur=9b7563}{feed=bestof}/>
 
 [(#ENV{semaine}|?{'<meta name="robots" content="noindex" />'})]
 </head>
 
-<body class="page_sommaire">
+<body class="page_bestof">
 <div id="page">
 
 	[(#REM) Bandeau de la page ]
@@ -20,7 +20,7 @@
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
 
-	<INCLURE{fond=inc-entete}{titre=Best Of} />
+	<INCLURE{fond=inc-entete}{titre=La sélection}{couleur=9b7563}{onglet=bestof} />
 
 [(#REM) selectionner les recents pour eviter pb de perfs
 
@@ -50,10 +50,11 @@
 	</div></div>
 	</BOUCLE_une>
 
-
+<!--
 	<div id="nuage">[(#REM|nuage_tags)
 	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
 	]</div>
+	-->
 
 	</div>[(#REM) /central ]
 
@@ -73,7 +74,7 @@
 				{doublons}
 				{type IN une,tresbien}
 				{!par date}
-				{0,50}
+				{0,30}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_articles_recents>
@@ -112,7 +113,7 @@
 				{doublons}
 				{type IN une,tresbien}
 				{par date}{inverse}
-				{pagination 50}
+				{pagination 20}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_aussi>
@@ -120,15 +121,6 @@
 		</div>
 		</B_aussi>
 
-		<div class="menu pavedepeches">
-		<h2 style='display:none;'></h2>
-		[(#REM) Rechercher ]
-		#FORMULAIRE_RECHERCHE
-
-		[(#REM) Menu de navigation par rubriques ]
-		<INCLURE{fond=inc-rubriques} />
-
-		</div>
 
 	</div><!--#navigation-->
 

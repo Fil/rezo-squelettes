@@ -1,0 +1,828 @@
+[(#HTTP_HEADER{Content-type: text/css})]
+
+body {
+	background: url([(#CHEMIN{masques/carre-fond.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.05})]}|extraire_attribut{src})]);
+	background-color: white;
+	margin: 0px;
+	padding: 0px;
+	font-family: arial, helvetica, sans;
+	font-size: 12px;
+}
+
+a { text-decoration: none; }
+a:hover { text-decoration: none; }
+
+
+
+/* reset */
+h4,h5 {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+
+
+
+
+
+/* ecran large */
+.large .central {width: 1024px;}
+.large #contenu {width: 374px;}
+#marge {display:none;}
+.large #marge {display:block;}
+
+
+.articles {
+	margin-bottom: 2em;
+	
+	.introduction {
+		display: none;
+		position: absolute;
+		top: -5px;
+		left: 40px;
+
+		font-size: 10px;
+		line-height: 1.25em;
+		padding: 5px;
+		border: 1px solid #[(#ENV{couleur}|couleur_foncer)];
+		background-color: #[(#ENV{couleur}|couleur_saturation{0.1})];
+		 
+		 width: 325px;
+		 text-align: justify;
+		 font-family: verdana, arial, helvetica, sans;
+
+		.source {
+			display: none;
+		}
+		.tags {
+			padding-top: 3px;
+			
+			b {
+				color: #[(#ENV{couleur}|couleur_foncer)];
+			}
+		}
+	 }	
+	 
+	.entry-content {
+		 position: relative;
+		 z-index:1;
+	}
+	
+	.datehm  {
+		display: none;
+	}
+
+	a[rel=bookmark] {
+		display: block;
+		color: #[(#ENV{couleur}|couleur_foncer)];
+		font-size: 12px;
+		margin-top: 5px;
+		margin-bottom: 10px;
+		padding-left: 23px;
+
+		. :visited{
+			color: #[(#ENV{couleur})];
+		}
+		. :hover {
+			color: #111111;
+		}
+
+		.auteur{
+			display: block;
+			font-family: verdana, arial, helvetica, sans;
+			font-size: 11px;
+		}
+
+	}
+	
+}
+
+.page_actu {
+
+	#contenu {
+		width: 100%;
+		
+		.datehm {
+			display: inline;
+		}
+		
+		h5.theme {
+			margin-top: 30px;
+			
+			.favicon {
+				display: block;
+			}
+			a[rel=bookmark] {
+				padding-left: 0px;
+				color: [#(#ENV{couleur})];
+				text-transform: none;
+				margin-bottom: 0px;
+				font-weight: bold;
+				font-size: 12px;
+				text-transform: uppercase;
+								
+			}
+		}
+		h5:first-child {
+			margin-top: 0px;
+		}
+
+		
+	}
+
+	. .large {
+		#contenu {
+			width: 689px;
+		}
+	}
+	
+	#depeches {
+		a[rel=bookmark] {
+			height: 30px; 
+			line-height: 27px; 
+			float: left; 
+			margin : 0px;
+			padding: 0px;
+			padding-right: 10px; 		
+		}
+	}
+	
+	.articlemotune {
+		width: 45%;
+		float: left;
+		
+		.entry-content {
+			display: block;
+			
+			.introduction {
+				display: block;
+				position: relative;
+				margin: 0px;
+				padding: 0px;
+				width: auto;
+				top: 0px;
+				left: 0px;
+				background-color: transparent;
+				border: 0px;
+				
+				font-size: 9px;
+				padding-left: 23px;
+			}
+		}
+	}
+	
+	.articlemotdeux {
+		width: 50%;
+		float: right;
+		
+		.introduction {
+			width: 85%;
+		}
+	}
+	
+}
+
+.page_sommaire {
+	#aussi {
+		.hentry.tresbien {
+			.entry-content {
+				display: block;
+				padding-left: 23px;
+				font-size: 9px;
+				text-align: justify;
+				
+				.source, .tags {
+					display: none;
+				}
+				
+			}
+		}
+	}
+}
+.page_rubrique {
+	.favicon, .plus {
+		display: none;
+	}
+	
+	#une .favicon {
+		display: block;
+		float: right;
+		margin-left: 5px;
+		margin-right: 0px;
+	}
+	
+	a[rel=bookmark], .pavedepeches a[rel=bookmark] {
+		padding-left: 0px;
+	}
+}
+
+#logo {
+	text-align: center;
+}
+
+#onglets-navigation {
+	text-align: right;
+	margin-top: 5px;
+	
+	a {
+		display: block;
+		float: right;
+		color: [#(#ENV{couleur})];
+		padding-bottom: 4px;
+		margin-bottom: 10px;
+		margin-left: 10px;
+		
+		. :hover {
+			color: [#(#ENV{couleur}|couleur_foncer)];
+			background: url([(#CHEMIN{masques/onglet-trait.png}|image_sepia{[(#ENV{couleur}|couleur_foncer)]}|extraire_attribut{src})]) bottom left no-repeat;
+		}
+		. .on {
+			color: black;
+			background: url([(#CHEMIN{masques/onglet-trait.png}|image_sepia{000000}|extraire_attribut{src})]) bottom left no-repeat;
+		}
+		
+		
+	}
+}
+
+#aussi, #depeches {
+	a[rel=bookmark] {
+		color: #[(#ENV{couleur}|couleur_saturation{0.2}|couleur_foncer)];
+
+		. :visited{
+			color: #[(#ENV{couleur})];
+		}
+		. :hover {
+			color: #111111;
+		}
+	}
+
+}
+
+.hentry {
+	position: relative;
+}
+
+.logo {
+	background: url(http://rezo.net/img_rezo/logorezo-blanc.gif) top left no-repeat;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+#conteneur {
+	background: url([(#CHEMIN{masques/patte-fond.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.05})]}|extraire_attribut{src})]) top right no-repeat;
+}
+
+.central {
+	clear:both;
+	margin: auto;
+	width: 750px;
+}
+
+#entete {
+	padding-bottom:1.8em;
+}
+
+#contenu {
+	float:left;
+	width:425px;
+	padding-bottom:6em;
+}
+
+#marge {
+	float:left;
+	width: 300px;
+	margin-right:35px;
+	padding-bottom:6em;
+	display:none; /* le js large() l'affichera */
+}
+
+
+
+#une {
+	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.3})]}|extraire_attribut{src})]);
+	border: 1px solid #[(#ENV{couleur}|couleur_foncer)];
+	padding: 5px;
+	clear: both;
+	margin-bottom: 1.8em;
+
+
+	color: #[(#ENV{couleur}|couleur_foncer)];
+	
+	. :hover {
+		color: #000;
+	}
+	
+	a {
+		 . :visited {
+			color: #666666;
+		}
+		. :hover {
+			color: #000000;
+		}
+		. [rel=bookmark] {
+			color: #[(#ENV{couleur}|couleur_foncer|couleur_foncer)];
+
+			. :hover {
+					color: black;
+				}
+		}
+		
+		
+		.entry-title {
+			display: block;
+			font-size: 12px;
+			font-family: verdana, arial, helvetica, sans;
+			font-weight: bold;
+		}	
+	}
+	
+	h5 {
+		font-weight: normal;
+	}	
+	
+	.datehm {
+		display: none;
+	}
+
+	.introduction {
+		display: block;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		font-size: 11px;
+		line-height: 1.25em;
+		font-family: verdana, arial, helvetica, sans;
+		text-align: justify;
+		
+		.source {
+			display: none;
+		}
+	}
+
+	.tags {
+		font-size: 11px;
+		padding-top: 3px;
+		text-align: left;
+	}
+
+	.auteur {
+		display: block;
+		text-align: right;
+		padding-left: 0px;
+		font-size: 12px;
+	}
+}
+
+.tags {
+	b {
+		text-transform: lowercase;	
+	}
+}
+
+
+/* #chandelle contient #une en mode 800 */
+#chandelle {
+	width: 425px;
+	float: left;
+}
+
+
+
+
+/* zapper la virgule dans les liens de type block */
+#une .auteur .v, .articles .auteur .v {
+	display:none;
+}
+
+a.lienauteur {
+	color: white;
+}
+
+#english {
+	clear: both;
+	border: 1px solid [#(#ENV{couleur}|couleur_eclaircir)];
+	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.1})]}|extraire_attribut{src})]);
+}
+#english h5 {
+	display:none;
+}
+
+
+.pavedepeches {
+	a[rel=bookmark] {
+		display: block;
+		color: #[(#ENV{couleur}|couleur_foncer)];
+		font-size: 10px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		font-family: verdana, arial, helvetica, sans;
+		padding-left: 23px;
+
+
+		. :visited {
+			color: #[(#ENV{couleur})];
+		}
+		
+		. :hover {
+			color: #000000;
+		}
+	}
+	
+	/* masquer les resumes dans le bloc pavedepeches */
+	h5, .entry-content {
+		display: none;
+	}
+	
+}
+
+
+
+/* bloc Ecouter */
+.pavedepeches.ecouter {
+	border: 1px solid [#(#ENV{couleur}|couleur_eclaircir)];
+	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.1})]}|extraire_attribut{src})]);
+}
+
+#bandeau, #footer {
+	background-color: #[(#ENV{couleur}|couleur_foncer)];
+	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_foncer|couleur_saturation{0.6})]}|extraire_attribut{src})]);
+	padding: 5px;
+	color: white;
+	height: 28px;
+}
+
+#bandeau {
+	border-bottom: 1px solid #[(#ENV{couleur}|couleur_foncer)];
+	margin-bottom: 8px;
+}
+#footer {
+	border-top: 1px solid #[(#ENV{couleur}|couleur_foncer)];
+	margin-top: 1em;
+}
+
+#bandeau .maj {
+	float: left;
+}
+
+.abandeau {
+	float: right;
+	padding-top: 7px;
+}
+
+.abandeau a {
+	background-color: #[(#ENV{couleur}|couleur_foncer|couleur_saturation{0.4})];
+	border: 1px outset #[(#ENV{couleur}|couleur_foncer|couleur_saturation{0.4})];
+	padding: 5px;
+	padding-right: 20px;
+	padding-left: 20px;
+	margin: 5px;
+	margin-right: 0px;
+	margin-left: 0px;
+	color: white;
+	font-size: 10px;
+}
+
+.abandeau a:hover	{
+	color: black;
+	background-color: #cccccc;
+	border: 1px inset #cccccc;
+}
+
+#accueil {
+	float: left;
+	width: 300px;
+	margin-bottom: 20px;
+	
+	img {
+		margin-top: -15px;
+	}
+}
+
+#contenu h5 {
+	clear: both; /* au cas ou une image est au rang du dessus */
+	font-size: 10px;
+	text-transform: uppercase;
+	font-family: verdana,arial,helvetica,sans;
+	font-weight: bold;
+	border-bottom: 1px solid #[(#ENV{couleur})];
+	color: #[(#ENV{couleur})];
+	margin-top: 1.6em;
+	margin-bottom: 3px;
+	padding-bottom: 3px;
+}
+#contenu .hentry:first-child h5 {
+	margin-top:0;
+}
+
+#navigation {
+	float: right;
+	width: 288px;
+	padding-bottom:6em;
+}
+
+.pavedepeches {
+	padding: 5px;
+	border: 1px solid #[(#ENV{couleur})];
+	background: url(http://rezo.net/img_rezo/blanc50.png);
+	margin-bottom: 2.5em;
+}
+
+h4 {
+	text-align: center;
+	padding-bottom: 3px;
+	border-bottom: 1px solid #[(#ENV{couleur})];
+	color: #[(#ENV{couleur})];
+	margin-bottom: 3px;
+	font-family:verdana,arial,helvetica,sans;
+	font-size:10px;
+	text-transform: uppercase;
+	font-weight:bold;
+	margin-top: 0;
+}
+
+#citation {
+	color: #[(#ENV{couleur}|couleur_foncer)];
+	text-align: left;
+	font-size: 15px;
+	line-height: 1.4em;
+	font-family: georgia, times, serif;
+	float: right;
+	padding-top: 10px;
+	margin-bottom: 10px;
+	width: 300px;
+}
+
+#citation span.auteur {
+	display: block;
+	text-align: right;
+	font-weight: bold;
+}
+
+
+
+.maj {
+	padding: 0px;
+	color: white;
+	font-size: 10px;
+	font-family: verdana,arial,helvetica,sans;
+}
+
+.formulaire_recherche {
+	padding: 3px;
+	background-color: #[(#ENV{couleur})];
+	border: 1px solid white;
+	color: #333333;
+}
+
+.sources {
+	width: 100%;
+	padding: 3px;
+	background-color:  #[(#ENV{couleur}|couleur_eclaircir)];
+	border: 1px outset  #[(#ENV{couleur})];
+	color: #[(#ENV{couleur}|couleur_foncer)];
+}
+
+.liste {
+	color: white;
+	#margin-left: 20px;
+	#padding-left: 10px;
+}
+
+.chapo {
+	text-align: left;
+}
+
+.spip_logos {
+	clear: right;
+	margin: 3px;
+	margin-right: 0px;
+	border-width: 0px;
+	float: right;
+	padding-left: 10px;
+	padding-bottom: 5px;
+}
+
+#precedente {
+	color: #111;
+	display:block;
+	margin-top: 2em;
+	margin-bottom: 3em;
+	font-weight: bold;
+}
+
+#nuage {
+	float:right;
+	width:275px;
+	text-align:right;
+	margin: 10px 0 10px 10px;
+}
+
+.large #nuage {
+	width: 400px;
+}
+
+#nuage a {
+	color: #555;
+	padding-left:3px;
+	vertical-align:middle;
+	white-space: nowrap;
+}
+
+/* masquer l'auteur et la source chez mermet */
+/* rezo.js recuperera la date */
+
+.ecouter .auteur {
+	display: none;
+}
+
+
+.favicon {
+	clear: left;
+	width: 16px;
+	height: 16px;
+	overflow: hidden;
+	color: white;
+	background-color: white;
+	float: left;
+	margin-right: 4px;
+	margin-top: 3px;
+}
+
+.plus {
+	background: url(http://rezo.net/img_rezo/plus2.gif);
+	width:9px;
+	height:9px;
+	margin-top: 2px;
+	margin-left: 5px;
+	float:right;
+}
+a.plus, a.plus:hover {
+	color:transparent !important;
+}
+
+#une {
+	.plus {
+		background: url(http://rezo.net/img_rezo/plus.gif);
+		position: relative;
+		top: -20px;
+	}
+}
+
+
+.pagination a {
+	font-size:9px;
+	font-family: arial, helvetica, sans;
+	color: #444;
+}
+.pagination a:hover {
+	color: #888;
+
+}
+
+/* le titre des pages mots etc */
+#citation h1 {
+	text-align:left;
+	color:#[(#ENV{couleur}|couleur_foncer_si_claire)];
+	font-size:26px;
+	letter-spacing:4px;
+	text-transform:uppercase;
+	font-weight:normal;
+	font-family:arial,helvetica,sans;
+	padding: 0px;
+	margin: 0px;
+}
+
+
+.chapo {
+	font-weight: bold;
+	font-size: 14px;
+	clear: both;
+	line-height: 1.4em;
+	
+}
+
+#footer .central {
+	padding:8px;
+	text-align: center;
+}
+#footer span {
+	background: #eee;
+	border: solid 1px #888;
+	color: #111;
+	padding: 5px 10px;
+	margin-right: 30px;
+}
+#footer span a {
+	color: #444;
+	margin:5px;
+}
+#footer span a:visited {
+	color: #444;
+}
+
+
+.source {
+
+}
+
+.hentry.liste-sites{
+	width: 50%;
+	float: left;
+	
+	
+	a[rel=bookmark] {
+		margin-right: 20px;
+		margin-top: 2px;
+		padding-bottom: 4px;
+	}
+}
+	
+.page_sources {
+	#contenu {
+		h5.source {
+			margin-top: 30px;
+			
+			.favicon {
+				display: block;
+			}
+			a[rel=bookmark] {
+				padding-left: 0px;
+				color: black;
+				text-transform: none;
+				margin-bottom: 0px;
+				font-weight: normal;
+				font-size: 10px;
+				
+				strong {
+					font-size: 12px;
+					text-transform: uppercase;
+					color: [#(#ENV{couleur})];
+				}
+			}
+		}
+		h5:first-child {
+			margin-top: 0px;
+		}
+
+
+		
+		h5 {
+			display: none;
+		}
+		.datehm {
+			display: inline;
+		}
+	
+		.favicon {
+			display: none;
+		}
+		
+		a[rel=bookmark] {
+			padding-left: 0px;
+		}
+	}
+}
+
+/* pages admin */
+body.admin .hentry.poubelle a[rel=bookmark], option[value=poubelle] {
+	background:#F6CECE !important;
+}
+body.admin .hentry.prop a[rel=bookmark], option[value=prop] {
+	background:#F6E3CE !important;
+}
+body.admin .hentry.dispo a[rel=bookmark], option[value=dispo] {
+	background:#FFE87C !important;
+}
+body.admin .hentry.publie a[rel=bookmark], option[value=publie] {
+	background:transparent !important;
+}
+.rezoset a {
+	color: #114411;
+}
+.rezoset a:visited {
+	color: #224422;
+}
+.crayon-icones {
+	left: -10px !important;
+	top: 2px !important;
+}
+.en_lignes {
+	margin:auto;
+	text-align:center;
+	border-bottom: dotted 1px gray;
+	padding-bottom: 4px;
+	margin-bottom:3px;
+	color: #333;
+}
+.en_lignes a,.en_lignes a:visited {
+	color: #222;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+#FILTRE{css_imbriques_decouper}

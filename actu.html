@@ -4,14 +4,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
 <head>
-<title>[(#NOM_SITE_SPIP|textebrut)][ - (#DESCRIPTIF_SITE_SPIP|couper{50}|textebrut)][ - (#ENV{semaine}|affdate)]</title>
+<title>[(#NOM_SITE_SPIP|textebrut)] - Les thèmes</title>
 [<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
-<INCLURE{fond=inc-head}{feed=}/>
+<INCLURE{fond=inc-head}{couleur=627c9a}{feed=}/>
 
 [(#ENV{semaine}|?{'<meta name="robots" content="noindex" />'})]
 </head>
 
-<body class="page_sommaire">
+<body class="page_actu">
 <div id="page">
 
 	[(#REM) Bandeau de la page ]
@@ -20,7 +20,7 @@
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
 
-	<INCLURE{fond=inc-entete} />
+	<INCLURE{fond=inc-entete}{titre=Les thèmes}{couleur=627c9a}{onglet=actu} />
 
 [(#REM) selectionner les recents pour eviter pb de perfs
 
@@ -28,7 +28,7 @@
 	(inclus, d'ou l'ajout de 24h00)
 
 ]
-<BOUCLE_auj(ARTICLES){type!=''}{!par date}{0,1}>
+<BOUCLE_auj(ARTICLES){!par date}{0,1}>
 [(#SET{fin,[(#VAL{U}|date{#DATE|strtotime}|plus{86400})]})]
 </BOUCLE_auj>
 [(#ENV{semaine}|match{'^\d{4}-\d{2}-\d{2}$'}|?{
@@ -44,23 +44,17 @@
 	{date<=#GET{fin}}
 	{doublons recents}
 	{id_rubrique!=79}
-	{lang=fr}
-></BOUCLE_recents>
+	/>
+<BOUCLE_cut(ARTICLES)
+	{!doublons recents}
+	{!par popularite}
+	{type!=''}
+	{0,35}
+	{doublons cut}
+	/>
 
 	<div class="central">
 
-	[(#REM) A la une ]
-	<div id="chandelle">
-	<BOUCLE_une(MOTS) {!par popularite} {0,12}
-	>
-		<a href="#theme#ID_MOT">#TITRE</a>
-	</BOUCLE_une>
-	</div>
-
-
-	<div id="nuage">[(#REM|nuage_tags)
-	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
-	]</div>
 
 	</div>[(#REM) /central ]
 
@@ -74,104 +68,48 @@
 
 	<div id="contenu">
 
-	<BOUCLE_theme(MOTS) {!par popularite} {0,12}>
-	<div class="menu articles">
-	<a name="theme#ID_MOT" id="theme#ID_MOT"></a>
-	<h2>#TITRE</h2>
-	
-	<BOUCLE_p(ARTICLES){id_mot}{!par popularite}{0,1}{doublons}{!doublons recents}>
-	[(#ID_ARTICLE|microcache{inc-entry})]
-	</BOUCLE_p>
-
-	<BOUCLE_p2(ARTICLES){id_mot}{!par popularite}{0,12}{doublons}{!doublons recents}>
-	[(#ID_ARTICLE|microcache{inc-entry})]
-	</BOUCLE_p2>
-
-	</div>
-	</BOUCLE_theme>
-
-
-		<B_english>
-		<div id="english" class="menu pavedepeches">
-		<a class="plus" title="In English" href="anglais">+</a>
-		<h4>In English</h4>
-				<BOUCLE_english(ARTICLES)
-				{date<=#GET{fin}}
-				{lang=en}
-				{doublons}
-				{!par date}
-				{0,4}>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_english>
+		<div class="menu articles">
+			<BOUCLE_theme(MOTS) {!par popularite} {0,12}>
+				<h5 class="theme#ID_MOT theme">
+					<a rel="bookmark" href="#URL_MOT">#TITRE</a>
+				</h5>
+			
+				<BOUCLE_mot(ARTICLES){recherche #TITRE}{type!=""}{0,1}{!par popularite}{doublons actu}>
+					<div class="articlemotune"><div class="articlemot articlenum#COMPTEUR_BOUCLE">[(#ID_ARTICLE|microcache{inc-entry})]</div></div>
+				</BOUCLE_mot>
+				<div class="articlemotdeux">
+					<BOUCLE_mot2(ARTICLES){recherche #TITRE}{0,5}{!par popularite}{doublons actu}>
+						<div class="articlemot articlenum#COMPTEUR_BOUCLE">[(#ID_ARTICLE|microcache{inc-entry})]</div>
+					</BOUCLE_mot2>
+				</div>
+				<div style="clear: both;"></div>			
+						
+			</BOUCLE_theme>
 		</div>
-		</B_english>
 
 
-		<a id="precedente"
-		href="/[(#VAL{Y-m-d}|date{[(#GET{fin}|strtotime|moins{604801})]})]"
-		rel="nofollow">la semaine pr&#233;c&#233;dente</a>
+
+
+		<div id="depeches" class="menu pavedepeches">
+
+				<h4>Tous les thèmes</h4>
+
+				<BOUCLE_themes(MOTS) {par titre}>
+				<a rel="bookmark" href="#URL_MOT" style="font-size:[(#EVAL{9+floor([(#POPULARITE)]/[(#TITRE|strlen)]);})]px;[(#POPULARITE|>{10}|?{" font-weight: bold;",""})]">#TITRE</a>
+				</BOUCLE_themes>
+				
+				</BOUCLE_themes>
+
+			
+			<div style="clear:left;"></div>
+
+		</div>
+
 
 
 	</div>[(#REM) #contenu]
 
 
-	<div id="navigation">
-
-		<B_breves>
-		<div id="depeches" class="menu pavedepeches">
-			<h4>D&#233;p&#234;ches</h4>
-				<BOUCLE_breves(ARTICLES)
-				{!doublons recents}
-				{doublons}
-				{type=''}
-				{par date}{inverse} {doublons}
-				{0,10}
-				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_breves>
-		</div>
-		</B_breves>
-
-		<B_aussi>
-		<div id="aussi" class="menu pavedepeches">
-			<h4>Et aussi...</h4>
-				<BOUCLE_aussi(ARTICLES)
-				{!doublons recents}
-				{doublons}
-				{type!=''}
-				{par date}{inverse} {doublons}
-				{0,18}
-				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_aussi>
-		</div>
-		</B_aussi>
-
-		<div class="menu pavedepeches">
-		<h2 style='display:none;'></h2>
-		[(#REM) Rechercher ]
-		#FORMULAIRE_RECHERCHE
-
-		[(#REM) Menu de navigation par rubriques ]
-		<INCLURE{fond=inc-rubriques} />
-
-		</div>
-
-		<B_radio>
-		<div class="menu pavedepeches ecouter">
-			<h4>&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</h4>
-				<BOUCLE_radio(ARTICLES)
-				{id_rubrique=79}
-				{par date}{inverse} {doublons}
-				{0,5}
-				{date<=#GET{fin}}
-				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_radio>
-		</div>
-		</B_radio>
-
-	</div><!--#navigation-->
 
 
 	<div style="clear:both;"></div>

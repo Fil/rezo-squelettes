@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
 <head>
 <title>[(#NOM_SITE_SPIP|textebrut)] in English</title>
-<INCLURE{fond=inc-head}{feed=anglais}/>
+<INCLURE{fond=inc-head}{couleur=c32954}{feed=anglais}/>
 </head>
 
 <body class="page_anglais">
@@ -18,7 +18,7 @@
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
 
-	<INCLURE{fond=inc-entete}{titre=In English} />
+	<INCLURE{fond=inc-entete}{titre=In English}{couleur=c32954}{onglet=english} />
 
 [(#REM) selectionner les recents pour eviter pb de perfs
 
@@ -45,11 +45,12 @@
 	</div></div>
 	</BOUCLE_une>
 
-
+	<!--
 	<div id="nuage">[(#REM|nuage_tags)
 	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
 	]</div>
-
+	-->
+	
 	</div>[(#REM) /central ]
 
 	[(#REM) Derniers articles ]
@@ -104,40 +105,13 @@
 				{doublons}
 				{type!=''}
 				{par date}{inverse}
-				{pagination 50}
+				{pagination 50} 
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_aussi>
 		[<p class="pagination">(#PAGINATION)</p>]
 		</div>
 		</B_aussi>
-
-		<div class="menu pavedepeches">
-		<h2 style='display:none;'></h2>
-
-		[(#REM) Rechercher ]
-		#FORMULAIRE_RECHERCHE
-
-		[(#REM) Menu de navigation par rubriques ]
-		<INCLURE{fond=inc-rubriques} />
-
-		</div>
-
-		<B_radio>
-		<div class="menu pavedepeches ecouter">
-		#ANCRE_PAGINATION
-			<h4>&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</h4>
-				<BOUCLE_radio(ARTICLES)
-				{id_rubrique=79}
-				{par date}{inverse} {doublons}
-				{pagination 10}
-				{lang}
-				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_radio>
-		[<p class="pagination">(#PAGINATION)</p>]
-		</div>
-		</B_radio>
 
 	</div><!--#navigation-->
 

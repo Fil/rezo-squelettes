@@ -1,14 +1,31 @@
+<div id="onglets-navigation" class="central">
+	<a href="anglais"[(#ENV{onglet}|=={english}|?{" class='on'",""})]>In english</a>
+	<a href="bestof"[(#ENV{onglet}|=={bestof}|?{" class='on'",""})]>La s&eacute;lection</a>
+	<a href="actu"[(#ENV{onglet}|=={actu}|?{" class='on'",""})]>Les th&egrave;mes</a>
+	<a href="sources"[(#ENV{onglet}|=={sources}|?{" class='on'",""})]>Les sources</a>
+	<a href="#URL_SITE_SPIP"[(#ENV{onglet}|=={date}|?{" class='on'",""})]>Le portail</a>
+</div>
+
+
+
 <div id="entete" class="central">
 
-<div id="accueil">
-<a rel="start home" href="#URL_SITE_SPIP/"><img alt="#NOM_SITE_SPIP"
-src="http://rezo.net/img_rezo/logorezo-blanc.gif" /></a>
-</div>
+	<div id="accueil">
+	<a rel="start home" href="#URL_SITE_SPIP/">
+	[(#CHEMIN{masques/logorezo-ombre.png}|image_masque{
+		[(#CHEMIN{masques/logorezo.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.5})]}|extraire_attribut{src})],
+		"mode=normal"
+	})]
+	</a>
+	</div>
+
+
+
 
 		[(#REM) Citation]
 
 		<div id="citation">
-		[<h1>(#ENV*{titre})</h1>]
+		[<h1>(#ENV*{titre}|image_typo{police=avenirblack.ttf, taille=48, padding=10, couleur=[(#ENV{couleur}|couleur_foncer_si_claire)]}|image_reduire_par{2})</h1>]
 		<BOUCLE_citation(BREVES){0,1}{par hasard}
 		{id_rubrique=#ENV{titre}|?{-1,1}}>
 			[<div class="#EDIT{texte}">(#TEXTE|PtoBR)</div>]
@@ -16,6 +33,8 @@ src="http://rezo.net/img_rezo/logorezo-blanc.gif" /></a>
 		</BOUCLE_citation>
 		</div>
 
+	<div style='clear:both;'></div>
+
 </div>
 
-<div style='clear:both;'></div>
+
