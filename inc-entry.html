@@ -21,6 +21,9 @@
 	[(#GET{favicon}|extraire_attribut{src}|?{"", " "})
 		[(#SET{favicon,[(#URL_SITE|recuperer_favicon)]})]
 	]
+	[(#GET{favicon}|extraire_attribut{src}|?{"", " "})
+		[(#SET{favicon,"<img src='rien.gif' width='16' height='16' alt='' class='rien' />"})]
+	]
 	[<a href="#GET{url_rub}" class="favicon"[ title="(#GET{titre_rub}|texte_backend)"]>(#GET{favicon})</a>]
 
 
