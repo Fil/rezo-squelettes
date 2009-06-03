@@ -27,8 +27,7 @@
 	[<a href="#GET{url_rub}" class="favicon"[ title="(#GET{titre_rub}|texte_backend)"]>(#GET{favicon})</a>]
 
 
-<a href="#GET{url_rub}" class="plus"[
-title="(#GET{titre_rub}|texte_backend)"]>+</a>
+
 
 <a rel="bookmark" href="#URL_SITE">
 	<strong class="entry-title">#GET{titre}</strong><span class='auteur'>[<span class='v'>,</span>
@@ -40,7 +39,7 @@ title="(#GET{titre_rub}|texte_backend)"]>+</a>
 
 [<div class="entry-content">
 	<div class='introduction'>
-		[(#LOGO_ARTICLE||image_reduire{135})]
+		[(#LOGO_ARTICLE||image_reduire{135}|image_aplatir{jpg,ffffff)]
 		(#DESCRIPTIF
 			|sinon{[(#TEXTE*|replace{^x$}|couper{200})]}
 			|PtoBR|trim|cesure{#LANG})
