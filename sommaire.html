@@ -85,11 +85,24 @@
 	<div id="contenu">
 
 		<div class="menu articles">
+				<BOUCLE_articles_recents_jour(ARTICLES)
+				{doublons}
+				{!doublons recents}
+				{type!=''}
+				{!par popularite}
+				{age = 0}
+				{0,7}
+				{lang!=en}
+				{doublons articles_centre}
+				>
+				</BOUCLE_articles_recents_jour>
+
 				<BOUCLE_articles_recents0(ARTICLES)
 				{doublons}
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
+				{age > 0}
 				{age <= 1}
 				{0,7}
 				{lang!=en}
