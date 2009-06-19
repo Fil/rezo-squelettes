@@ -126,3 +126,13 @@ function rezo_revision($id, $file, $type, $ref) {
 	crayons_update_article($id, $file, $type, $ref);
 }
 
+// delegation a la rache de mon openid vers gmail
+if ($login = @$_SERVER['PHP_AUTH_USER']
+AND $login == 'fil') {
+	header('X-XRDS-Location: https://www.google.com/accounts/o8/id');
+	echo "<html><head>\n";
+	echo "<meta http-equiv='X-XRDS-Location' content='https://www.google.com/accounts/o8/id' />\n";
+	echo "<link rel='openid.server' href='http://openid-provider.appspot.com/' />\n";
+	echo "<link rel='openid.delegate' href='https://www.google.com/accounts/o8/id' />\n";
+}
+

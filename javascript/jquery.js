@@ -6,16 +6,18 @@
  * Dual licensed under the MIT and GPL licenses.
  * http://docs.jquery.com/License
  *
- * Date: 2009-05-06 04:17:24 +0200 (Wed, 06 May 2009)
- * Revision: 6342
+ * Date: 2009-05-20 23:59:24 +0200 (Wed, 20 May 2009)
+ * Revision: 6363
  */
-(function(){
+(function(window, undefined){
 
-// Will speed up references to window, and allows munging its name.
-var window = this,
-
-	// Will speed up references to undefined, and allows munging its name.
-	undefined,
+// Define a local copy of jQuery
+var jQuery = function( selector, context ) {
+		// The jQuery object is actually just the init constructor 'enhanced'
+		return arguments.length === 0 ?
+			rootjQuery :
+			new jQuery.fn.init( selector, context );
+	},
 
 	// Map over jQuery in case of overwrite
 	_jQuery = window.jQuery,
@@ -23,18 +25,8 @@ var window = this,
 	// Map over the $ in case of overwrite
 	_$ = window.$,
 
-	// Define a local copy of jQuery
-	jQuery,
-
 	// A central reference to the root jQuery(document)
 	rootjQuery,
-
-	jQuery = window.jQuery = window.$ = function( selector, context ) {
-		// The jQuery object is actually just the init constructor 'enhanced'
-		return arguments.length === 0 ?
-			rootjQuery :
-			new jQuery.fn.init( selector, context );
-	},
 
 	// A simple way to check for HTML strings or ID strings
 	// (both of which we optimize for)
@@ -48,6 +40,9 @@ var window = this,
 
 	// Save a reference to the core toString method
 	toString = Object.prototype.toString;
+
+// Expose jQuery to the global object
+window.jQuery = window.$ = jQuery;
 
 jQuery.fn = jQuery.prototype = {
 	init: function( selector, context ) {
@@ -1195,7 +1190,7 @@ var Expr = Sizzle.selectors = {
 			} else if ( name === "not" ) {
 				var not = match[3];
 
-				for ( var i = 0, l = not.length; i < l; i++ ) {
+				for ( i = 0, l = not.length; i < l; i++ ) {
 					if ( not[i] === elem ) {
 						return false;
 					}
@@ -1209,13 +1204,13 @@ var Expr = Sizzle.selectors = {
 			switch (type) {
 				case 'only':
 				case 'first':
-					while (node = node.previousSibling)  {
+					while ( (node = node.previousSibling) )  {
 						if ( node.nodeType === 1 ) return false;
 					}
 					if ( type == 'first') return true;
 					node = elem;
 				case 'last':
-					while (node = node.nextSibling)  {
+					while ( (node = node.nextSibling) )  {
 						if ( node.nodeType === 1 ) return false;
 					}
 					return true;
@@ -1621,11 +1616,21 @@ jQuery.expr = Sizzle.selectors;
 jQuery.expr[":"] = jQuery.expr.filters;
 
 Sizzle.selectors.filters.hidden = function(elem){
-	return elem.offsetWidth === 0 && elem.offsetHeight === 0;
+	var width = elem.offsetWidth, height = elem.offsetHeight;
+	return ( width === 0 && height === 0 ) ?
+		true :
+		( width !== 0 && height !== 0 ) ?
+			false :
+			!!( jQuery.curCSS(elem, "display") === "none" );
 };
 
 Sizzle.selectors.filters.visible = function(elem){
-	return elem.offsetWidth > 0 || elem.offsetHeight > 0;
+	var width = elem.offsetWidth, height = elem.offsetHeight;
+	return ( width === 0 && height === 0 ) ?
+		false :
+		( width > 0 && height > 0 ) ?
+			true :
+			!!( jQuery.curCSS(elem, "display") !== "none" );
 };
 
 Sizzle.selectors.filters.animated = function(elem){
@@ -2246,8 +2251,7 @@ jQuery.each({
 	remove: function( selector ) {
 		if ( !selector || jQuery.multiFilter( selector, [ this ] ).length ) {
 			if ( this.nodeType === 1 ) {
-				cleanData( this.getElementsByTagName("*") );
-				cleanData( [this] );
+				cleanData( jQuery("*", this).add(this) );
 			}
 
 			if ( this.parentNode ) {
@@ -2259,7 +2263,7 @@ jQuery.each({
 	empty: function() {
 		// Remove element nodes and prevent memory leaks
 		if ( this.nodeType === 1 ) {
-			cleanData( this.getElementsByTagName("*") );
+			cleanData( jQuery("*", this) );
 		}
 
 		// Remove any remaining nodes
@@ -2595,9 +2599,10 @@ jQuery.event = {
 	},
 
 	// bubbling is internal
-	trigger: function( event, data, elem, bubbling ) {
+	trigger: function( event, data, elem /*, bubbling */ ) {
 		// Event object or event type
-		var type = event.type || event;
+		var type = event.type || event,
+			bubbling = arguments[3];
 
 		if ( !bubbling ) {
 			event = typeof event === "object" ?
@@ -2779,8 +2784,13 @@ jQuery.event = {
 		return event;
 	},
 
-	proxy: function( fn, proxy ) {
-		proxy = proxy || function() { return fn.apply( this, arguments ); };
+	proxy: function( fn, proxy, thisObject ) {
+		if ( proxy !== undefined && !jQuery.isFunction( proxy ) ) {
+			thisObject = proxy;
+			proxy = undefined;
+		}
+		// FIXME: Should proxy be redefined to be applied with thisObject if defined?
+		proxy = proxy || function() { return fn.apply( thisObject !== undefined ? thisObject : this, arguments ); };
 		// Set the guid of unique handler to the same of original handler, so it can be removed
 		proxy.guid = fn.guid = fn.guid || proxy.guid || this.guid++;
 		// So proxy can be declared as an argument
@@ -2801,8 +2811,20 @@ jQuery.event = {
 				jQuery.event.add( this, data.live, liveHandler );
 			},
 
-			teardown: function( namespaces ) {
-				jQuery.event.remove( this, namespaces[0], liveHandler );
+			remove: function( namespaces ) {
+				if ( namespaces.length ) {
+					var remove = 0, name = new RegExp("(^|\\.)" + namespaces[0] + "(\\.|$)");
+
+					jQuery.each( (jQuery.data(this, "events").live || {}), function() {
+						if ( name.test(this.type) ) {
+							remove++;
+						}
+					});
+
+					if ( remove < 1 ) {
+						jQuery.event.remove( this, namespaces[0], liveHandler );
+					}
+				}
 			}
 		}
 	}
@@ -2914,19 +2936,35 @@ jQuery.each({
 });
 
 jQuery.fn.extend({
-	bind: function( type, data, fn ) {
-		return type === "unload" ? this.one(type, data, fn) : this.each(function() {
-			jQuery.event.add( this, type, fn || data, fn && data );
+	bind: function( type, data, fn, thisObject ) {
+		if ( jQuery.isFunction( data ) ) {
+			if ( fn !== undefined ) {
+				thisObject = fn;
+			}
+			fn = data;
+			data = undefined;
+		}
+		fn = thisObject === undefined ? fn : jQuery.event.proxy( fn, thisObject );
+		return type === "unload" ? this.one(type, data, fn, thisObject) : this.each(function() {
+			jQuery.event.add( this, type, fn, data );
 		});
 	},
 
-	one: function( type, data, fn ) {
-		var one = jQuery.event.proxy( fn || data, function( event ) {
+	one: function( type, data, fn, thisObject ) {
+		if ( jQuery.isFunction( data ) ) {
+			if ( fn !== undefined ) {
+				thisObject = fn;
+			}
+			fn = data;
+			data = undefined;
+		}
+		fn = thisObject === undefined ? fn : jQuery.event.proxy( fn, thisObject );
+		var one = jQuery.event.proxy( fn, function( event ) {
 			jQuery( this ).unbind( event, one );
-			return (fn || data).apply( this, arguments );
+			return fn.apply( this, arguments );
 		});
 		return this.each(function() {
-			jQuery.event.add( this, type, one, fn && data );
+			jQuery.event.add( this, type, one, data );
 		});
 	},
 
@@ -2995,10 +3033,17 @@ jQuery.fn.extend({
 		return this;
 	},
 
-	live: function( type, data, fn ) {
+	live: function( type, data, fn, thisObject ) {
+		if ( jQuery.isFunction( data ) ) {
+			if ( fn !== undefined ) {
+				thisObject = fn;
+			}
+			fn = data;
+			data = undefined;
+		}
 		jQuery( this.context ).bind( liveConvert( type, this.selector ), {
-			data: fn && data, selector: this.selector, live: type
-		}, fn || data );
+			data: data, selector: this.selector, live: type
+		}, fn, thisObject );
 		return this;
 	},
 
@@ -3026,7 +3071,7 @@ function liveHandler( event ) {
 
 	jQuery.each(elems, function() {
 		event.currentTarget = this.elem;
-		event.data = this.fn.data
+		event.data = this.fn.data;
 		if ( this.fn.apply( this.elem, args ) === false ) {
 			return (stop = false);
 		}
@@ -3123,7 +3168,7 @@ jQuery.each( ("blur,focus,load,resize,scroll,unload,click,dblclick," +
 
 	// Handle event binding
 	jQuery.fn[ name ] = function( fn ) {
-		return fn ? this.bind (name, fn ) : this.trigger( name );
+		return fn ? this.bind( name, fn ) : this.trigger( name );
 	};
 });
 
@@ -3245,6 +3290,7 @@ jQuery.props = {
 	maxlength: "maxLength",
 	cellspacing: "cellSpacing",
 	rowspan: "rowSpan",
+	colspan: "colSpan",
 	tabindex: "tabIndex"
 };
 // exclude the following css properties to add px
@@ -3369,12 +3415,12 @@ jQuery.extend({
 	},
 
 	curCSS: function( elem, name, force ) {
-		var ret, style = elem.style;
+		var ret, style = elem.style, filter;
 
 		// IE uses filters for opacity
-		if ( !jQuery.support.opacity && name == "opacity" ) {
-			ret = style.filter && style.filter.indexOf("opacity=") >= 0 ?
-				(parseFloat( style.filter.match(/opacity=([^)]*)/)[1] ) / 100) + '':
+		if ( !jQuery.support.opacity && name === "opacity" && elem.currentStyle ) {
+			ret = (elem.currentStyle.filter || "").match(/opacity=([^)]*)/) ?
+				(parseFloat(RegExp.$1) / 100) + "" :
 				"";
 
 			return ret === "" ?
@@ -3686,9 +3732,6 @@ jQuery.extend({
 		// If data is available, append data to url for get requests
 		if ( s.data && type == "GET" ) {
 			s.url += (s.url.match(/\?/) ? "&" : "?") + s.data;
-
-			// IE likes to send both get and post data, prevent this
-			s.data = null;
 		}
 
 		// Watch for a new set of requests
@@ -3862,7 +3905,7 @@ jQuery.extend({
 
 		// Send the data
 		try {
-			xhr.send(s.data);
+			xhr.send( type === "POST" ? s.data : null );
 		} catch(e) {
 			jQuery.handleError(s, xhr, null, e);
 		}
@@ -3937,24 +3980,32 @@ jQuery.extend({
 			xml = type == "xml" || !type && ct && ct.indexOf("xml") >= 0,
 			data = xml ? xhr.responseXML : xhr.responseText;
 
-		if ( xml && data.documentElement.tagName == "parsererror" )
+		if ( xml && data.documentElement.tagName == "parsererror" ) {
 			throw "parsererror";
+		}
 
 		// Allow a pre-filtering function to sanitize the response
 		// s != null is checked to keep backwards compatibility
-		if( s && s.dataFilter )
+		if ( s && s.dataFilter ) {
 			data = s.dataFilter( data, type );
+		}
 
 		// The filter can actually parse the response
-		if( typeof data === "string" ){
+		if ( typeof data === "string" ) {
 
 			// If the type is "script", eval it in global context
-			if ( type == "script" )
+			if ( type === "script" ) {
 				jQuery.globalEval( data );
+			}
 
 			// Get the JavaScript object, if JSON is used.
-			if ( type == "json" )
-				data = window["eval"]("(" + data + ")");
+			if ( type == "json" ) {
+				if ( typeof JSON === "object" && JSON.parse ) {
+					data = JSON.parse( data );
+				} else {
+					data = (new Function("return " + data))();
+				}
+			}
 		}
 
 		return data;
@@ -4615,4 +4666,4 @@ jQuery.each([ "Height", "Width" ], function(i, name){
 	};
 
 });
-})();
+})(window);
