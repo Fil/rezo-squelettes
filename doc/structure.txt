@@ -190,3 +190,12 @@ ALTER TABLE spip_articles ADD FULLTEXT `petitrezo` (`titre`,`descriptif`);
 
 
 Supprimer IMG/cache-*
+
+
+
+
+Pour éviter certains bégaiements, on va rendre UNIQUE le champ spip_articles.url_site
+
+ALTER TABLE spip_articles DROP KEY url_site;
+ALTER TABLE spip_articles ADD UNIQUE KEY url_site (url_site);
+
