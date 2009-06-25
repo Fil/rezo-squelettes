@@ -118,7 +118,7 @@ class="rezoset" style="width:450px;#ENV{style}">
 <textarea class="crayon-active" name="#ENV{name_descriptif}"
  style="width:380px;height:90px;">
 [(#DESCRIPTIF**
-	|sinon{[(#TEXTE**|replace{^x$}|couper{200})]}
+	|sinon{[(#TEXTE**|replace{^x$}|couper{400})]}
 	|replace{&nbsp;,~}
 	|entites_html)]</textarea>
 
