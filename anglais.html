@@ -27,7 +27,7 @@
 
 ]
 <BOUCLE_cut(ARTICLES)
-{lang}{type!=''}
+{lang=en}{type!=''}
 {!par popularite}
 {doublons cut}
 {0,50}
@@ -37,7 +37,7 @@
 
 	[(#REM) A la une ]
 	<BOUCLE_une(ARTICLES) {type IN une,tresbien} {doublons}
-	{lang}
+	{lang=en}
 	{par date}{inverse}{0,1}
 	>
 	<div id="chandelle"><div id="une">
@@ -84,7 +84,7 @@
 		#ANCRE_PAGINATION
 			<h4>News in brief</h4>
 				<BOUCLE_breves(ARTICLES)
-				{lang}
+				{lang=en}
 				{doublons}
 				{type=''}
 				{par date}{inverse} {doublons}
@@ -101,7 +101,7 @@
 		#ANCRE_PAGINATION
 			<h4>And also...</h4>
 				<BOUCLE_aussi(ARTICLES)
-				{lang}
+				{lang=en}
 				{doublons}
 				{type!=''}
 				{par date}{inverse}
