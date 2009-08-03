@@ -88,8 +88,10 @@ class="rezoset" style="width:450px;#ENV{style}">
 	</select>
 
 [(#REM) Ne pas proposer ce menu pour les articles une et tresbien]
-[(#GET{id}|replace{^$,A}|match{^(une|tresbien)?$}|non)
-	#SET{id,#STATUT}
+[(#GET{id}|replace{^$,A}|match{^(une|tresbien)?$}|?{
+	<input type="hidden" name="[(#ENV{name_statut})]" value="#STATUT" />
+,
+	[(#SET{id,#STATUT})]
 	<select class="crayon-active" name="#ENV{name_statut}">
 	<option value="publie"[
 		(#GET{id}|=={publie}|?{selected})="selected"]>publi&#233;</option>
@@ -100,7 +102,7 @@ class="rezoset" style="width:450px;#ENV{style}">
 	<option value="poubelle"[
 		(#GET{id}|=={poubelle}|?{selected})="selected"]>refus&#233;</option>
 	</select>
-]
+})]
 
 <br />
 
