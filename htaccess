@@ -73,7 +73,7 @@ RewriteRule ^liste/?$       /a2 [QSA,L]
 RewriteRule ^demarrage/?$   /a3 [QSA,L]
 RewriteRule ^syndic/?$      /a4 [QSA,L]
 RewriteRule ^backend$       /a5 [QSA,L]
-RewriteRule ^toolbar/?$     /a6 [QSA,L]
+RewriteRule ^toolbar/?$     /a146839 [QSA,L]
 
 # URLs anciennes mais marrantes
 # ^livredor  (forum pour "Rezo.net a sept ans")
@@ -92,7 +92,7 @@ RewriteRule ^a([0-9]+)$  spip.php?page=article&id_article=$1 [QSA,L]
 RewriteRule ^ecrire/(toolbar|editer).php3 /plus?qs:%{QUERY_STRING} [R]
 
 # rezo.net/irc
-RewriteRule ^irc$	http://embed.mibbit.com/?server=irc.freenode.net&channel=#rezo [R,L]
+RewriteRule ^irc$	http://webchat.freenode.net/?channels=#rezo [R,L]
 
 # vieilles URLs abandonnees
 RewriteRule ^(calendrier.*|ical\.php3|large.*|semaine-.*)$	/ [R,L]
