@@ -92,7 +92,7 @@ class="rezoset" style="width:450px;#ENV{style}">
 	<input type="hidden" name="[(#ENV{name_statut})]" value="#STATUT" />
 ,
 	[(#SET{id,#STATUT})]
-	<select class="crayon-active" name="#ENV{name_statut}">
+	<select class="crayon-active" name="[(#ENV{name_statut})]">
 	<option value="publie"[
 		(#GET{id}|=={publie}|?{selected})="selected"]>publi&#233;</option>
 	[<option value="dispo"
