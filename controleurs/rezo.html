@@ -88,15 +88,16 @@ class="rezoset" style="width:450px;#ENV{style}">
 	</select>
 
 [(#REM) Ne pas proposer ce menu pour les articles une et tresbien]
+<!-- input class="crayon-active" name="#ENV{name_statut}" type="hidden" / -->
 [(#GET{id}|replace{^$,A}|match{^(une|tresbien)?$}|?{
-	<input type="hidden" name="[(#ENV{name_statut})]" value="#STATUT" />
+	<input type="hidden" name="[(#ENV{name_statut})]" value="publie" />
 ,
 	[(#SET{id,#STATUT})]
 	<select class="crayon-active" name="[(#ENV{name_statut})]">
 	<option value="publie"[
 		(#GET{id}|=={publie}|?{selected})="selected"]>publi&#233;</option>
 	[<option value="dispo"
-		(#GET{id}|=={dispo}|?{selected})="selected">&#224; valider</option>]
+		(#GET{id}|match{prepa|dispo}|?{selected})="selected">&#224; valider</option>]
 	<option value="prop"[
 		(#GET{id}|=={prop}|?{selected})="selected"]>bof</option>
 	<option value="poubelle"[

@@ -76,16 +76,17 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 				array(
 				'titre' => '',
 				'descriptif' => '',
-				'chapo' => ''),
+				'chapo' => '',
+				'url_site' => $url
+				),
 				'id_article='.$id_article
 			);
 		}
 		else if (!$id_article) {
-			$id_article = sql_insertq('spip_articles', array());
+			$id_article = sql_insertq('spip_articles', array('url_site' => $url));
 			// Donner un auteur
 			sql_insertq('spip_auteurs_articles', array('id_auteur' => $id_auteur, 'id_article' => $id_article));
 		}
-
 
 		//
 		// On va chercher le contenu
