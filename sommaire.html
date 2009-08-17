@@ -85,12 +85,14 @@
 	<div id="contenu">
 
 		<div class="menu articles">
+				<BOUCLE_age_relatif(ARTICLES){!doublons recents}
+				{!par date}{0,1}>
 				<BOUCLE_articles_recents_jour(ARTICLES)
 				{doublons}
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age = 0}
+				{age_relatif = 0}
 				{0,7}
 				{lang!=en}
 				{doublons articles_centre}
@@ -102,8 +104,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age > 0}
-				{age <= 1}
+				{age_relatif > 0}
+				{age_relatif <= 1}
 				{0,7}
 				{lang!=en}
 				{doublons articles_centre}
@@ -115,8 +117,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age > 1}
-				{age <= 2}
+				{age_relatif > 1}
+				{age_relatif <= 2}
 				{0,7}
 				{lang!=en}
 				{doublons articles_centre}
@@ -128,8 +130,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age > 2}
-				{age <= 3}
+				{age_relatif > 2}
+				{age_relatif <= 3}
 				{0,6}
 				{lang!=en}
 				{doublons articles_centre}
@@ -141,8 +143,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age > 3}
-				{age <= 4}
+				{age_relatif > 3}
+				{age_relatif <= 4}
 				{0,5}
 				{lang!=en}
 				{doublons articles_centre}
@@ -154,8 +156,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age > 4}
-				{age <= 5}
+				{age_relatif > 4}
+				{age_relatif <= 5}
 				{0,5}
 				{lang!=en}
 				{doublons articles_centre}
@@ -167,8 +169,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age > 5}
-				{age <= 6}
+				{age_relatif > 5}
+				{age_relatif <= 6}
 				{0,5}
 				{lang!=en}
 				{doublons articles_centre}
@@ -180,14 +182,15 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age > 6}
-				{age <= 7}
+				{age_relatif > 6}
+				{age_relatif <= 7}
 				{0,5}
 				{lang!=en}
 				{doublons articles_centre}
 				>
 				</BOUCLE_articles_recents6>
-				
+				</BOUCLE_age_relatif>
+
 				<BOUCLE_afficher_articles_centre(ARTICLES)
 					{!doublons articles_centre}
 					{!par date}	
