@@ -1,0 +1,46 @@
+[(#HTTP_HEADER{Content-type: text/xml[; charset=(#CHARSET)]})]<?xml 
+version="1.0"[ encoding="(#CHARSET)"]?>
+<rss version="2.0" [(#REM) rss 2.0.9)]
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+>
+
+<channel[ xml:lang="(#LANG)"]>
+	<title>[(#NOM_SITE_SPIP|texte_backend)]</title>
+	<link>#URL_SITE_SPIP/</link>
+	[<description>(#DESCRIPTIF_SITE_SPIP|supprimer_tags|texte_backend)</description>]
+	<language>#LANG</language>
+	<generator>SPIP - www.spip.net</generator>
+
+[	<image>
+		<title>[(#NOM_SITE_SPIP|texte_backend)]</title>
+		<url>(#LOGO_SITE_SPIP||image_reduire{144,400}|extraire_attribut{src}|url_absolue|texte_backend)</url>
+		<link>#URL_SITE_SPIP/</link>
+		[<height>(#LOGO_SITE_SPIP||image_reduire{144,400}|extraire_attribut{height})</height>]
+		[<width>(#LOGO_SITE_SPIP||image_reduire{144,400}|extraire_attribut{width})</width>]
+	</image>
+]
+
+<BOUCLE_10recents(ARTICLES) {statut?} {lang ?}{branche ?}{id_mot ?}{id_auteur ?} {par date}{inverse}{0,10}{unique}>
+<item[ xml:lang="(#LANG)"]>
+<title>[(#TITRE|supprimer_tags|texte_backend)][ |(#STATUT|replace{publie})]</title>
+<link>[(#URL_SITE|url_absolue)]</link>
+[<dc:date>(#DATE|date_iso)</dc:date>]
+[<dc:language>(#LANG)</dc:language>]
+[<dc:creator>(#LESAUTEURS|supprimer_tags|texte_backend)</dc:creator>]
+</item>
+</BOUCLE_10recents>
+
+<BOUCLE_tres_recents(ARTICLES) {statut?} {lang ?}{branche ?}{id_mot ?}{id_auteur ?} {par date}{inverse}{age<1}{unique}{0,100}>
+<item[ xml:lang="(#LANG)"]>
+<title>[(#TITRE|supprimer_tags|texte_backend)][ |(#STATUT|replace{publie})]</title>
+<link>[(#URL_SITE|url_absolue)]</link>
+[<dc:date>(#DATE|date_iso)</dc:date>]
+[<dc:language>(#LANG)</dc:language>]
+[<dc:creator>(#LESAUTEURS|supprimer_tags|texte_backend)</dc:creator>]
+</item>
+</BOUCLE_tres_recents>
+
+</channel>
+
+</rss>
