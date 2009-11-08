@@ -174,7 +174,19 @@ function mots_article($id_article, $wrap='%s', $sep=', ') {
 
 function microcache($id, $fond, $calcul=false) {
 	$cle = "$fond-$id";
+	$ttl = 60*60;
+	if ($calcul
+	OR in_array($_GET['var_mode'], array('recalcul', 'debug'))
+	OR is_null($contenu = cache_get($cle))) {
+		$contenu = recuperer_fond($fond, array('id'=>$id));
+		cache_set($cle, $contenu, $ttl);
+	}
+	return $contenu;
+}
 
+/*
+function microcache_old($id, $fond, $calcul=false) {
+	$cle = "$fond-$id";
 	$microcache = sous_repertoire(_DIR_CACHE,dechex($id%16)).$cle;
 
 	if ($calcul
@@ -189,6 +201,7 @@ function microcache($id, $fond, $calcul=false) {
 
 	return $contenu;
 }
+*/
 
 // separer les tags qui peuvent etre de trois sortes :
 // <a rel='tag'>XXX</a>
