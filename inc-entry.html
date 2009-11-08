@@ -1,3 +1,4 @@
+#CACHE{0}
 <BOUCLE_article(ARTICLES){id_article=#ID}{statut?}>
 #SET{titre,#TITRE|retitrage}
 #SET{source,#TITRE|retitrage{source}}
@@ -37,6 +38,8 @@
 		<abbr class="updated"[ title="(#DATE|date_iso)]">(#DATE|datehm)]</abbr></span>)</span>]</span>
 </a>
 
+[(#REM) Ne pas afficher le content pour les breves type='']
+[(#TYPE|oui)
 [<div class="entry-content">
 	<div class='introduction'>
 		[(#LOGO_ARTICLE||image_reduire{135}|image_aplatir{jpg,ffffff})]
@@ -48,6 +51,7 @@
 			(#SURTITRE|rezo_tags|embellir_tags)</div>]
 	</div>
 </div>
+]
 ]
 
 </div>[(#REM) / hentry]
