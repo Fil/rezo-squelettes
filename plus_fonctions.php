@@ -58,6 +58,9 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 	// on recupere l'url passee en argument du bookmarklet
 	$url = urldecode(sinon(_request('qs:url'), _request('url')));
 
+	// URLs accentuées
+	$url = preg_replace(',[\x80-\xFF],e', 'urlencode(\0)', $url);
+
 	// est-il dans la base ?
 	if ($s = spip_query("SELECT id_article FROM spip_articles WHERE url_site=".sql_quote($url))
 	AND $t = sql_fetch($s)) {
