@@ -103,7 +103,7 @@
 				{!par date}
 				{date>=#GET{debut}}
 				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
+			[(#ID_ARTICLE|microcache{inc-entry-small})]
 				</BOUCLE_articles_recents>
 		</div>
 		</B_articles_recents>
@@ -129,7 +129,7 @@
 				{!par date}
 				{pagination 30}
 				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
+			[(#ID_ARTICLE|microcache{inc-entry-small})]
 				</BOUCLE_aussi>
 			[<p class="pagination">(#PAGINATION)</p>]
 		</div>
@@ -144,7 +144,7 @@
 				{!par date}
 				{pagination 10}
 				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
+			[(#ID_ARTICLE|microcache{inc-entry-small})]
 				</BOUCLE_juste>
 			[<p class="pagination">(#PAGINATION)</p>]
 		</div>
@@ -164,7 +164,7 @@
 				{type=''}
 				{pagination 150}
 				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
+			[(#ID_ARTICLE|microcache{inc-entry-small})]
 				</BOUCLE_breves>
 			[<p class="pagination">(#PAGINATION)</p>]
 		</div>

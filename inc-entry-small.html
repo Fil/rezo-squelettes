@@ -1,0 +1,29 @@
+#CACHE{0}
+<BOUCLE_article(ARTICLES){id_article=#ID}{statut?}>
+#SET{titre,#TITRE|retitrage}
+#SET{source,#TITRE|retitrage{source}}
+#SET{auteurs,#TITRE|retitrage{auteurs}|sinon{#SOUSTITRE}}
+#SET{url_rub,#URL_RUBRIQUE}
+[(#SET{titre_rub,[(#ID_RUBRIQUE|titre_rub)]})]
+#SET{source,#GET{source}|sinon{#GET{titre_rub}}}
+#SET{origine,#SOURCE*|replace{"^(.+)'s bookmarks$","Recommand&#233; par \1"}|typo|sinon{#GET{source}}}
+
+
+[(#REM) TODO : il faudrait mettre le # EDIT{rezo} dans un div englobant
+	ainsi que le h5 de date dont on ne veut pas partout
+]
+<div class="hentry #STATUT #TYPE #EDIT{rezo}" id="[(#TYPE|?{a,b})]#ID_ARTICLE"[ lang="(#LANG|replace{fr})"]>
+
+[<h5[ class="(#DATE|affdate{Y-m-d})"]>(#DATE|nom_jour) [(#DATE|affdate_jourcourt)]</h5>]
+
+<a rel="bookmark" href="#URL_SITE">
+	<strong class="entry-title">#GET{titre}</strong><span class='auteur'>[<span class='v'>,</span>
+	<:par_auteur:>
+		<span class="author"><span class="vcard"><span class="fn">(#GET{auteurs})</span></span></span>][
+		<span class="source">((#GET{source})[<span class="datehm">
+		<abbr class="updated"[ title="(#DATE|date_iso)]">(#DATE|datehm)]</abbr></span>)</span>]</span>
+</a>
+
+</div>[(#REM) / hentry]
+
+</BOUCLE_article>
