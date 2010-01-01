@@ -2,6 +2,7 @@
 
 define('_SYNDICATION_CORRECTION', false);
 define('_SYNDICATION_URL_UNIQUE', true);
+define('_SYNDICATION_DEREFERENCER_URL', true); # dereferencer feedburner
 define('_PERIODE_SYNDICATION', 10); // 10 min
 define('_PERIODE_SYNDICATION_SUSPENDUE', 60); // 1h
 
