@@ -41,6 +41,12 @@
 			return large();
 		if ($.cookie('affichage') == '800')
 			return etroit();
+
+		// iPad
+		if (typeof window.orientation != 'undefined')
+			return (window.orientation == 0 || window.orientation == 180)
+				? etroit() : large(); 
+
 		return ($(window).width() > 1048)
 			? large()
 			: etroit();
@@ -54,6 +60,9 @@
 		// large ou etroit ?
 		large_ou_etroit();
 		$(window).resize(large_ou_etroit);
+		$('body').bind('orientationchange', function(){
+			setTimeout(large_ou_etroit,500);
+		});
 
 		// Couper les dates repetitives
 		var vu = [];
