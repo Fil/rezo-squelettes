@@ -17,24 +17,20 @@
 	};
 
 	var large = function() {
-		if ($('body').is('.large')) return;
-		$('body').addClass('large');
-/*		$('#citation')
-			.memove('#accueil');
-		$('#nuage')
-			.memove('#entete');
-			*/
+		if ($('html').is('.large')) return;
+		$('html').addClass('large');
 		/* .add() pour conserver l'ordre */
 		$('#une').add('#depeches').add('#english')
 			.memove('#marge');
 	};
 
 	var etroit = function() {
-		if (!$('body').is('.large')) return;
-		$('body').removeClass('large');
+		if (!$('html').is('.large')) return;
+		$('html').removeClass('large');
 		$.restaure();
 	}
 
+	var relarge = 0;
 	var large_ou_etroit = function() {
 		// if ($('body').is('.page_admin')) return;
 		if ($.cookie('affichage') == '1024')
@@ -43,11 +39,13 @@
 			return etroit();
 
 		// iPad
-		if (typeof window.orientation != 'undefined')
+		if (typeof window.orientation != 'undefined') {
+			setTimeout(large_ou_etroit,100*++relarge);
 			return (window.orientation == 0 || window.orientation == 180)
-				? etroit() : large(); 
+				? etroit() : large();
+		}
 
-		return ($(window).width() > 1048)
+		return ($(window).width() > 1023)
 			? large()
 			: etroit();
 	};
@@ -58,10 +56,13 @@
 	$(function(){
 
 		// large ou etroit ?
+		if (typeof window.orientation != 'undefined')
+			$('html').addClass('ipad');
 		large_ou_etroit();
 		$(window).resize(large_ou_etroit);
+
 		$('body').bind('orientationchange', function(){
-			setTimeout(large_ou_etroit,500);
+			relarge=0;large_ou_etroit();
 		});
 
 		// Couper les dates repetitives
