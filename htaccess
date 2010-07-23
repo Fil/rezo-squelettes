@@ -41,6 +41,7 @@ RewriteBase /
 
 # feeds
 RewriteRule ^backend/(.*)$ spip.php?page=backend&mot=$1 [QSA,L]
+RewriteRule ^feed/$ spip.php?page=backend [QSA,L]
 
 # microsummary
 RewriteRule ^microsummary(\.php?)$ spip.php?page=microsummary [QSA,L]
