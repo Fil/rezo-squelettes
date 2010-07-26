@@ -35,6 +35,7 @@
 	#SET{fin,#ENV{semaine}|strtotime|plus{86400}}
 })]
 [(#SET{debut,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{604800})]})]})]
+[(#SET{debutmermet,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{1209600})]})]})]
 [(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
 
 
@@ -276,6 +277,7 @@
 				{id_rubrique=79}
 				{par date}{inverse} {doublons}
 				{0,5}
+				{date>=#GET{debutmermet}}
 				{date<=#GET{fin}}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
