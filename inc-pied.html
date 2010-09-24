@@ -27,14 +27,18 @@ Construisez votre propre portail des copains
 
 <!-- Piwik -->
 <script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ?
-"https://piwik.rezo.net/" : "http://piwik.rezo.net/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://piwik.rezo.net/" : "http://piwik.rezo.net/");
+$.ajax({
+url: pkBaseURL + "j",
+dataType: 'script',
+success: function(){
 try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+var piwikTracker = Piwik.getTracker(pkBaseURL + "p", 1);
 piwikTracker.trackPageView();
 piwikTracker.enableLinkTracking();
 } catch( err ) {}
-</script><noscript><p><img src="http://piwik.rezo.net/piwik.php?idsite=1"
-style="border:0" alt="" /></p></noscript>
+},
+cache: true
+});
+</script><noscript><p><img src="http://piwik.rezo.net/p?idsite=1" style="border:0" alt="" /></p></noscript>
 <!-- End Piwik Tag -->
