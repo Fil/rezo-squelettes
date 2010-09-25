@@ -61,6 +61,10 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 	// URLs accentuées
 	$url = preg_replace(',[\x80-\xFF],e', 'urlencode(\0)', $url);
 
+	// virer les merdasses de tracking
+	foreach(array('utm_medium', 'utm_source', 'utm_content') as $shit)
+		$url = parametre_url($url, $shit, '');
+
 	// est-il dans la base ?
 	if ($s = spip_query("SELECT id_article FROM spip_articles WHERE url_site=".sql_quote($url))
 	AND $t = sql_fetch($s)) {
