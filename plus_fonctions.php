@@ -62,8 +62,8 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 	$url = preg_replace(',[\x80-\xFF],e', 'urlencode(\0)', $url);
 
 	// virer les merdasses de tracking
-	foreach(array('utm_medium', 'utm_source', 'utm_content') as $shit)
-		$url = parametre_url($url, $shit, '');
+	foreach(array('[?&]__utma=.*', '[?&]utm_source=.*', '[?&]utm_medium=.*', '[?&]utm_content=.*', '[?&]utm_campaign=.*', '#xtor=.*') as $shit)
+		$url = preg_replace(",$shit,", '', $url);
 
 	// est-il dans la base ?
 	if ($s = spip_query("SELECT id_article FROM spip_articles WHERE url_site=".sql_quote($url))
