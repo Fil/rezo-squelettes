@@ -58,7 +58,7 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 	// on recupere l'url passee en argument du bookmarklet
 	$url = urldecode(sinon(_request('qs:url'), _request('url')));
 
-	// URLs accentuées
+	// URLs accentuees
 	$url = preg_replace(',[\x80-\xFF],e', 'urlencode(\0)', $url);
 
 	// virer les merdasses de tracking
@@ -194,8 +194,21 @@ if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
 		if ($lang == 'es')
 			$rub = 33; # releve sur le net
 
+		// si l'url matche un domaine connu, on pre-selectionne
+		// cette rubrique
+		$u = parse_url($url);
+		$s = sql_query("SELECT id_rubrique, COUNT(*) as c FROM spip_articles
+			WHERE url_site LIKE '%://".$u['host']."/%' GROUP BY id_rubrique ORDER BY c DESC LIMIT 1");
+		if ($t = sql_fetch($s))
+			$rub = $t['id_rubrique'];
 
+		// Si le bookmarklet a selectionne un passage, l'utiliser comme resume
+		if (strlen($v = _request('txt')) > 5) {
+			include_spip('inc/charsets');
+			$descriptif = utf_8_to_unicode($v);
+		}
 
+		// Mise a jour dans la base
 		sql_updateq('spip_articles',
 			array(
 				'statut' => 'prepa',
