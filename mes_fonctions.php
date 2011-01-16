@@ -177,31 +177,12 @@ function microcache($id, $fond, $calcul=false) {
 	$ttl = 60*60;
 	if ($calcul
 	OR in_array($_GET['var_mode'], array('recalcul', 'debug'))
-	OR is_null($contenu = cache_get($cle))) {
+	OR !($contenu = cache_get($cle))) {
 		$contenu = recuperer_fond($fond, array('id'=>$id));
 		cache_set($cle, $contenu, $ttl);
 	}
 	return $contenu;
 }
-
-/*
-function microcache_old($id, $fond, $calcul=false) {
-	$cle = "$fond-$id";
-	$microcache = sous_repertoire(_DIR_CACHE,dechex($id%16)).$cle;
-
-	if ($calcul
-	OR in_array($_GET['var_mode'], array('recalcul', 'debug'))
-	OR !@file_exists($microcache)
-	OR filemtime($microcache) < time() - 60*10) {
-		$contenu = recuperer_fond($fond, array('id'=>$id));
-		ecrire_fichier($microcache, $contenu);
-	} else {
-		lire_fichier($microcache, $contenu);
-	}
-
-	return $contenu;
-}
-*/
 
 // separer les tags qui peuvent etre de trois sortes :
 // <a rel='tag'>XXX</a>
@@ -227,37 +208,6 @@ function rezo_tags($tags) {
 // fonctions pour le plugin core/sites
 if (!function_exists('balise_img')){
 function balise_img($img,$alt="",$class="") { return tag_img($img,$alt,$class); }
-}
-
-if (!function_exists('lien_ou_expose')){
-/**
- * une fonction pour generer des menus avec liens
- * ou un <strong class='on'> non clicable lorsque l'item est selectionne
- *
- * @param string $url
- * @param string $libelle
- * @param bool $on
- * @param string $class
- * @param string $title
- * @return string
- */
-function lien_ou_expose($url,$libelle,$on=false,$class="",$title="",$rel=""){
-	return 
-	($on ?"<strong class='on'>":
-		"<a href='$url'"
-	  	.($title?" title='".attribut_html($title)."'":'')
-	  	.($class?" class='".attribut_html($class)."'":'')
-	  	.($rel?" rel='".attribut_html($rel)."'":'')
-	  	.">"
-	)
-	. $libelle
-	. ($on ? "</strong>":"</a>");
-}
-}
-
-if (!function_exists('singulier_ou_pluriel')){
-function singulier_ou_pluriel($nb,$chaine_un,$chaine_plusieurs,$var='nb'){
-return affiche_un_ou_plusieurs($nb,$chaine_un,$chaine_plusieurs,$var);}
 }
 
 
