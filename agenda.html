@@ -1,0 +1,91 @@
+[(#REM)
+	Un cache plus court, pour la boucle syndic_articles
+]#CACHE{3600}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
+<head>
+<title>[(#NOM_SITE_SPIP|textebrut)] - Agenda</title>
+[<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
+<INCLURE{fond=inc-head}{couleur=627c9a}{feed=}/>
+
+<meta name="robots" content="noindex" />
+
+<style>
+.page_agenda #contenu { width: 425px; }
+.page_agenda #contenu a, .page_agenda #depeches a { color: #3F5753; }
+.page_agenda #contenu a:hover { color: #111; }
+.page_agenda h3 { font-weight: normal; font-size: small; }
+.page_agenda h3 a { font-weight: bold; font-size: x-large; margin-right: 2em; }
+.page_agenda #contenu ul { margin-bottom: 1.9em; }
+.page_agenda .ancres { margin-bottom: 2em; font-variant: small-caps; }
+</style>
+</head>
+
+<body class="page_agenda">
+<div id="page">
+
+	[(#REM) Bandeau de la page ]
+	<INCLURE{fond=inc-bandeau}{semaine} />
+
+	[(#REM) Contenu principal : derniers articles publies ]
+	<div class="hfeed" id="conteneur">
+
+	<INCLURE{fond=inc-entete}{titre=Agenda}{couleur=627c9a}{onglet=agenda} />
+
+
+	<div class="central">
+
+
+	</div>[(#REM) /central ]
+
+
+	<div class="central">
+
+	<div id="marge">
+	</div>
+
+	<div id="contenu">
+
+		<div class="menu agenda">
+
+
+		[(#VAL{http://code.demosphere.eu/demosphere-sites-html?lang=fr&selectLang=fr}|recuperer_page_cache{3601}
+			|filtrer_agenda_demosphere)]
+
+		</div>
+
+
+
+
+
+
+	</div>[(#REM) #contenu]
+
+
+	<div id="navigation">
+		<div id="depeches" class="menu pavedepeches">
+
+		<BOUCLE_presentation(ARTICLES){id_article=183405}>
+
+			<h4 class="#EDIT{chapo}">[(#CHAPO|PtoBR)]</h4>
+
+			<div class="#EDIT{texte}">#TEXTE</div>
+
+		</BOUCLE_presentation>
+
+		</div>
+	</div>
+
+	<div style="clear:both;"></div>
+
+	</div>[(#REM) /central ]
+
+	</div><!--#conteneur-->
+	
+
+	[(#REM) Pied de page ]
+	<INCLURE{fond=inc-pied} />
+	
+</div><!--#page-->
+</body>
+</html>

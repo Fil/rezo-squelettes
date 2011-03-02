@@ -224,3 +224,60 @@ function limite_age($maintenant, $jours) {
 
 ## fonction vocabulaire()
 ##include_spip('categorize');
+
+
+function recuperer_page_cache($url, $delai=3601) {
+	include_spip('inc/distant');
+	if ($W = cache_me(null, $delai)) return $W;
+	return recuperer_page($url, true);
+}
+
+// pour la page /agenda
+function filtrer_agenda_demosphere ($agenda) {
+	$agenda = str_replace('Grironde','Gironde', $agenda);
+
+
+	include_spip('inc/charsets');
+
+	$dems = explode('<h3>', $agenda);
+
+	foreach ($dems as $k=>&$demo) {
+		preg_match(',^\s*<a.*?>\s*([^<\s]*),', $demo, $r);
+
+		if ($lieu = strtolower(trim($r[1]))) {
+			$id = translitteration($lieu);
+			$ancres[] = "<a href='#$id'>$lieu</a>";
+		} else
+			$id = "first";
+
+		$demo = "<h3 id='$id'>".$demo;
+
+		if (preg_match_all('/(<li class="[ \w]*">)([ \d]+ \w+) *-*/', $demo, $regs, PREG_SET_ORDER))
+		foreach($regs as $r) {
+			$date = str_replace(
+				array('fev', 'avr', 'mai', 'aou'),
+				array('feb', 'apr', 'may', 'aug'),
+				trim($r[2]));
+			if ($date = strtotime($date)) {
+				$date = date('Y-m-d', $date);
+				$date = nom_jour($date).' '.affdate_court($date);
+			} else
+				$date = $r[2];
+
+			if ($date = unique($date, 'demo'.$k))
+				$date = '<h5>'. $date . '</h5>';
+
+			$demo = preg_replace('/'.preg_quote($r[0]).'/', $r[1].$date, $demo,1);
+		}
+		$demo = preg_replace(',<(/?)li\b,', '<\1div', $demo);
+		$demo = preg_replace(',<(/?)ul\b,', '<\1div class="articles"', $demo);
+		$demo = preg_replace(',<a\b,', '<a rel="bookmark"', $demo);
+
+	}
+
+
+	return
+		"<div class='ancres'>".join(' - ',$ancres)."</div>\n"
+		.
+		typo(join("\n",$dems));
+}

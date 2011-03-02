@@ -75,6 +75,8 @@ RewriteRule ^demarrage/?$   /a3 [QSA,L]
 RewriteRule ^syndic/?$      /a4 [QSA,L]
 RewriteRule ^backend$       /a5 [QSA,L]
 RewriteRule ^toolbar/?$     /a146839 [QSA,L]
+RewriteRule ^agenda/?$      /spip.php?page=agenda [QSA,L]
+
 
 # URLs anciennes mais marrantes
 # ^livredor  (forum pour "Rezo.net a sept ans")
