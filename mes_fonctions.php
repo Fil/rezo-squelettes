@@ -251,13 +251,13 @@ function filtrer_agenda_demosphere ($agenda) {
 			$id = "first";
 
 		$demo = "<h3 id='$id'>".$demo;
-
-		if (preg_match_all('/(<li class="[ \w]*">)([ \d]+ \w+) *-*/', $demo, $regs, PREG_SET_ORDER))
+		
+		if (preg_match_all('/(<li class="[ \w]*">)([ \d]+ \S+) *-*/', $demo, $regs, PREG_SET_ORDER))
 		foreach($regs as $r) {
 			$date = str_replace(
 				array('fev', 'avr', 'mai', 'aou'),
 				array('feb', 'apr', 'may', 'aug'),
-				trim($r[2]));
+				trim(translitteration($r[2])));
 			if ($date = strtotime($date)) {
 				$date = date('Y-m-d', $date);
 				$date = nom_jour($date).' '.affdate_court($date);
