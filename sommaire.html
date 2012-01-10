@@ -28,7 +28,7 @@
 	(inclus, d'ou l'ajout de 24h00)
 
 ]
-<BOUCLE_auj(ARTICLES){!par date}{0,1}{type!=""}>
+<BOUCLE_auj(ARTICLES){!par date}{0,1}>
 [(#SET{fin,[(#VAL{U}|date{#DATE|strtotime}|plus{86400})]})]
 </BOUCLE_auj>
 [(#ENV{semaine}|match{'^\d{4}-\d{2}-\d{2}$'}|?{
