@@ -75,6 +75,15 @@
 
 	</div>[(#REM) /central ]
 
+	[(#REM) Calcul des audios]
+	<BOUCLE_audio(ARTICLES)
+        {surtitre==audio}
+	{!doublons recents}
+        {doublons}
+        {doublons radio}
+        />
+
+
 	[(#REM) Derniers articles ]
 
 
@@ -107,7 +116,7 @@
 				{!par popularite}
 				{age_relatif > 0}
 				{age_relatif <= 1}
-				{0,7}
+				{0,5}
 				{lang!=en}
 				{doublons articles_centre}
 				>
@@ -120,7 +129,7 @@
 				{!par popularite}
 				{age_relatif > 1}
 				{age_relatif <= 2}
-				{0,7}
+				{0,4}
 				{lang!=en}
 				{doublons articles_centre}
 				>
@@ -133,7 +142,7 @@
 				{!par popularite}
 				{age_relatif > 2}
 				{age_relatif <= 3}
-				{0,6}
+				{0,4}
 				{lang!=en}
 				{doublons articles_centre}
 				>
@@ -146,7 +155,7 @@
 				{!par popularite}
 				{age_relatif > 3}
 				{age_relatif <= 4}
-				{0,5}
+				{0,3}
 				{lang!=en}
 				{doublons articles_centre}
 				>
@@ -159,7 +168,7 @@
 				{!par popularite}
 				{age_relatif > 4}
 				{age_relatif <= 5}
-				{0,5}
+				{0,3}
 				{lang!=en}
 				{doublons articles_centre}
 				>
@@ -172,7 +181,7 @@
 				{!par popularite}
 				{age_relatif > 5}
 				{age_relatif <= 6}
-				{0,5}
+				{0,3}
 				{lang!=en}
 				{doublons articles_centre}
 				>
@@ -185,7 +194,7 @@
 				{!par popularite}
 				{age_relatif > 6}
 				{age_relatif <= 7}
-				{0,5}
+				{0,3}
 				{lang!=en}
 				{doublons articles_centre}
 				>
@@ -244,6 +253,27 @@
 		</div>
 		</B_breves>
 
+		<B_radio>
+		<div class="menu pavedepeches ecouter">
+			<h4>Attention les oreilles</h4>
+				<!-- BOUCLE_radio(ARTICLES)
+				{id_rubrique=79}
+				{par date}{inverse} {doublons}
+				{0,5}
+				{date>=#GET{debutmermet}}
+				{date<=#GET{fin}}
+				>
+			[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_radio -->
+				<BOUCLE_radio(ARTICLES)
+				{!doublons radio}
+				{!par date}
+				>
+			[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_radio>
+		</div>
+		</B_radio>
+
 		<B_aussi>
 		<div id="aussi" class="menu pavedepeches">
 			<h4>Et aussi...</h4>
@@ -269,21 +299,6 @@
 		<INCLURE{fond=inc-rubriques} />
 
 		</div>
-
-		<B_radio>
-		<div class="menu pavedepeches ecouter">
-			<h4>&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</h4>
-				<BOUCLE_radio(ARTICLES)
-				{id_rubrique=79}
-				{par date}{inverse} {doublons}
-				{0,5}
-				{date>=#GET{debutmermet}}
-				{date<=#GET{fin}}
-				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_radio>
-		</div>
-		</B_radio>
 
 	</div><!--#navigation-->
 
