@@ -94,8 +94,10 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 		$url[1] = '404';
 	}
 
-	if ($mot)
+	if ($mot) {
+		unset($url[0]['id_mot']);
 		$url[0]['mot'] = $mot;
+	}
 
 	return $url;
 }
