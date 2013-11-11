@@ -41,6 +41,36 @@ h4,h5 {
 .articles {
 	margin-bottom: 2em;
 	
+	.datehm  {
+		display: none;
+	}
+
+	a[rel=bookmark] {
+		display: block;
+		color: #[(#ENV{couleur}|couleur_foncer)];
+		font-size: 12px;
+		margin-top: 5px;
+		margin-bottom: 10px;
+		padding-left: 23px;
+
+		. :visited{
+			color: #[(#ENV{couleur})];
+		}
+		. :hover {
+			color: #111111;
+		}
+
+		.auteur{
+			display: block;
+			font-family: verdana, arial, helvetica, sans;
+			font-size: 11px;
+		}
+
+	}
+	
+}
+
+.articles, .ecouter {
 	.introduction {
 		display: none;
 		position: absolute;
@@ -73,34 +103,6 @@ h4,h5 {
 		 position: relative;
 		 z-index:1;
 	}
-	
-	.datehm  {
-		display: none;
-	}
-
-	a[rel=bookmark] {
-		display: block;
-		color: #[(#ENV{couleur}|couleur_foncer)];
-		font-size: 12px;
-		margin-top: 5px;
-		margin-bottom: 10px;
-		padding-left: 23px;
-
-		. :visited{
-			color: #[(#ENV{couleur})];
-		}
-		. :hover {
-			color: #111111;
-		}
-
-		.auteur{
-			display: block;
-			font-family: verdana, arial, helvetica, sans;
-			font-size: 11px;
-		}
-
-	}
-	
 }
 
 .page_actu {

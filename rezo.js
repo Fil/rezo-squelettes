@@ -120,7 +120,15 @@
 		.live('mouseout', function() {
 			$(this).parents('.hentry').find('.introduction').hide();
 		});
-		
+
+		$('.ecouter a[rel=bookmark]')
+		.live('mouseover', function(){
+			$(this).parents('.hentry').find('.introduction').show();
+		})
+		.live('mouseout', function() {
+			$(this).parents('.hentry').find('.introduction').hide();
+		});
+
 		$('#contenu .articlemotune a[rel=bookmark]')
 		.live('mouseover', function(){
 			$(this).parents('.hentry').find('.introduction').show();
