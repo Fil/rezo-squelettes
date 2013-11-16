@@ -39,13 +39,28 @@
 [(#SET{debut,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{1209600})]})]})]
 [(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
 
+
+
 <BOUCLE_recents(ARTICLES)
 	{date>=#GET{debut}}
 	{date<=#GET{fin}}
 	{doublons recents}
-	{id_rubrique!=79}
 	{lang}
 ></BOUCLE_recents>
+
+	[(#REM) Calcul des audios]
+	<BOUCLE_audio(ARTICLES)
+        {surtitre==audio}
+	{!doublons recents}
+        {doublons}
+        {doublons radio}
+        />
+        <BOUCLE_mermet(ARTICLES)
+        {id_rubrique=79}
+        {!doublons recents}
+        {doublons}
+        {doublons radio}
+        />
 
 	<div class="central">
 
@@ -158,17 +173,16 @@
 
 		<B_radio>
 		<div class="menu pavedepeches ecouter">
-			<h4>&#201;couter &#171; L&#224;-bas si j&#8217;y suis &#187;</h4>
+			<h4>Attention les oreilles</h4>
 				<BOUCLE_radio(ARTICLES)
-				{id_rubrique=79}
-				{par date}{inverse} {doublons}
-				{date<=#GET{fin}}
-				{date>=#GET{debut}}
+				{!doublons radio}
+				{!par date}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_radio>
 		</div>
 		</B_radio>
+
 
 	</div><!--#navigation-->
 
