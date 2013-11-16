@@ -2,7 +2,7 @@
 <BOUCLE_article(ARTICLES){id_article=#ID}{statut?}>
 #SET{titre,#TITRE|retitrage}
 #SET{source,#TITRE|retitrage{source}}
-#SET{auteurs,#TITRE|retitrage{auteurs}|sinon{#SOUSTITRE}}
+#SET{auteurs,#TITRE|retitrage{auteurs}|replace{Grégory Salomonovitch}|sinon{#SOUSTITRE}}
 #SET{url_rub,#URL_RUBRIQUE}
 [(#SET{titre_rub,[(#ID_RUBRIQUE|titre_rub)]})]
 #SET{source,#GET{source}|sinon{#GET{titre_rub}}}

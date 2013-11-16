@@ -39,12 +39,10 @@
 [(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
 
 
-[(#REM) rubrique 79 = mermet, traitee a part]
 <BOUCLE_recents(ARTICLES)
 	{date>=#GET{debut}}
 	{date<=#GET{fin}}
 	{doublons recents}
-	{id_rubrique!=79}
 	/>
 <BOUCLE_cut(ARTICLES)
 	{!doublons recents}
@@ -79,6 +77,12 @@
 	<BOUCLE_audio(ARTICLES)
         {surtitre==audio}
 	{!doublons recents}
+        {doublons}
+        {doublons radio}
+        />
+        <BOUCLE_mermet(ARTICLES)
+        {id_rubrique=79}
+        {!doublons recents}
         {doublons}
         {doublons radio}
         />
@@ -256,15 +260,6 @@
 		<B_radio>
 		<div class="menu pavedepeches ecouter">
 			<h4>Attention les oreilles</h4>
-				<!-- BOUCLE_radio(ARTICLES)
-				{id_rubrique=79}
-				{par date}{inverse} {doublons}
-				{0,5}
-				{date>=#GET{debutmermet}}
-				{date<=#GET{fin}}
-				>
-			[(#ID_ARTICLE|microcache{inc-entry})]
-				</BOUCLE_radio -->
 				<BOUCLE_radio(ARTICLES)
 				{!doublons radio}
 				{!par date}

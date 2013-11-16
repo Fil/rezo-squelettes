@@ -154,14 +154,14 @@
 		});
 
 		// recuperer la date des mermet
-		$('#navigation>.ecouter .datehm')
+		$('#navigation>.ecouterm .datehm')
 		.each(function(){
 			$(this).appendTo($(this).parents('a'));
 		});
 		// un seul lien source pour mermet
-		$('#navigation>.ecouter a.plus:eq(0)')
+		$('#navigation>.ecouterm a.plus:eq(0)')
 		.prependTo('#navigation>.ecouter');
-		$('#navigation>.ecouter div a.plus')
+		$('#navigation>.ecouterm div a.plus')
 		.remove();
 
 		// pour les admins ajouter les couleurs de statut
