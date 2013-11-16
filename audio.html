@@ -6,7 +6,7 @@
 <head>
 <title>[(#NOM_SITE_SPIP|textebrut)] - Attention les oreilles</title>
 [<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
-<INCLURE{fond=inc-head}{couleur=ff8c00}{feed=audio}/>
+<INCLURE{fond=inc-head}{couleur=993000}{feed=audio}/>
 
 [(#ENV{semaine}|?{'<meta name="robots" content="noindex" />'})]
 </head>
@@ -20,7 +20,7 @@
 	[(#REM) Contenu principal : derniers articles publies ]
 	<div class="hfeed" id="conteneur">
 
-	<INCLURE{fond=inc-entete}{titre=Attention les oreilles} />
+	<INCLURE{fond=inc-entete}{titre=Attention les&nbsp;oreilles} />
 
 [(#REM) selectionner les recents pour eviter pb de perfs
 
@@ -72,10 +72,11 @@
 	</div></div>
 	</BOUCLE_une>
 
-
+<!--
 	<div id="nuage">[(#REM|nuage_tags)
 	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
 	]</div>
+-->
 
 	</div>[(#REM) /central ]
 
