@@ -53,7 +53,7 @@ RewriteRule ^themes/(.+)$ spip.php?page=mot&mot=$1 [QSA,L]
 RewriteRule ^sources/(.*) spip.php?page=rubrique [QSA,L]
 
 # squelettes speciaux
-RewriteRule ^(anglais|themes|sources)/?$ spip.php?page=$1 [QSA,L]
+RewriteRule ^(anglais|themes|sources|audio)/?$ spip.php?page=$1 [QSA,L]
 RewriteRule ^(actu|bestof|tout|admin|admina)([0-9]*)/?$ spip.php?page=$1&id_article=$2 [QSA,L]
 
 # raccourcis

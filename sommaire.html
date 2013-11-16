@@ -259,10 +259,12 @@
 
 		<B_radio>
 		<div class="menu pavedepeches ecouter">
+			<a class="plus" title="Audio" href="audio">+</a>
 			<h4>Attention les oreilles</h4>
 				<BOUCLE_radio(ARTICLES)
 				{!doublons radio}
 				{!par date}
+				{0,10}
 				>
 			[(#ID_ARTICLE|microcache{inc-entry})]
 				</BOUCLE_radio>
