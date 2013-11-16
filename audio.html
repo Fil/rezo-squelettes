@@ -1,0 +1,145 @@
+[(#REM)
+	Un cache plus court, pour la boucle syndic_articles
+]#CACHE{3600}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
+<head>
+<title>[(#NOM_SITE_SPIP|textebrut)] - Attention les oreilles</title>
+[<meta name="description" content="(#DESCRIPTIF_SITE_SPIP|couper{150}|textebrut)" />]
+<INCLURE{fond=inc-head}{couleur=ff8c00}{feed=audio}/>
+
+[(#ENV{semaine}|?{'<meta name="robots" content="noindex" />'})]
+</head>
+
+<body class="page_tout">
+<div id="page">
+
+	[(#REM) Bandeau de la page ]
+	<INCLURE{fond=inc-bandeau}{semaine} />
+
+	[(#REM) Contenu principal : derniers articles publies ]
+	<div class="hfeed" id="conteneur">
+
+	<INCLURE{fond=inc-entete}{titre=} />
+
+[(#REM) selectionner les recents pour eviter pb de perfs
+
+	Le critere semaine indique la date du dernier jour a prendre en compte
+	(inclus, d'ou l'ajout de 24h00)
+
+]
+<BOUCLE_auj(ARTICLES){!par date}{0,1}>
+[(#SET{fin,[(#VAL{U}|date{#DATE|strtotime}|plus{86400})]})]
+</BOUCLE_auj>
+[(#ENV{semaine}|match{'^\d{4}-\d{2}-\d{2}$'}|?{
+	#SET{fin,#ENV{semaine}|strtotime|plus{86400}}
+})]
+
+
+[(#SET{debut,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{4838400})]})]})]
+[(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
+
+
+
+<BOUCLE_recents(ARTICLES)
+	{date>=#GET{debut}}
+	{date<=#GET{fin}}
+	{doublons recents}
+></BOUCLE_recents>
+
+	[(#REM) Calcul des audios]
+	<BOUCLE_audio(ARTICLES)
+        {surtitre==audio}
+	{!doublons recents}
+        {doublons radio}
+        />
+        <BOUCLE_mermet(ARTICLES)
+        {id_rubrique=79}
+        {!doublons recents}
+        {doublons radio}
+        />
+
+	<div class="central">
+
+	[(#REM) A la une ]
+	<BOUCLE_une(ARTICLES) {type IN une,tresbien} {doublons}
+	{!doublons radio}
+	{par date}{inverse}{0,1}
+	{date<=#GET{fin}}
+	>
+	<div id="chandelle"><div id="une">
+		[(#ID_ARTICLE|microcache{inc-entry})]
+	</div></div>
+	</BOUCLE_une>
+
+
+	<div id="nuage">[(#REM|nuage_tags)
+	<br /><a href="/themes">&#187; Tous les th&#232;mes</a>
+	]</div>
+
+	</div>[(#REM) /central ]
+
+	[(#REM) Derniers articles ]
+
+
+	<div class="central">
+
+	<div id="marge">
+	</div>
+
+	<div id="contenu">
+
+		<B_articles_recents>
+		<div class="menu articles">
+				<BOUCLE_articles_recents(ARTICLES)
+				{doublons}
+				{!doublons radio}
+				{!par date}
+				{date>=#GET{debut}}
+				>
+			[(#ID_ARTICLE|microcache{inc-entry})]
+				</BOUCLE_articles_recents>
+		</div>
+		</B_articles_recents>
+
+
+
+		<a id="precedente"
+		href="/[(#VAL{Y-m-d}|date{[(#GET{fin}|strtotime|moins{4838401})]})]"
+		rel="nofollow">il y a deux mois...</a>
+
+
+	</div>[(#REM) #contenu]
+
+
+	<div id="navigation">
+
+
+		<div class="menu pavedepeches">
+		<h2 style='display:none;'></h2>
+		[(#REM) Rechercher ]
+		#FORMULAIRE_RECHERCHE
+
+		[(#REM) Menu de navigation par rubriques ]
+		<INCLURE{fond=inc-rubriques} />
+
+		</div>
+
+
+
+	</div><!--#navigation-->
+
+
+	<div style="clear:both;"></div>
+
+	</div>[(#REM) /central ]
+
+	</div><!--#conteneur-->
+	
+
+	[(#REM) Pied de page ]
+	<INCLURE{fond=inc-pied} />
+	
+</div><!--#page-->
+</body>
+</html>
