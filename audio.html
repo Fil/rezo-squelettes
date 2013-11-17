@@ -49,7 +49,7 @@
 
 	[(#REM) Calcul des audios]
 	<BOUCLE_audio(ARTICLES)
-        {surtitre==audio}
+        {surtitre=='^(.* )?audio([^a-z].*)?$'}
 	{!doublons recents}
         {doublons radio}
         />
