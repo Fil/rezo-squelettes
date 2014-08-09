@@ -20,8 +20,15 @@
 		if ($('html').is('.large')) return;
 		$('html').addClass('large');
 		/* .add() pour conserver l'ordre */
-		$('#une').add('#depeches').add('#english')
+		$('#une').add('#depeches')
 			.memove('#marge');
+		/* s'il y a pas beaucoup de "et aussi", mettre l'anglais dans la nav */
+		if ($('#navigation a').length < 8)
+			$('#english')
+				.memove('#navigation');
+		else
+			$('#english')
+				.memove('#marge');
 	};
 
 	var etroit = function() {
