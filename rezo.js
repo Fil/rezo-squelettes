@@ -23,7 +23,7 @@
 		$('#une').add('#depeches')
 			.memove('#marge');
 		/* s'il y a pas beaucoup de "et aussi", mettre l'anglais dans la nav */
-		if ($('#navigation a').length < 2*10)
+		if ($('#navigation a').length < 2*15)
 			$('#english')
 				.memove('#navigation');
 		else
