@@ -1,11 +1,10 @@
-<BOUCLE_pop(RUBRIQUES){!par popularite}{0,50}{doublons cut}></BOUCLE_pop>
-
+<BOUCLE_s(RUBRIQUES){!par date}{0,50}{doublons} />
 <B_rubriques>
 <div class="menu rubriques">
 <select class='sources'
 onchange="if (options[selectedIndex].value) { location = options[selectedIndex].value; }">
 <option value=''>Nos sources</option>
-<BOUCLE_rubriques(RUBRIQUES) {par num titre, titre} {!doublons cut}>
+<BOUCLE_rubriques(RUBRIQUES) {par num titre, titre} {!doublons}>
 <option value="#URL_RUBRIQUE">[(#TITRE|couper{80})]</option>
 </BOUCLE_rubriques>
 <option value="/sources">&nbsp; &#187; toutes nos sources</option>
