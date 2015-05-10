@@ -1,5 +1,7 @@
 <?php
 
+$GLOBALS['puce'] = '- ';
+
 function hatom2rss($uri) {
 
 	// choper les liens presents
