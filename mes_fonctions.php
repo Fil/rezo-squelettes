@@ -1,5 +1,7 @@
 <?php
 
+$GLOBALS['puce'] = '- ';
+
 // A partir d'un titre renvoyer titre, auteur, source
 function retitrage($titre, $quoi='titre') {
   static $r = array();
