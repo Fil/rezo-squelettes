@@ -18,7 +18,8 @@
 		[<dc:creator>(#GET{auteurs}|supprimer_tags|texte_backend)</dc:creator>]
 
 		[(#SURTITRE|afficher_tags|supprimer_tags|embellir_tags{dc})]
-		[<description>
+		[(#REM) pour les depeches, ne pas donner le laius, il n'est pas souvent valable]
+		[(#TYPE|>{''}|oui)[<description>
 		[(#LOGO_ARTICLE||image_reduire{120}|texte_backend)]
 		(#DESCRIPTIF
 			|sinon{[(#TEXTE*|replace{^x$}|couper{200})]}
@@ -26,7 +27,7 @@
 		[&lt;div class='source'&gt;Source: &lt;b&gt;&lt;a[ href="(#URL_RUBRIQUE|url_absolue)"]&gt;(#GET{source}|texte_backend)&lt;/a&gt;&lt;/b&gt;&lt;/div&gt;]
 		[(#SURTITRE|afficher_tags|supprimer_tags|embellir_tags{reltag}|texte_backend)]
 		</description>
-		]
+		]]
 		[<source[ url="(#URL_RUBRIQUE|url_absolue)"]>(#GET{origine}|texte_backend)</source>]
 	</item>
 
