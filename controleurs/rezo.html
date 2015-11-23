@@ -62,7 +62,7 @@ class="rezoset" style="width:450px;#ENV{style}">
 <label class="micro">URL&nbsp;:</label> <input class="crayon-active" name="#ENV{name_url_site}"
  style="width:380px; font-family: courier;" value="[(#URL_SITE**|entites_html)]" /></p>
 
-<p>
+<p id="tags-#ID_ARTICLE">
 <label class="micro">Tags&nbsp;:</label> <input class="crayon-active" name="#ENV{name_surtitre}"
  style="width:380px;" value="[(#SURTITRE**|rezo_tags|entites_html)]" /></p>
 <p>
@@ -137,6 +137,12 @@ class="rezoset" style="width:450px;#ENV{style}">
 	|replace{&nbsp;,~}
 	|entites_html)]</textarea>
 
+<p id="media-#ID_ARTICLE"[ style="(#SURTITRE**|match{audio}|ou{#MEDIA**}|non|?{display:none})"]>
+<label class="micro">M&eacute;dia&nbsp;:</label>
+<input class="crayon-active" name="#ENV{name_media}" style="width:380px;"
+value="[(#CHAMP_SQL{media}|entites_html)]" />
+<br/>&nbsp; &nbsp; &nbsp;<small>URL du fichier mp3</small></p>
+ 
 
 <B_stats>
 <p>
@@ -154,3 +160,16 @@ style="width:4em;" value="[(#CHAMP_SQL{popularite}|mult{10}|ceil|div{10})]" />
 
 </fieldset>
 </BOUCLE_a>
+
+
+<script>
+// afficher le panneau media seulement si tag=audio
+// ou si media est deja rempli
+$('#tags-#ID_ARTICLE input').bind('change', function() {
+	if ($(this).val().match(/audio/) || $('#media-#ID_ARTICLE input').val()) {
+		$('#media-#ID_ARTICLE').show();
+	} else {
+		$('#media-#ID_ARTICLE').hide();
+	}
+});
+</script>
