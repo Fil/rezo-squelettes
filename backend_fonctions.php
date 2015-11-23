@@ -10,10 +10,14 @@ function hatom2rss($uri) {
 	switch($uri) {
 		case 'tout':
 		case '/themes/tout':
-		case '/themes/audio':
 			$type='[ab]'; 
 			$max = 100;
 			$uri = 'tout';
+			break;
+		case '/themes/audio':
+			$type='[ab]';
+			$max = 20;
+			$uri = 'audio';
 			break;
 		case '/themes/%2Ffeed%2F':
 			$uri = 'tout';
