@@ -9,7 +9,7 @@
 #SET{origine,#SOURCE|sinon{#GET{source}}}
 
 	<item[ xml:lang="(#LANG)"]>
-		<title>[(#GET{titre}|supprimer_tags|texte_backend)]</title>
+		<title>[(#GET{titre}|supprimer_tags|texte_backend)][ | (#GET{auteurs}|supprimer_tags|texte_backend)]</title>
 		<link>[(#URL_SITE|url_absolue)]</link>
 		[<guid isPermaLink="true">(#URL_SITE|url_absolue)</guid>]
 		[<dc:date>(#DATE|date_iso)</dc:date>]
