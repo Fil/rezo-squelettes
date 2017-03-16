@@ -180,15 +180,15 @@ UNE...&nbsp;</b></font> </td>
 <br>
  
 
-<form action="http://rezo.net/"  method="get">
-   <select name="sources" class="menu" onChange="if (options[selectedIndex].value) { location = 'http://rezo.net/sources/'+options[selectedIndex].value; }">
+<form action="https://rezo.net/"  method="get">
+   <select name="sources" class="menu" onChange="if (options[selectedIndex].value) { location = 'https://rezo.net/sources/'+options[selectedIndex].value; }">
    <option>Nos sources</option>
    <BOUCLE_sources(RUBRIQUES){id_parent=0}{par titre}>
    <BOUCLE_source_test(RUBRIQUES){id_rubrique}{age<30}><option label="#TITRE" value="#DESCRIPTIF" style="font-weight: bold;">#TITRE</option></BOUCLE_source_test><option label="#TITRE" value="#DESCRIPTIF">#TITRE</option><//B_source_test></BOUCLE_sources>
     </select>
 </form>
 
-<FORM method="get" action="http://rezo.net/recherche.php3">
+<FORM method="get" action="https://rezo.net/recherche.php3">
 <TABLE border="0" cellpadding="1" cellspacing="0" bgcolor="#cccccc"
 width="315">
 <TR>

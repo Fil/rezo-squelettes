@@ -87,7 +87,7 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 	if (preg_match(',^/microsummary,', $i))
 		return array(null, 'microsummary');
 
-	// Creer la 404 sur http://rezo.net/dsds(.html)
+	// Creer la 404 sur https://rezo.net/dsds(.html)
 	if ($url[1] == ''
 	AND preg_match(',^.*/[^\.]+(\.html)?$,', $i)
 	) {

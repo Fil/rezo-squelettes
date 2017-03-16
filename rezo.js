@@ -160,6 +160,7 @@
 			document.location = $('a[rel=bookmark]', this).click().attr('href');
 		});
 
+		/*
 		// recuperer la date des mermet
 		$('#navigation>.ecouterm .datehm')
 		.each(function(){
@@ -170,6 +171,7 @@
 		.prependTo('#navigation>.ecouter');
 		$('#navigation>.ecouterm div a.plus')
 		.remove();
+		*/
 
 		// pour les admins ajouter les couleurs de statut
 		if ($.cookie('spip_admin')) {

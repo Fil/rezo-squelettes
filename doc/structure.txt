@@ -1,7 +1,7 @@
 ﻿boutons bien/editerbof
-bien = javascript:void(location.href='http://rezo.net/ecrire/toolbar.php3?action=1&url='+escape(location.href))
-bof = javascript:void(location.href='http://rezo.net/ecrire/toolbar.php3?action=0&url='+escape(location.href))
-editer = javascript:void(location.href='http://rezo.net/ecrire/editer.php3?url='+escape(location.href))
+bien = javascript:void(location.href='https://rezo.net/ecrire/toolbar.php3?action=1&url='+escape(location.href))
+bof = javascript:void(location.href='https://rezo.net/ecrire/toolbar.php3?action=0&url='+escape(location.href))
+editer = javascript:void(location.href='https://rezo.net/ecrire/editer.php3?url='+escape(location.href))
 
 delicious:
 javascript:location.href='http://del.icio.us/post?v=4;url='+encodeURIComponent(location.href)+';title='+encodeURIComponent(document.title)
