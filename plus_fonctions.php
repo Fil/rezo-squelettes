@@ -2,7 +2,7 @@
 
 if (!defined("_ECRIRE_INC_VERSION")) return;
 
-function get_content3(&$node) {
+function get_content3($node) {
 	static $scores = array(); static $nodes = array();
 	static $cpt = 0;
 
@@ -53,7 +53,7 @@ function get_content3(&$node) {
 }
 
 
-if ($id_auteur = $GLOBALS['auteur_session']['id_auteur']) {
+if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_auteur'])) {
 
 	// on recupere l'url passee en argument du bookmarklet
 	$url = urldecode(sinon(_request('qs:url'), _request('url')));
