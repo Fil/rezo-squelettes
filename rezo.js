@@ -120,27 +120,27 @@
 		});
 
 		// le survol des liens affiche leur bloc introduction
-		$('#contenu a[rel=bookmark]')
-		.live('mouseover', function(){
+		$(document)
+		.on('mouseover', '#contenu a[rel=bookmark]', function(){
 			$(this).parents('.hentry').find('.introduction').show();
 		})
-		.live('mouseout', function() {
+		.on('mouseout', '#contenu a[rel=bookmark]', function() {
 			$(this).parents('.hentry').find('.introduction').hide();
 		});
 
-		$('.ecouter a[rel=bookmark]')
-		.live('mouseover', function(){
+		$(document)
+		.on('mouseover', '.ecouter a[rel=bookmark]', function(){
 			$(this).parents('.hentry').find('.introduction').show();
 		})
-		.live('mouseout', function() {
+		.on('mouseout', '.ecouter a[rel=bookmark]', function() {
 			$(this).parents('.hentry').find('.introduction').hide();
 		});
 
-		$('#contenu .articlemotune a[rel=bookmark]')
-		.live('mouseover', function(){
+		$(document)
+		.on('mouseover', '#contenu .articlemotune a[rel=bookmark]', function(){
 			$(this).parents('.hentry').find('.introduction').show();
 		})
-		.live('mouseout', function() {
+		.on('mouseout', '#contenu .articlemotune a[rel=bookmark]', function() {
 			$(this).parents('.hentry').find('.introduction').show();
 		});
 
