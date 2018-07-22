@@ -79,10 +79,12 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 
 	## DECODER UNE URL
 	$i = preg_replace('/[?].*/', '', $i);
-	$mot = urldecode(preg_replace(',^/(backend|themes|sources)/,','', $i));
-
-	$f = charger_fonction('propres', 'urls');
-	$url = $f($mot, $entite, $args, $ancre);
+	
+	if ($entite == "mot") {
+		$mot = urldecode(preg_replace(',^/?(backend|themes|sources)/,','', $i));
+		$f = charger_fonction('propres', 'urls');
+		$url = $f($mot, $entite, $args, $ancre);
+	}
 
 	if (preg_match(',^/microsummary,', $i))
 		return array(null, 'microsummary');

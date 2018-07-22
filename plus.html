@@ -44,13 +44,12 @@ src="https://rezo.net/img_rezo/iconerezo.gif" /> Admin</a>
 	<form enctype="multipart/form-data" action="/?action=crayons_store" method="post" class="formulaire_crayon">
 	#CRAYON{rezo}
 
-	<div class="crayon-boutons"><div>
-	<a title="Enregistrer" class="crayon-submit"><img width="20" height="20" src="#URL_SITE_SPIP/plugins/crayons/images/ok.png"
-	onclick="$('form').submit();"
-	/></a>[<a title="Annuler" class="crayon-cancel"><img width="20" height="20" src="#URL_SITE_SPIP/plugins/crayons/images/cancel.png"
-	onclick="window.location=(#URL_SITE*|_q);"
-	/></a>]
-
+	<div class="crayon-boutons">
+	<div>
+		<button type="button" class="crayon-submit" title="Enregistrer" onclick="$('form').submit();">Enregistrer</button>
+		<button type="button" class="crayon-cancel" title="Annuler" onclick='window.location=[(#URL_SITE*|json_encode)];'>Annuler</button>
+	</div>
+	</div>
 
 	</div></div>
 	</form>

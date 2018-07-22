@@ -127,6 +127,7 @@ function rezo_revision($id, $file, $type, $ref) {
 	crayons_update_article($id, $file, $type, $ref);
 }
 
+/*
 // delegation a la rache de mon openid vers gmail
 if ($login = @$_SERVER['PHP_AUTH_USER']
 AND $login == 'fil') {
@@ -136,4 +137,4 @@ AND $login == 'fil') {
 	echo "<link rel='openid.server' href='http://openid-provider.appspot.com/' />\n";
 	echo "<link rel='openid.delegate' href='https://www.google.com/accounts/o8/id' />\n";
 }
-
+*/

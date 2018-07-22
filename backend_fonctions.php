@@ -1,6 +1,7 @@
 <?php
 
 function hatom2rss($uri) {
+	$uri = str_replace('%2F', '/', $uri);
 
 	// choper les liens presents
 	$type='a'; // a priori les articles
