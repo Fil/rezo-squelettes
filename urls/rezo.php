@@ -79,7 +79,7 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 
 	## DECODER UNE URL
 	$i = preg_replace('/[?].*/', '', $i);
-	
+
 	if ($entite == "mot") {
 		$mot = urldecode(preg_replace(',^/?(backend|themes|sources)/,','', $i));
 		$f = charger_fonction('propres', 'urls');
@@ -90,7 +90,7 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 		return array(null, 'microsummary');
 
 	// Creer la 404 sur https://rezo.net/dsds(.html)
-	if ($url[1] == ''
+	if ($url[1] === ''
 	AND preg_match(',^.*/[^\.]+(\.html)?$,', $i)
 	) {
 		$url[1] = '404';
