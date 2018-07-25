@@ -99,14 +99,14 @@
 	<div id="contenu">
 
 		<div class="menu articles">
-				<BOUCLE_age_relatif(ARTICLES){!doublons recents}
+				<BOUCLE_jour_relatif(ARTICLES){!doublons recents}
 				{!par date}{0,1}>
 				<BOUCLE_articles_recents_jour(ARTICLES)
 				{doublons}
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age_relatif = 0}
+				{jour_relatif = 0}
 				{0,7}
 				{lang!=en}
 				{doublons articles_centre}
@@ -118,8 +118,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age_relatif > 0}
-				{age_relatif <= 1}
+				{jour_relatif > 0}
+				{jour_relatif <= 1}
 				{0,6}
 				{lang!=en}
 				{doublons articles_centre}
@@ -131,8 +131,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age_relatif > 1}
-				{age_relatif <= 2}
+				{jour_relatif > 1}
+				{jour_relatif <= 2}
 				{0,5}
 				{lang!=en}
 				{doublons articles_centre}
@@ -144,8 +144,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age_relatif > 2}
-				{age_relatif <= 3}
+				{jour_relatif > 2}
+				{jour_relatif <= 3}
 				{0,5}
 				{lang!=en}
 				{doublons articles_centre}
@@ -157,8 +157,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age_relatif > 3}
-				{age_relatif <= 4}
+				{jour_relatif > 3}
+				{jour_relatif <= 4}
 				{0,4}
 				{lang!=en}
 				{doublons articles_centre}
@@ -170,8 +170,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age_relatif > 4}
-				{age_relatif <= 5}
+				{jour_relatif > 4}
+				{jour_relatif <= 5}
 				{0,4}
 				{lang!=en}
 				{doublons articles_centre}
@@ -183,8 +183,8 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age_relatif > 5}
-				{age_relatif <= 6}
+				{jour_relatif > 5}
+				{jour_relatif <= 6}
 				{0,4}
 				{lang!=en}
 				{doublons articles_centre}
@@ -196,14 +196,14 @@
 				{!doublons recents}
 				{type!=''}
 				{!par popularite}
-				{age_relatif > 6}
-				{age_relatif <= 7}
+				{jour_relatif > 6}
+				{jour_relatif <= 7}
 				{0,4}
 				{lang!=en}
 				{doublons articles_centre}
 				>
 				</BOUCLE_articles_recents6>
-				</BOUCLE_age_relatif>
+				</BOUCLE_jour_relatif>
 
 				<BOUCLE_afficher_articles_centre(ARTICLES)
 					{!doublons articles_centre}

@@ -162,7 +162,7 @@ A.titreZine  {   color: #ff6300 !important; font-weight: bold;}
 </TD></TR></TABLE></TD></TR></TABLE></form>
 <BR>
 
-       <BOUCLE_une(ARTICLES){ps=5}{doublons}{age_relatif>=0}{par date}{inverse}{0,1}>
+       <BOUCLE_une(ARTICLES){ps=5}{doublons}{jour_relatif>=0}{par date}{inverse}{0,1}>
        <BOUCLE_rub_parent(RUBRIQUES){id_rubrique}><?php [$source='(#DESCRIPTIF)';] $titre_rub='[(#TITRE|texte_script)]'; ?></BOUCLE_rub_parent>
        <?php
               $para=retitrage('[(#TITRE|supprimer_numero|texte_script)]', 'tout', 'article', '[(#DATE)]', $titre_rub);
@@ -187,7 +187,7 @@ A.titreZine  {   color: #ff6300 !important; font-weight: bold;}
         $bloc_valeur = array();
         $type_retitrage = 'blocrezo';
 
-        <BOUCLE_suiteune(ARTICLES){ps>=3}{doublons}{id_secteur!=118}{id_rubrique!=33}{lang=fr}{age_relatif>=0}{age_relatif<=4}{par popularite}{inverse}{0,70}>
+        <BOUCLE_suiteune(ARTICLES){ps>=3}{doublons}{id_secteur!=118}{id_rubrique!=33}{lang=fr}{jour_relatif>=0}{jour_relatif<=4}{par popularite}{inverse}{0,70}>
                 <BOUCLE_rub_parent2(RUBRIQUES){id_rubrique}>
                         $id_rub='[(#DESCRIPTIF*|texte_script)]'; $titre_rub='[(#TITRE|texte_script)]'; $url_rub='[(#TEXTE|texte_script)]'; $code_rub='[(#DESCRIPTIF|texte_script)]';
                 </BOUCLE_rub_parent2>
@@ -270,7 +270,7 @@ A.titreZine  {   color: #ff6300 !important; font-weight: bold;}
         $bloc_valeur = array();
         $type_retitrage = 'blocrezo';
 
-        <BOUCLE_suiteune2(ARTICLES){ps>=3}{doublons}{id_secteur=118}{lang=fr}{age_relatif>=0}{age_relatif<=4}{par popularite}{inverse}{0,70}>
+        <BOUCLE_suiteune2(ARTICLES){ps>=3}{doublons}{id_secteur=118}{lang=fr}{jour_relatif>=0}{jour_relatif<=4}{par popularite}{inverse}{0,70}>
                 <BOUCLE_rub_parent3(RUBRIQUES){id_rubrique}>
                         $id_rub='[(#DESCRIPTIF*|texte_script)]'; $titre_rub='[(#TITRE|texte_script)]'; $url_rub='[(#TEXTE|texte_script)]'; $code_rub='[(#DESCRIPTIF|texte_script)]';
                 </BOUCLE_rub_parent3>
