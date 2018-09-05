@@ -80,12 +80,6 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 	## DECODER UNE URL
 	$i = preg_replace('/[?].*/', '', $i);
 
-	if ($entite == "mot") {
-		$mot = urldecode(preg_replace(',^/?(backend|themes|sources)/,','', $i));
-		$f = charger_fonction('propres', 'urls');
-		$url = $f($mot, $entite, $args, $ancre);
-	}
-
 	if (preg_match(',^/microsummary,', $i))
 		return array(null, 'microsummary');
 
@@ -94,11 +88,6 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 	AND preg_match(',^.*/[^\.]+(\.html)?$,', $i)
 	) {
 		$url[1] = '404';
-	}
-
-	if ($mot) {
-		unset($url[0]['id_mot']);
-		$url[0]['mot'] = $mot;
 	}
 
 	return $url;
