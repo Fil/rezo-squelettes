@@ -62,7 +62,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 	$url = preg_replace(',[\x80-\xFF],e', 'urlencode(\0)', $url);
 
 	// virer les merdasses de tracking
-	foreach(array('[?&]__utma=.*', '[?&]utm_source=.*', '[?&]utm_medium=.*', '[?&]utm_content=.*', '[?&]utm_campaign=.*', '#xtor=.*') as $shit)
+	foreach(array('[?&]__utma=.*', '[?&]utm_source=.*', '[?&]utm_medium=.*', '[?&]utm_content=.*', '[?&]utm_campaign=.*', '#xtor=.*', '[?&]fbclid=.*') as $shit)
 		$url = preg_replace(",$shit,", '', $url);
 
 	// est-il dans la base ?
