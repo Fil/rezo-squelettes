@@ -35,7 +35,6 @@
 	#SET{fin,#ENV{semaine}|strtotime|plus{86400}}
 })]
 [(#SET{debut,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{604800})]})]})]
-[(#SET{debutmermet,[(#VAL{Y-m-d}|date{[(#GET{fin}|moins{1209600})]})]})]
 [(#SET{fin,[(#VAL{Y-m-d}|date{[(#GET{fin})]})]})]
 
 
@@ -77,12 +76,6 @@
 	<BOUCLE_audio(ARTICLES)
         {surtitre=='^(.* )?audio([^a-z].*)?$'}
 	{!doublons recents}
-        {doublons}
-        {doublons radio}
-        />
-        <BOUCLE_mermet(ARTICLES)
-        {id_rubrique=79}
-        {!doublons recents}
         {doublons}
         {doublons radio}
         />
