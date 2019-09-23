@@ -5,7 +5,7 @@
 	presenter au format rss
 
 ]#CACHE{300}
-[(#SET{mot,#SELF|replace{^/backend/}})][(#GET{mot}?{[(#SET{uri,[themes/(#GET{mot}|replace{^portail$}|rawurlencode)]})]})
+[(#SET{mot,#SELF|replace{^/(backend|feed)/}})][(#GET{mot}?{[(#SET{uri,[themes/(#GET{mot}|replace{^portail$}|rawurlencode)]})]})
 ][(#GET{mot}|=={anglais}|?{#SET{uri,anglais}})
 ][(#ID_RUBRIQUE|?{#SET{uri,#URL_RUBRIQUE}})
 ][(#ID_MOT|?{#SET{uri,#URL_MOT}})
