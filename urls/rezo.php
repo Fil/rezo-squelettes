@@ -3,7 +3,7 @@
 define('_url_minuscules', true);
 define('_MARQUEUR_URL', serialize(array('rubrique1' => '', 'rubrique2' => '', 'breve1' => '+', 'breve2' => '+', 'site1' => '@', 'site2' => '@', 'auteur1' => '@', 'auteur2' => '', 'mot1' => '', 'mot2' => '')));
 
-function urls_rezo($i, $entite, $args='', $ancre='') {
+function urls_rezo($i, &$entite, $args='', $ancre='') {
 	static $cache = array();
 
 	## GENERER UNE URL
@@ -79,6 +79,14 @@ function urls_rezo($i, $entite, $args='', $ancre='') {
 
 	## DECODER UNE URL
 	$i = preg_replace('/[?].*/', '', $i);
+	$f = charger_fonction('propres', 'urls');
+	$url = $f($i, $entite, $args, $ancre);
+
+	if (preg_match(',^sources/(.*)$,', $i, $a)) {
+		$r = sql_fetsel("*", "spip_urls", array("url=".sql_quote($a[1]), "type='rubrique'"));
+		$url[1] = 'rubrique';
+		$url[0] = array("id_rubrique" => $r['id_objet']);
+	}
 
 	if (preg_match(',^/microsummary,', $i))
 		return array(null, 'microsummary');
