@@ -42,6 +42,9 @@ RewriteRule ^feed/$ spip.php?page=backend [QSA,L]
 # microsummary
 RewriteRule ^microsummary(\.php?)$ spip.php?page=microsummary [QSA,L]
 
+# Mot-cle COVID-19
+RewriteRule ^themes/covid(19)?$ /themes/covid-19 [NC,QSA,R,L]
+
 # themes => garnir #ENV{mot}
 RewriteRule ^themes/(.+)$ spip.php?page=mot&mot=$1 [QSA,L]
 
