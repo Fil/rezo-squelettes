@@ -2,7 +2,7 @@
 [(#HTTP_HEADER{Content-type: text/css})]
 
 body {
-	background: url([(#CHEMIN{masques/carre-fond.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.05})]}|extraire_attribut{src})]);
+	background: url([(#CHEMIN{masques/carre-fond.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.05})],1}|extraire_attribut{src})]);
 	background-color: white;
 	margin: 0px;
 	padding: 0px;
@@ -242,11 +242,11 @@ h4,h5 {
 		
 		. :hover {
 			color: [#(#ENV{couleur}|couleur_foncer)];
-			background: url([(#CHEMIN{masques/onglet-trait.png}|image_sepia{[(#ENV{couleur}|couleur_foncer)]}|extraire_attribut{src})]) bottom left no-repeat;
+			background: url([(#CHEMIN{masques/onglet-trait.png}|image_sepia{[(#ENV{couleur}|couleur_foncer)],1}|extraire_attribut{src})]) bottom left no-repeat;
 		}
 		. .on {
 			color: black;
-			background: url([(#CHEMIN{masques/onglet-trait.png}|image_sepia{000000}|extraire_attribut{src})]) bottom left no-repeat;
+			background: url([(#CHEMIN{masques/onglet-trait.png}|image_sepia{000000}|extraire_attribut{src})],1) bottom left no-repeat;
 		}
 		
 		
@@ -278,7 +278,7 @@ h4,h5 {
 }
 
 #conteneur {
-	background: url([(#CHEMIN{masques/patte-fond.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.05})]}|extraire_attribut{src})]) top right no-repeat;
+	background: url([(#CHEMIN{masques/patte-fond.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.05})],1}|extraire_attribut{src})]) top right no-repeat;
 }
 
 .central {
@@ -308,7 +308,7 @@ h4,h5 {
 
 
 #une {
-	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.3})]}|extraire_attribut{src})]);
+	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.3})],1}|extraire_attribut{src})]);
 	border: 1px solid #[(#ENV{couleur}|couleur_foncer)];
 	padding: 5px;
 	clear: both;
@@ -409,7 +409,7 @@ a.lienauteur {
 #english {
 	clear: both;
 	border: 1px solid [#(#ENV{couleur}|couleur_eclaircir)];
-	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.1})]}|extraire_attribut{src})]);
+	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.1})],1}|extraire_attribut{src})]);
 }
 #english h5 {
 	display:none;
@@ -452,12 +452,12 @@ a.lienauteur {
 /* bloc Ecouter */
 .pavedepeches.ecouter {
 	border: 1px solid [#(#ENV{couleur}|couleur_eclaircir)];
-	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.1})]}|extraire_attribut{src})]);
+	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_saturation{0.1})],1}|extraire_attribut{src})]);
 }
 
 #bandeau, #footer {
 	background-color: #[(#ENV{couleur}|couleur_foncer)];
-	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_foncer|couleur_saturation{0.6})]}|extraire_attribut{src})]);
+	background: url([(#CHEMIN{masques/carre-fond-sombre.png}|image_sepia{[(#ENV{couleur}|couleur_foncer|couleur_saturation{0.6})],1}|extraire_attribut{src})]);
 	padding: 5px;
 	color: white;
 	height: 28px;
