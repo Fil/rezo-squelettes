@@ -59,7 +59,13 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 	$url = urldecode(sinon(_request('qs:url'), _request('url')));
 
 	// URLs accentuees
-	$url = preg_replace(',[\x80-\xFF],e', 'urlencode(\0)', $url);
+	$url = preg_replace_callback(
+		',[\x80-\xFF],',
+		function ($matches) {
+				return urlencode($matches[0]);
+		},
+		$url
+	);
 
 	// virer les merdasses de tracking
 	foreach(array('[?&]__utma=.*', '[?&]utm_source=.*', '[?&]utm_medium=.*', '[?&]utm_content=.*', '[?&]utm_campaign=.*', '#xtor=.*', '[?&]fbclid=.*') as $shit)
