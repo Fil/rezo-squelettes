@@ -231,7 +231,9 @@ function limite_age($maintenant, $jours) {
 function recuperer_page_cache($url, $delai=3601) {
 	include_spip('inc/distant');
 	if ($W = cache_me(null, $delai)) return $W;
-	return recuperer_page($url, true);
+	$data = recuperer_url($url, ['transcoder' => true]);
+	$data = $data['page'] ?? '';
+	return $data;
 }
 
 // pour la page /agenda

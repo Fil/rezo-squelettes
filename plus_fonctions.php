@@ -100,7 +100,9 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 		//
 		include_spip('inc/distant');
 		include_spip('inc/charsets');
-		if (!$page = recuperer_page($url, $munge_charset = true))
+		$page = recuperer_url($url, ['transcoder' => true]);
+		$page = $page['page'] ?? '';
+		if (!$page)
 			echo "Erreur, impossible de lire la page.";
 
 		$head = extraire_balise($page, 'head');
@@ -151,7 +153,9 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 					$logo = extraire_attribut($img, 'src');
 					$base = sinon(extraire_attribut(extraire_balise('base', 'head'), 'href'), $url);
 					$logo = suivre_lien($base, $logo);
-					if ($logo = recuperer_page($logo)
+					$logo = recuperer_url($logo);
+					$logo = $logo['page'] ?? '';
+					if ($logo
 					AND ecrire_fichier($tmp = _DIR_TMP.'logo.tmp', $logo)
 					AND $f = @getimagesize($tmp)) {
 						$formats = array(1=>'gif', 2=>'jpg', 3=>'png');
