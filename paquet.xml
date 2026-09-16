@@ -1,0 +1,20 @@
+<paquet
+	prefix="rezo"
+	categorie="squelette"
+	version="1.0.1"
+	schema="20190228"
+	etat="stable"
+	compatibilite="[4.2.0;4.*]"
+>
+
+	<nom>Rezo</nom>
+	<!-- Bidouilles temporaires pour rezo.net. -->
+
+	<auteur>Fil</auteur>
+	<copyright>2009-2021</copyright>
+
+	<licence lien="http://www.gnu.org/licenses/lgpl-3.0.html">LGPL 3</licence>
+
+	<necessite nom="php" compatibilite="[7.4.0;]" />
+	<pipeline nom="post_syndication" inclure="rezo_options.php" />
+</paquet>
