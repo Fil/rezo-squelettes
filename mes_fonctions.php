@@ -231,7 +231,9 @@ function limite_age($maintenant, $jours) {
 function recuperer_page_cache($url, $delai=3601) {
 	include_spip('inc/distant');
 	if ($W = cache_me(null, $delai)) return $W;
-	return recuperer_page($url, true);
+	$data = recuperer_url($url, ['transcoder' => true]);
+	$data = $data['page'] ?? '';
+	return $data;
 }
 
 // pour la page /agenda
@@ -282,4 +284,30 @@ function filtrer_agenda_demosphere ($agenda) {
 		"<div class='ancres'>".join(' - ',$ancres)."</div>\n"
 		.
 		typo(join("\n",$dems));
+}
+
+function recuperer_favicon($url) {
+	$url = parse_url($url, PHP_URL_HOST);
+	$racine = preg_replace("/^www\./", "", $url);
+	$racine = preg_replace("/[^a-z0-9]+/", "-", $racine) . "-";
+
+	$destination = sous_repertoire(_DIR_VAR, 'cache-favicon') .$racine.md5($url).".png";
+
+	if ((!file_exists($destination)
+	OR (@filemtime($destination) < time() - 365*24*3600)
+	)
+	AND $copie = copie_locale("http://www.google.com/s2/favicons?domain=$url")
+	) {
+		rename($copie, $destination);
+	}
+
+	if ($destination) {
+		$destination = "<img src='$destination' />";
+		$destination = inserer_attribut($destination, "alt", "favicon $url");
+		include_spip('inc/filtres_images');
+		include_spip('inc/filtres_images_mini');
+		$destination = image_reduire($destination, 16,16);
+	}
+
+	return $destination;
 }

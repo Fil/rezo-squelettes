@@ -59,7 +59,13 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 	$url = urldecode(sinon(_request('qs:url'), _request('url')));
 
 	// URLs accentuees
-	$url = preg_replace(',[\x80-\xFF],e', 'urlencode(\0)', $url);
+	$url = preg_replace_callback(
+		',[\x80-\xFF],',
+		function ($matches) {
+				return urlencode($matches[0]);
+		},
+		$url
+	);
 
 	// virer les merdasses de tracking
 	foreach(array('[?&]__utma=.*', '[?&]utm_source=.*', '[?&]utm_medium=.*', '[?&]utm_content=.*', '[?&]utm_campaign=.*', '#xtor=.*', '[?&]fbclid=.*') as $shit)
@@ -100,7 +106,9 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 		//
 		include_spip('inc/distant');
 		include_spip('inc/charsets');
-		if (!$page = recuperer_page($url, $munge_charset = true))
+		$page = recuperer_url($url, ['transcoder' => true]);
+		$page = $page['page'] ?? '';
+		if (!$page)
 			echo "Erreur, impossible de lire la page.";
 
 		$head = extraire_balise($page, 'head');
@@ -151,7 +159,9 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 					$logo = extraire_attribut($img, 'src');
 					$base = sinon(extraire_attribut(extraire_balise('base', 'head'), 'href'), $url);
 					$logo = suivre_lien($base, $logo);
-					if ($logo = recuperer_page($logo)
+					$logo = recuperer_url($logo);
+					$logo = $logo['page'] ?? '';
+					if ($logo
 					AND ecrire_fichier($tmp = _DIR_TMP.'logo.tmp', $logo)
 					AND $f = @getimagesize($tmp)) {
 						$formats = array(1=>'gif', 2=>'jpg', 3=>'png');

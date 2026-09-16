@@ -31,7 +31,8 @@ function hatom2rss($uri) {
 	}
 
 	// lire la page hatom
-	$feed = recuperer_page(url_absolue($uri));
+	$feed = recuperer_url(url_absolue($uri));
+	$feed = $feed['page'] ?? '';
 
 	preg_match_all(
 	',<div\s+class="hentry\b[^<>"]*"\s+id="'.$type.'(\d+)".*<abbr class="updated" title="(.*)">,UmsS',
