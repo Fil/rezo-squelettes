@@ -188,7 +188,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 			translitteration(supprimer_tags($page)),
 			array('fr', 'en', 'es')
 		);
-		spip_log(sprintf("lang_detect $lang (%02d", (100*$certitude))."%)");
+		spip_log(sprintf("lang_detect $lg (%02d", (100*$certitude))."%)");
 		if ($certitude > 0.02)
 			$lang = $lg;
 		// forcer fr si langue inconnue
