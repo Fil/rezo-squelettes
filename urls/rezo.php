@@ -26,9 +26,7 @@ function urls_rezo($i, &$entite, $args='', $ancre='') {
 				include_spip('inc/charsets');
 				$url = str_replace(' ', '', translitteration($t['descriptif']));
 				# regarder si l'url existe deja
-				if ($url
-				AND $s = sql_query("SELECT * FROM spip_urls WHERE url=".sql_quote($url))
-				AND !$t = sql_fetch($s)) {
+				if ($url && ($s = sql_query("SELECT * FROM spip_urls WHERE url=".sql_quote($url))) && !($t = sql_fetch($s))) {
 					sql_insertq('spip_urls',
 						array(
 						'id_objet' => $i,
@@ -56,8 +54,7 @@ function urls_rezo($i, &$entite, $args='', $ancre='') {
 
 		}
 
-		if (isset($cache[$entite])
-		AND isset($cache[$entite][$i])) {
+		if (isset($cache[$entite]) && isset($cache[$entite][$i])) {
 			$url = $cache[$entite][$i];
 			switch ($entite) {
 				case 'mot':
@@ -92,8 +89,7 @@ function urls_rezo($i, &$entite, $args='', $ancre='') {
 		return array(null, 'microsummary');
 
 	// Creer la 404 sur https://rezo.net/dsds(.html)
-	if ($url[1] === ''
-	AND preg_match(',^.*/[^\.]+(\.html)?$,', $i)
+	if ($url[1] === '' && preg_match(',^.*/[^\.]+(\.html)?$,', $i)
 	) {
 		$url[1] = '404';
 	}

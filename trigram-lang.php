@@ -100,17 +100,17 @@ if ($grams) {
 	while ($t = sql_fetch($s))
 		$grams['g']['txt'] .= debork(join(' ', $t));
 	$grams['g']['txt'] = trigrams($grams['g']['txt'], $n);
-	
-	
+
+
 	// calculer le trigram des textes associ�s aux langues
 	foreach (array('fr', 'en') as $lang) {
 
 		echo "calcule le $n-gram de ".$lang."\n";
-	
+
 		$s = sql_query("SELECT a.surtitre,a.titre,a.chapo,a.descriptif,a.texte FROM spip_articles AS a WHERE a.lang='$lang' AND a.statut='publie' ORDER BY date DESC LIMIT 1000");
 		while ($t = sql_fetch($s))
 			$grams['g'][$lang] .= substr(debork(join(' ', $t)),0,500);
-	
+
 		$grams['g'][$lang] = trigrams($grams['g'][$lang], $n);
 	}
 	ecrire_fichier($f, serialize($grams));
@@ -130,11 +130,9 @@ while ($t = sql_fetch($s)) {
 	$diff = 100*($sc['fr'] - $sc['en']);
 	$l .= ' '.round($diff) . ' '.$t['titre'];
 
-	if ($diff > 2
-	AND $t['lang'] == 'en')
+	if ($diff > 2 && $t['lang'] == 'en')
 		echo "$l [fr]\n";
-	else if ($diff < -2
-	AND $t['lang'] == 'fr')
+	else if ($diff < -2 && $t['lang'] == 'fr')
 		echo "$l [en]\n";
 }
 

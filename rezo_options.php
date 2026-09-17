@@ -29,8 +29,7 @@ function rezo_post_syndication($data) {
 	// si publiee : 'article' (sinon '' aka depeche)
 	// un article qui arrive sans descriptif est automatiquement
 	// recale en depeche
-	if ($sites[$id_syndic]['statut'] == 'publie'
-	AND strlen($data[2]['descriptif']) > 10)
+	if ($sites[$id_syndic]['statut'] == 'publie' && strlen($data[2]['descriptif']) > 10)
 		$update['type'] = 'article';
 
 	// detection de la langue
@@ -71,11 +70,7 @@ function rezo_post_syndication($data) {
 	// "titre, par auteur"
 	// "titre, par auteur (source)"
 	// ne pas prendre les auteurs contenant un @ (emails affiches dans le RSS)
-	if (strlen($aut = trim($data[2]['lesauteurs']))
-	AND !strpos($aut, '@')
-	AND $aut !== $sites[$id_syndic]['titre']
-	AND !preg_match('/, (par|by|por) /i', $update['titre'])
-	AND !preg_match('/ [(].*[)]$/', $update['titre'])
+	if (strlen($aut = trim($data[2]['lesauteurs'])) && !strpos($aut, '@') && $aut !== $sites[$id_syndic]['titre'] && !preg_match('/, (par|by|por) /i', $update['titre']) && !preg_match('/ [(].*[)]$/', $update['titre'])
 	) {
 		$aut = couper($aut, 60);
 		$update['titre'] .= ', '._T('forum_par_auteur', array('auteur' => $aut));
@@ -90,8 +85,7 @@ function rezo_post_syndication($data) {
 		$tags[$t['descriptif']] = '<a rel="tag">'.$t['titre'].'</a>';
 
 	// S'il y a un enclosure mp3, tag audio
-	if ($data[2]['enclosures']
-	AND preg_match(',\.mp3,', $data[2]['enclosures']))
+	if ($data[2]['enclosures'] && preg_match(',\.mp3,', $data[2]['enclosures']))
 		$tags['audio'] = '<a rel="tag">Audio</a>';
 
 	include_spip('inc/charsets');

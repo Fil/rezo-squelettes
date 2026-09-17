@@ -35,7 +35,7 @@ function get_content3($node) {
 		}
 	}
 
-	if ($c['img'] > $c['p'] OR $c['li'] > $c['p'] OR $c['a'] > $c['p'])
+	if ($c['img'] > $c['p'] || $c['li'] > $c['p'] || $c['a'] > $c['p'])
 		$scores[$cpt] *= 0.1;
 
 	$nodes[$cpt] = preg_replace(',<!--\s.*\s-->,UmsS', '', $node->value);
@@ -161,9 +161,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 					$logo = suivre_lien($base, $logo);
 					$logo = recuperer_url($logo);
 					$logo = $logo['page'] ?? '';
-					if ($logo
-					AND ecrire_fichier($tmp = _DIR_TMP.'logo.tmp', $logo)
-					AND $f = @getimagesize($tmp)) {
+					if ($logo && ecrire_fichier($tmp = _DIR_TMP.'logo.tmp', $logo) && $f = @getimagesize($tmp)) {
 						$formats = array(1=>'gif', 2=>'jpg', 3=>'png');
 						if ($fmt = $formats[$f[2]])
 							rename($tmp, _DIR_IMG.'arton'.$id_article.'.'.$fmt);

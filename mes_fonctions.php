@@ -7,8 +7,7 @@ function retitrage($titre, $quoi='titre') {
   static $r = array();
   if (!isset($r[$c = md5($titre)])) {
     $r[$c] = array();
-    if (preg_match(',^(.*)\s+\(([^(]+)\)$,UimsS', trim($titre), $regs)
-    AND !preg_match(',^\d+$,S', $regs[2])) {
+    if (preg_match(',^(.*)\s+\(([^(]+)\)$,UimsS', trim($titre), $regs) && !preg_match(',^\d+$,S', $regs[2])) {
       $titre = $regs[1];
       $r[$c]['source'] = $regs[2];
     }
@@ -176,9 +175,7 @@ function mots_article($id_article, $wrap='%s', $sep=', ') {
 function microcache($id, $fond, $calcul=false) {
 	$cle = "$fond-$id";
 	$ttl = 60*60;
-	if ($calcul
-	OR in_array($_GET['var_mode'], array('recalcul', 'debug'))
-	OR !($contenu = cache_get($cle))) {
+	if ($calcul || in_array($_GET['var_mode'], array('recalcul', 'debug')) || !($contenu = cache_get($cle))) {
 		$contenu = recuperer_fond($fond, array('id'=>$id));
 		cache_set($cle, $contenu, $ttl);
 	}
@@ -193,8 +190,7 @@ function rezo_tags($tags) {
 	$mots = array();
 	foreach (extraire_balises($tags, 'a') as $t) {
 		$tags = str_replace($t, '', $tags);
-		if (extraire_attribut($t, 'rel') == 'enclosure'
-		AND preg_match(',mp3,', extraire_attribut($t, 'href')))
+		if (extraire_attribut($t, 'rel') == 'enclosure' && preg_match(',mp3,', extraire_attribut($t, 'href')))
 			$mots[] = 'Audio';
 		if (extraire_attribut($t, 'rel') == 'tag')
 			$mots[] = supprimer_tags($t);
@@ -287,10 +283,7 @@ function recuperer_favicon($url) {
 
 	$destination = sous_repertoire(_DIR_VAR, 'cache-favicon') .$racine.md5($url).".png";
 
-	if ((!file_exists($destination)
-	OR (@filemtime($destination) < time() - 365*24*3600)
-	)
-	AND $copie = copie_locale("http://www.google.com/s2/favicons?domain=$url")
+	if ((!file_exists($destination) || @filemtime($destination) < time() - 365 * 24 * 3600) && $copie = copie_locale("http://www.google.com/s2/favicons?domain=$url")
 	) {
 		rename($copie, $destination);
 	}
