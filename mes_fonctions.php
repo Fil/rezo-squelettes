@@ -207,11 +207,6 @@ function rezo_tags($tags) {
 	return join(', ', array_unique($mots));
 }
 
-// fonctions pour le plugin core/sites
-if (!function_exists('balise_img')){
-function balise_img($img,$alt="",$class="") { return tag_img($img,$alt,$class); }
-}
-
 
 ### pour vieux squelettes (lautre, vieux)
 ## retourne la date de comparaison au format MySQL
