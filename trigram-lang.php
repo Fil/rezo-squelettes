@@ -96,18 +96,18 @@ if ($grams) {
 	echo "calcule le $n-gram du site\n";
 	$grams['titres']['tout'] = 'Tout le site';
 
-	$s = spip_query("SELECT surtitre,titre,chapo,descriptif,texte FROM spip_articles ORDER BY date DESC LIMIT 500");
+	$s = sql_query("SELECT surtitre,titre,chapo,descriptif,texte FROM spip_articles ORDER BY date DESC LIMIT 500");
 	while ($t = sql_fetch($s))
 		$grams['g']['txt'] .= debork(join(' ', $t));
 	$grams['g']['txt'] = trigrams($grams['g']['txt'], $n);
 	
 	
-	// calculer le trigram des textes associŽs aux langues
+	// calculer le trigram des textes associï¿½s aux langues
 	foreach (array('fr', 'en') as $lang) {
 
 		echo "calcule le $n-gram de ".$lang."\n";
 	
-		$s = spip_query("SELECT a.surtitre,a.titre,a.chapo,a.descriptif,a.texte FROM spip_articles AS a WHERE a.lang='$lang' AND a.statut='publie' ORDER BY date DESC LIMIT 1000");
+		$s = sql_query("SELECT a.surtitre,a.titre,a.chapo,a.descriptif,a.texte FROM spip_articles AS a WHERE a.lang='$lang' AND a.statut='publie' ORDER BY date DESC LIMIT 1000");
 		while ($t = sql_fetch($s))
 			$grams['g'][$lang] .= substr(debork(join(' ', $t)),0,500);
 	
@@ -118,7 +118,7 @@ if ($grams) {
 
 // Maintenant on prend un texte 143648
 unset($grams['g']['txt']);
-$s = spip_query("SELECT a.id_article, a.surtitre,a.titre,a.chapo,a.descriptif,a.texte,a.lang FROM spip_articles AS a ORDER BY date DESC");
+$s = sql_query("SELECT a.id_article, a.surtitre,a.titre,a.chapo,a.descriptif,a.texte,a.lang FROM spip_articles AS a ORDER BY date DESC");
 while ($t = sql_fetch($s)) {
 	$article = trigrams(debork(join(' ', $t)), $n);
 

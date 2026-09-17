@@ -42,7 +42,7 @@ function autoriser_modifier_article($quoi, $id, $qui) {
 function embellir_tags($tags, $dest='html') {
 	static $alias;
 	if (!isset($alias)) {
-		$s = spip_query("SELECT descriptif,titre FROM spip_mots");
+		$s = sql_query("SELECT descriptif,titre FROM spip_mots");
 		while ($t = sql_fetch($s))
 			if (strlen($t['titre']))
 				$alias[trim($t['descriptif'])] = $t['titre'];
@@ -83,10 +83,9 @@ function embellir_tags($tags, $dest='html') {
 // Mettre a jour la popularite d'un mot-cle (cf. mot-fulltext.html)
 function majpopmot($id_mot, $pop) {
 	if ($id_mot=intval($id_mot))
-		spip_query($q = "UPDATE spip_mots
+		sql_query("UPDATE spip_mots
 			SET popularite=".sql_quote($pop)."
 			WHERE id_mot=$id_mot");
-#	return $q;
 }
 
 // Renvoie les n mots-cles les plus populaires
@@ -97,7 +96,7 @@ function mots_populaires($n=25) {
 	FROM spip_mots
 	ORDER BY popularite DESC
 	LIMIT 0,".intval($n);
-	if ($s = spip_query($f)) {
+	if ($s = sql_query($f)) {
 		$a =array();
 		while ($t = sql_fetch($s))
 			$a[] = $t;

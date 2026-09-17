@@ -58,20 +58,20 @@ if ($grams) {
 	echo "calcule le $n-gram du site\n";
 	$grams['titres']['tout'] = 'Tout le site';
 
-	$s = spip_query("SELECT surtitre,titre,chapo,descriptif,texte FROM spip_articles ORDER BY date DESC LIMIT 500");
+	$s = sql_query("SELECT surtitre,titre,chapo,descriptif,texte FROM spip_articles ORDER BY date DESC LIMIT 500");
 	while ($t = sql_fetch($s))
 		$grams['g']['txt'] .= preg_replace(',\s+,S', ' ', join(' ', $t));
 	$grams['g']['txt'] = trigrams($grams['g']['txt'], $n);
 	
 	
-	// calculer le trigram des textes associŽs aux mots-clŽs
+	// calculer le trigram des textes associï¿½s aux mots-clï¿½s
 	foreach (sql_allfetsel(array('id_mot', 'titre'), 'spip_mots') as $k) {
 		$id_mot = $k['id_mot'];
 		$grams['titres'][$id_mot] = $k['titre'];
 	
 		echo "calcule le $n-gram de ".$k['titre']."\n";
 	
-		$s = spip_query("SELECT a.surtitre,a.titre,a.chapo,a.descriptif,a.texte FROM spip_articles AS a, spip_mots_articles AS l WHERE a.id_article=l.id_article AND l.id_mot=$id_mot ORDER BY date DESC LIMIT 100");
+		$s = sql_query("SELECT a.surtitre,a.titre,a.chapo,a.descriptif,a.texte FROM spip_articles AS a, spip_mots_articles AS l WHERE a.id_article=l.id_article AND l.id_mot=$id_mot ORDER BY date DESC LIMIT 100");
 		while ($t = sql_fetch($s))
 			$grams['g'][$id_mot] .= preg_replace(',\s+,S', ' ', join(' ', $t));
 	
@@ -83,7 +83,7 @@ if ($grams) {
 
 // Maintenant on prend un texte 143648
 echo $id_article = 143648;
-$s = spip_query("SELECT a.surtitre,a.titre,a.chapo,a.descriptif,a.texte FROM spip_articles AS a WHERE a.id_article=$id_article");
+$s = sql_query("SELECT a.surtitre,a.titre,a.chapo,a.descriptif,a.texte FROM spip_articles AS a WHERE a.id_article=$id_article");
 if ($t = sql_fetch($s))
 	$article = trigrams(preg_replace(',\s+,S', ' ', join(' ', $t)), $n);
 

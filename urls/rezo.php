@@ -21,13 +21,13 @@ function urls_rezo($i, &$entite, $args='', $ancre='') {
 		else if (in_array($entite, array('mot','rubrique'))) {
 			# recalcul d'url
 			if (_request('action')=='redirect') {
-				$s = spip_query("SELECT descriptif FROM spip_".$entite."s WHERE id_".$entite."=".sql_quote($i));
+				$s = sql_query("SELECT descriptif FROM spip_".$entite."s WHERE id_".$entite."=".sql_quote($i));
 				$t = sql_fetch($s);
 				include_spip('inc/charsets');
 				$url = str_replace(' ', '', translitteration($t['descriptif']));
 				# regarder si l'url existe deja
 				if ($url
-				AND $s = spip_query("SELECT * FROM spip_urls WHERE url=".sql_quote($url))
+				AND $s = sql_query("SELECT * FROM spip_urls WHERE url=".sql_quote($url))
 				AND !$t = sql_fetch($s)) {
 					sql_insertq('spip_urls',
 						array(
