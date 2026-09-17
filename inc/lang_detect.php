@@ -76,9 +76,7 @@ function lang_detect_debork($x) {
 function lang_detect($txt, $langs = null) {
 	static $grams = [];
 
-	if ($langs === null) {
-		$langs = ['fr', 'en', 'es'];
-	}
+	$langs ??= ['fr', 'en', 'es'];
 
 	$sc = [];
 	$t = new Trigram();
@@ -86,7 +84,7 @@ function lang_detect($txt, $langs = null) {
 	// Our n-gram database, copied from http://guess-language.googlecode.com/
 	// is based on 3-grams
 	$t->n = 3;
-	$dir = dirname(__FILE__) . '/trigrams/';
+	$dir = __DIR__ . '/trigrams/';
 
 	$txt = lang_detect_debork($txt);
 
@@ -107,7 +105,10 @@ function lang_detect($txt, $langs = null) {
 	}
 
 	arsort($sc);
-	[$lang, $score] = each($sc);
-	[, $score2] = each($sc);
+	$lang = key($sc);
+	$score = current($sc);
+	next($sc);
+	$score2 = current($sc);
+	next($sc);
 	return [$lang, $score - $score2];
 }

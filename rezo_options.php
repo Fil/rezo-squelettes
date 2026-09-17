@@ -15,13 +15,11 @@ function rezo_post_syndication($data) {
 	$url = $data[0];
 	$id_syndic = $data[1];
 
-	if (!isset($sites[$id_syndic])) {
-		$sites[$id_syndic] = sql_fetsel(
+	$sites[$id_syndic] ??= sql_fetsel(
 			'*',
 			'spip_syndic',
 			'id_syndic=' . sql_quote($id_syndic)
 		);
-	}
 
 	$update = [
 		'id_rubrique' => $sites[$id_syndic]['id_rubrique'],

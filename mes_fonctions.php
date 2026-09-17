@@ -110,7 +110,7 @@ function mots_populaires($n = 25) {
 	return $a;
 }
 function random_sort($a, $b) {
-	return rand(0, 1)
+	return random_int(0, 1)
 		? 1
 		: -1;
 }
@@ -121,7 +121,7 @@ function nuage_tags($ignore, $n = 25, $random = 1) {
 		$l = [];
 		foreach ($a as $mot) {
 			$score = ($mot['pop'] - $minpop) / ($maxpop - $minpop + 1); # entre 0 et 1
-			$score = pow($score, 0.5); # lissage
+			$score = $score ** 0.5; # lissage
 			$s = 10 + ceil(10 * $score);
 			$t = str_replace(' ', '&nbsp;', typo($mot['titre']));
 			$l[] = "<a href='" . generer_url_entite($mot['id_mot'], 'mot') . "'
