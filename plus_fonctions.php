@@ -27,7 +27,7 @@ function get_content3($node) {
 			} else {
 				$blob = get_content3($child);
 				if (is_array($blob)) {
-					list($s) = @each($blob);
+					$s = key($blob);
 					$s = intval(substr($s,1))-100000;
 					$scores[$cpt] += $s/200;
 				}
