@@ -120,7 +120,7 @@ function nuage_tags($ignore, $n=25, $random=1) {
 			$s = 10+ceil(10*$score);
 			$t = str_replace(' ', '&nbsp;', typo($mot['titre']));
 			$l[] = "<a href='".generer_url_entite($mot['id_mot'],'mot')."'
-			style='font-size: ${s}px;'>$t</a>";
+			style='font-size: {$s}px;'>$t</a>";
 		}
 
 		if ($random)
