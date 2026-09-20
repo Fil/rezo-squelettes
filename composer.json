@@ -1,0 +1,45 @@
+{
+    "name": "fil/rezo-squelettes",
+    "description": "Les squelettes de rezo.net",
+    "license": "GPL-3.0-or-later",
+    "type": "spip-plugin",
+    "authors": [
+        {
+            "name": "Fil",
+            "email": "fil@rezo.net"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0"
+    },
+    "require-dev": {
+        "spip-league/kernel": "^1.x-dev",
+        "spip-league/qa-tools": "^1.0",
+        "spip-league/sdk": "^1.1"
+    },
+    "repositories": {
+        "spip": {
+            "type": "composer",
+            "url": "https://get.spip.net/composer"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "vendor/spip-league/sdk/src/Stub/functions.php"
+        ]
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.33"
+        }
+    },
+    "scripts": {
+        "analyse": "phpstan --memory-limit=1G",
+        "baseline": "phpstan --memory-limit=1G --generate-baseline --allow-empty-baseline",
+        "check-cs": "ecs check --ansi",
+        "fix-cs": "ecs check --fix --ansi",
+        "rector": "rector process --ansi",
+        "rector-dry-run": "rector process --dry-run --ansi"
+    }
+
+}
