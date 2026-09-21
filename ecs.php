@@ -7,5 +7,5 @@ return ECSConfig::configure()
 	->withSets([SetList::SPIP])
 	->withPaths([__DIR__])
 	->withRootFiles()
-	->withSkip([__DIR__ . '/lang', __DIR__ . '/vendor', __DIR__ . '/lib'])
+	->withSkip([__DIR__ . '/lang', __DIR__ . '/vendor'])
 ;
