@@ -65,7 +65,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 	// URLs accentuees
 	$url = preg_replace_callback(
 		',[\x80-\xFF],',
-		fn($matches) => urlencode($matches[0]),
+		fn ($matches) => urlencode($matches[0]),
 		$url
 	);
 

@@ -16,10 +16,10 @@ function rezo_post_syndication($data) {
 	$id_syndic = $data[1];
 
 	$sites[$id_syndic] ??= sql_fetsel(
-			'*',
-			'spip_syndic',
-			'id_syndic=' . sql_quote($id_syndic)
-		);
+		'*',
+		'spip_syndic',
+		'id_syndic=' . sql_quote($id_syndic)
+	);
 
 	$update = [
 		'id_rubrique' => $sites[$id_syndic]['id_rubrique'],
@@ -309,7 +309,7 @@ function sphinx_search($query, $conf = []) {
 
 	# var_dump($cl);
 
-	$cl->SetRankingMode($ranker, $rankexpr);
+	$cl->SetRankingMode($ranker);
 	$res = $cl->Query($q, $index);
 
 	spip_log('recherche "' . htmlspecialchars($query) . '" ' . spip_timer('search'), 'recherche');
