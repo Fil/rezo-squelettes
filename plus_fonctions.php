@@ -74,6 +74,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 		$url = preg_replace(",$shit,", '', $url);
 	}
 
+	$id_article = 0;
 	// est-il dans la base ?
 	if ($s = sql_query('SELECT id_article FROM spip_articles WHERE url_site=' . sql_quote($url))
 	and $t = sql_fetch($s)) {
