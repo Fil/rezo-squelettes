@@ -82,7 +82,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 	// sinon on regarde si cet auteur a deja un article temporaire
 	// de plus de 15minutes, et on le prend ; sinon on le cree
 	else {
-		if ($s = sql_query("SELECT a.id_article FROM spip_auteurs_articles AS l LEFT JOIN spip_articles AS a ON (l.id_auteur=$id_auteur AND l.id_article=a.id_article)
+		if ($s = sql_query("SELECT a.id_article FROM spip_auteurs_liens AS l LEFT JOIN spip_articles AS a ON (l.id_auteur=$id_auteur AND l.id_objet=a.id_article AND l.objet = 'article')
 	 	WHERE a.statut='prepa' AND a.date_modif<" . sql_quote(date('Y-m-d H:i:s', time() - 15 * 60))
 		. ' ORDER BY a.date_modif DESC LIMIT 1')
 		and $t = sql_fetch($s)) {
@@ -100,7 +100,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 		} elseif (!$id_article) {
 			$id_article = sql_insertq('spip_articles', ['url_site' => $url]);
 			// Donner un auteur
-			sql_insertq('spip_auteurs_articles', ['id_auteur' => $id_auteur, 'id_article' => $id_article]);
+			sql_insertq('spip_auteurs_liens', ['id_auteur' => $id_auteur, 'id_article' => $id_article, 'objet' => 'article']);
 		}
 
 		//
