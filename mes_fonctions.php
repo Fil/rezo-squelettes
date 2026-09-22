@@ -124,7 +124,7 @@ function nuage_tags($ignore, $n = 25, $random = 1) {
 			$score = $score ** 0.5; # lissage
 			$s = 10 + ceil(10 * $score);
 			$t = str_replace(' ', '&nbsp;', typo($mot['titre']));
-			$l[] = "<a href='" . generer_url_entite($mot['id_mot'], 'mot') . "'
+			$l[] = "<a href='" . generer_objet_url($mot['id_mot'], 'mot') . "'
 			style='font-size: {$s}px;'>$t</a>";
 		}
 
