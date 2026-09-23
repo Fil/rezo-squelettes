@@ -88,6 +88,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 		include_spip('inc/sale');
 
 		$texte = trim(sale($body));
+		$descriptif = '';
 
 		if ($metas = extraire_balises($head, 'meta')) {
 			foreach ($metas as $meta) {
