@@ -253,6 +253,7 @@ function filtrer_agenda_demosphere($agenda) {
 	include_spip('inc/charsets');
 
 	$dems = explode('<h3>', $agenda);
+	$ancres = [];
 
 	foreach ($dems as $k => &$demo) {
 		preg_match(',^\s*<a.*?>\s*([^<\s]*),', $demo, $r);
