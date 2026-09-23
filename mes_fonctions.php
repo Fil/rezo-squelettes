@@ -102,8 +102,8 @@ function mots_populaires($n = 25) {
 	FROM spip_mots
 	ORDER BY popularite DESC
 	LIMIT 0,' . intval($n);
+	$a = [];
 	if ($s = sql_query($f)) {
-		$a = [];
 		while ($t = sql_fetch($s)) {
 			$a[] = $t;
 		}
