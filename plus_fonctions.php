@@ -4,59 +4,6 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
 
-function get_content3($node) {
-	static $scores = [];
-	static $nodes = [];
-	static $cpt = 0;
-
-	if (in_array($node->name, ['script', 'style', 'head', 'iframe', 'frame'])) {
-		unset($node);
-		return '';
-	}
-	if (in_array($node->attribute['id'], ['navigation', 'footer' /* , 'mj_header', 'ticker', 'rightSidebar' */])) {
-		unset($node);
-		return '';
-	}
-
-	$scores[$cpt] = 1;
-
-	$c = [];
-	if ($node->hasChildren()) {
-		foreach ($node->child as $i => $child) {
-			$c[$child->name]++;
-			if ($child->name == 'p') {
-				$txt = trim(supprimer_tags($child->value));
-				$scores[$cpt] += 5 * ($n = 10 * count(preg_split('/,\s/msS', $txt)) + sqrt(count(preg_split('/\s+/msS', $txt))) - 11);
-			} else {
-				$blob = get_content3($child);
-				if (is_array($blob)) {
-					$s = key($blob);
-					$s = intval(substr($s, 1)) - 100000;
-					$scores[$cpt] += $s / 200;
-				}
-			}
-		}
-	}
-
-	if ($c['img'] > $c['p'] || $c['li'] > $c['p'] || $c['a'] > $c['p']) {
-		$scores[$cpt] *= 0.1;
-	}
-
-	$nodes[$cpt] = preg_replace(',<!--\s.*\s-->,UmsS', '', $node->value);
-
-	$scores[$cpt] *= 2 / (2 + log(100 + $node->line));
-	# $scores[$cpt] *= log(1+strlen(supprimer_tags($nodes[$cpt])));
-	$scores[$cpt] += 20 * preg_match('/\b(post|hentry|entry[-]?(content|text|body)?|article[-]?(content|text|body)?)\b/iS', $node->attribute['class']);
-
-	$cpt++;
-
-	foreach ($scores as $m => $n) {
-		$blob['a' . (100000 + ceil(100 * $n))] = $nodes[$m];
-	}
-	krsort($blob);
-	return $blob;
-}
-
 if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_auteur'])) {
 
 	// on recupere l'url passee en argument du bookmarklet
@@ -140,17 +87,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 		// sale pour remettre en spip
 		include_spip('inc/sale');
 
-		if (class_exists('tidy')) {
-			$tidy = new tidy();
-			$tidy->parseString($page);
-			$tidy->cleanRepair();
-			if ($texte = get_content3($tidy->root())) {
-				$texte = trim(sale(array_shift($texte)));
-			}
-		}
-		if (!$texte) {
-			$texte = trim(sale($body));
-		}
+		$texte = trim(sale($body));
 
 		if ($metas = extraire_balises($head, 'meta')) {
 			foreach ($metas as $meta) {
