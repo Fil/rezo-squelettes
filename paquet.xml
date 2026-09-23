@@ -20,5 +20,4 @@
 	<necessite nom="crayons" compatibilite="[3.3.0;]" />
 	<necessite nom="memoization" compatibilite="[4.1.1;]" />
 	<necessite nom="pb_cesure" compatibilite="[1.2.0;]" />
-	<pipeline nom="post_syndication" inclure="rezo_options.php" />
 </paquet>
