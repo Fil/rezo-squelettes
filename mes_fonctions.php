@@ -50,6 +50,7 @@ function embellir_tags($tags, $dest = 'html') {
 	}
 
 	$mots = [];
+	$join = '';
 	foreach (array_filter(array_map('trim', explode(',', $tags))) as $tag) {
 		if (isset($alias[$tag])) {
 			$tag = $alias[$tag];
