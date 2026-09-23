@@ -55,7 +55,7 @@ function inc_recherche_to_array($recherche, $options) {
 		}
 	}
 
-	spip_log("recherche $table \"$recherche\" (" . count($r) . ' resultats) ' . spip_timer('recherche'), 'recherche');
+	spip_log("recherche article \"$recherche\" (" . count($r) . ' resultats) ' . spip_timer('recherche'), 'recherche');
 
 	return $r;
 }
