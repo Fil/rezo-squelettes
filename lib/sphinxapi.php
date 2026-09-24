@@ -62,7 +62,8 @@ define('SPH_RANK_PROXIMITY', 4);
 define('SPH_RANK_MATCHANY', 5);
 define('SPH_RANK_FIELDMASK', 6);
 define('SPH_RANK_SPH04', 7);
-define('SPH_RANK_TOTAL', 8);
+define('SPH_RANK_EXPR', 8);
+define('SPH_RANK_TOTAL', 9);
 
 // / known sort modes
 define('SPH_SORT_RELEVANCE', 0);
