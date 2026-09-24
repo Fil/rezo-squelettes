@@ -134,6 +134,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 		// la langue
 		include_spip('inc/lang_detect');
 		include_spip('inc/charsets');
+		$lang = '';
 		[$lg, $certitude] = lang_detect(
 			translitteration(supprimer_tags($page)),
 			['fr', 'en', 'es']
