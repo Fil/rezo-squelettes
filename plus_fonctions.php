@@ -148,6 +148,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 			$lang = 'fr';
 		}
 
+		$rub = 1;
 		// la rubrique
 		if ($lang == 'fr') {
 			$rub = 33;
