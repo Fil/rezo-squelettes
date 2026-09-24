@@ -87,6 +87,7 @@ function sphinx_search($query, $conf = []) {
 	$filtervals = [];
 	$distinct = '';
 	$sortby = '';
+	$sortexpr = '';
 	$limit = 20;
 	$ranker = SPH_RANK_EXPR;
 	$select = '';
