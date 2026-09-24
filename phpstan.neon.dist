@@ -9,6 +9,8 @@ parameters:
         analyseAndScan:
             - vendor
             - lib
+            - rector.php
+            - ecs.php
             - retag.php
             - trigram.php
             - trigram-lang.php
