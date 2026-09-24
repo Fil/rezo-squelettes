@@ -1,0 +1,91 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Function affdate_court not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: mes_fonctions.php
+
+		-
+			message: '#^Function cache_get not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: mes_fonctions.php
+
+		-
+			message: '#^Function cache_me not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: mes_fonctions.php
+
+		-
+			message: '#^Function cache_set not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: mes_fonctions.php
+
+		-
+			message: '#^Function nom_jour not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: mes_fonctions.php
+
+		-
+			message: '#^Function sql_query not found\.$#'
+			identifier: function.notFound
+			count: 3
+			path: mes_fonctions.php
+
+		-
+			message: '#^Function texte_backend not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: mes_fonctions.php
+
+		-
+			message: '#^Function sql_query not found\.$#'
+			identifier: function.notFound
+			count: 3
+			path: plus_fonctions.php
+
+		-
+			message: '#^Function utf_8_to_unicode not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: plus_fonctions.php
+
+		-
+			message: '#^Constant SPH_RANK_EXPR not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: rezo_options.php
+
+		-
+			message: '#^Function crayons_update_article not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: rezo_options.php
+
+		-
+			message: '#^Function inc_recherche_to_array_dist not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: rezo_options.php
+
+		-
+			message: '#^Function logo_revision not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: rezo_options.php
+
+		-
+			message: '#^Instantiated class SphinxClient not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: rezo_options.php
+
+		-
+			message: '#^Function sql_query not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: urls/rezo.php
