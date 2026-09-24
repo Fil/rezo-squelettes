@@ -52,6 +52,7 @@ class Trigram
 		}
 
 		$j = 0;
+		$distance = 0;
 		foreach ($a as $tri => $score) {
 			$distance += isset($v[$tri])
 				? abs($v[$tri] - $j)
