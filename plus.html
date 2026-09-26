@@ -8,7 +8,6 @@
 ]
 #SET{id,#EVAL{$GLOBALS['hack_id_article']}}
 #SET{new,#EVAL{$GLOBALS['hack_new']}}
-#SET{attente,#EVAL{$GLOBALS['hack_attente'] ?? 0}}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#LANG" lang="#LANG" dir="#LANG_DIR">
 <head>
@@ -42,11 +41,6 @@ src="https://rezo.net/img_rezo/iconerezo.gif" /> Admin</a>
 
 
 	<div class="central">
-
-	[(#GET{attente}|oui)
-	<p>Lecture de la page&#8230;</p>
-	<script src="[(#CHEMIN{javascript/plus.js})]"></script>
-	]
 
 	<BOUCLE_modif(ARTICLES){id_article=#GET{id}}{statut?}>
 
@@ -108,6 +102,7 @@ src="https://rezo.net/img_rezo/iconerezo.gif" /> Admin</a>
 		'$("legend strong").append("&nbsp;<small>(Nouvel article)</small>");'
 	})]
 </script>
+[(#GET{new}|oui)<script src="[(#CHEMIN{javascript/plus.js})]"></script>]
 
 
 

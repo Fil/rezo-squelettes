@@ -1,6 +1,7 @@
-// Bookmarklet +rezo : ouvre le formulaire /plus dans un nouvel onglet,
-// puis, quand la page /plus le demande, lui envoie le contenu de la page
-// courante ; l'extraction des infos se fait dans javascript/plus.js.
+// Bookmarklet +rezo : ouvre le formulaire /plus dans un nouvel onglet
+// (avec url, titre, selection et langue), puis, quand la page /plus le
+// demande, lui envoie le contenu de la page courante ; l'extraction du
+// laius, des tags et du logo se fait dans javascript/plus.js.
 //
 // Ce fichier est transformé en lien javascript: par bookmarklet()
 // (mes_fonctions.php), qui met toutes les lignes bout à bout :
@@ -14,7 +15,7 @@
 		txt: String(window.getSelection()).slice(0, 2000),
 		lang: document.documentElement.lang || ''
 	};
-	var u = site + '/plus?url=' + encodeURIComponent(infos.url) + '&title=' + encodeURIComponent(infos.title) + '&txt=' + encodeURIComponent(infos.txt);
+	var u = site + '/plus?url=' + encodeURIComponent(infos.url) + '&title=' + encodeURIComponent(infos.title) + '&txt=' + encodeURIComponent(infos.txt) + '&lang=' + encodeURIComponent(infos.lang);
 	var w = window.open(u);
 	if (!w) {
 		location.href = u;

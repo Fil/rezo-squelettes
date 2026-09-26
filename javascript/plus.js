@@ -1,24 +1,39 @@
-// Page /plus, avant la creation de l'article : demander au bookmarklet
-// (javascript/bookmarklet.js) le contenu de la page d'origine, en extraire
-// les infos, puis recharger /plus avec ces infos (parametre infos=1).
-// Sans reponse (ancien bookmarklet, pas d'opener), continuer avec l'url seule.
+// Page /plus, article nouveau : pendant qu'on affiche le formulaire,
+// demander au bookmarklet (javascript/bookmarklet.js) le contenu de la
+// page d'origine, en extraire laius, tags et logo, et remplir les champs
+// encore vides auxquels l'utilisateur n'a pas touche.
 (function () {
-	var params = new URLSearchParams(location.search);
-	var fini = false;
-
-	function continuer(infos) {
-		if (fini) {
-			return;
-		}
-		fini = true;
-		Object.keys(infos || {}).forEach(function (k) {
-			if (infos[k]) {
-				params.set(k, infos[k]);
-			}
-		});
-		params.set('infos', 1);
-		location.replace(location.pathname + '?' + params);
+	var form = document.querySelector('form.formulaire_crayon');
+	if (!form || !window.opener) {
+		return;
 	}
+	var url = new URLSearchParams(location.search).get('url') || '';
+
+	// un champ du formulaire, d'apres la fin de son nom (content_xxx_descriptif)
+	function champ(nom) {
+		return form.querySelector('[name$="_' + nom + '"]');
+	}
+
+	// ne plus toucher a un champ des que l'utilisateur y a saisi quelque chose
+	['descriptif', 'surtitre'].forEach(function (nom) {
+		var c = champ(nom);
+		if (c) {
+			c.addEventListener('input', function () {
+				c.dataset.touche = 1;
+			});
+		}
+	});
+
+	function remplir(nom, valeur) {
+		var c = champ(nom);
+		if (c && valeur && !c.dataset.touche && !c.value.trim()) {
+			c.value = valeur;
+		}
+	}
+
+	var etat = document.createElement('small');
+	etat.textContent = 'Lecture de la page…';
+	form.insertBefore(etat, form.firstChild);
 
 	function couper(s, n) {
 		s = String(s || '').replace(/\s+/g, ' ').trim();
@@ -56,32 +71,44 @@
 		});
 
 		return {
-			title: couper(data.title || doc.title, 300),
-			txt: couper(data.txt, 2000),
 			desc: meta('meta[name=description]') || meta('meta[property="og:description"]') || couper(main && main.textContent, 600),
-			lang: data.lang || doc.documentElement.lang || '',
 			tags: tags.join(', '),
 			logo: logo ? new URL(logo.getAttribute('src'), base).href : ''
 		};
 	}
 
+	var fini = false;
+	function terminer(msg) {
+		fini = true;
+		etat.textContent = msg;
+		setTimeout(function () {
+			etat.remove();
+		}, 3000);
+	}
+
 	window.addEventListener('message', function (e) {
-		if (!window.opener || e.source !== window.opener || !e.data || typeof e.data.html !== 'string') {
+		if (fini || e.source !== window.opener || !e.data || typeof e.data.html !== 'string') {
 			return;
 		}
-		var infos = {};
 		try {
-			infos = extraire(e.data);
+			var infos = extraire(e.data);
+			remplir('descriptif', infos.desc);
+			remplir('surtitre', infos.tags);
+			// le serveur recupere le logo, si l'article n'en a pas deja un
+			if (infos.logo) {
+				fetch(location.pathname + '?' + new URLSearchParams({url: url, logo: infos.logo}), {credentials: 'same-origin'});
+			}
+			terminer('Page lue.');
 		} catch (err) {
 			console.error(err);
+			terminer('Impossible de lire la page.');
 		}
-		continuer(infos);
 	});
 
-	if (window.opener) {
-		window.opener.postMessage('rezo', '*');
-		setTimeout(continuer, 5000);
-	} else {
-		continuer();
-	}
+	window.opener.postMessage('rezo', '*');
+	setTimeout(function () {
+		if (!fini) {
+			terminer('Pas de réponse de la page (ancien bookmarklet ?)');
+		}
+	}, 5000);
 })();
