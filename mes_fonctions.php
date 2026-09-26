@@ -21,13 +21,17 @@ function retitrage($titre, $quoi = 'titre') {
 	return $r[$c][$quoi];
 }
 
-// Renvoie 14h12 si c'est le meme jour, et 19/02 si c'est un autre jour
+// Renvoie 14h12 si c'est le meme jour, 19/02 si c'est un autre jour
+// de l'annee ou de moins de 3 mois, et 19/02/2017 sinon
 function datehm($date) {
 	$u = date('U', strtotime($date));
 	$n = date('U');
-	return ($n - $u < 24 * 3600)
-		? date('H\hi', $u)
-		: date('d/m', $u);
+	if ($n - $u < 24 * 3600) {
+		return date('H\hi', $u);
+	}
+	return (date('Y', $u) === date('Y', $n) || $n - $u < 90 * 24 * 3600)
+		? date('d/m', $u)
+		: date('d/m/Y', $u);
 }
 
 // pour que les crayons fonctionnent chez les redacteurs
