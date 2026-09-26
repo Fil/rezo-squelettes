@@ -47,7 +47,7 @@ src="https://rezo.net/img_rezo/iconerezo.gif" /> Admin</a>
 	<div class="crayon-boutons">
 	<div>
 		<button type="button" class="crayon-submit" title="Enregistrer" onclick="$('form').submit();">Enregistrer</button>
-		<button type="button" class="crayon-cancel" title="Annuler" onclick='window.location=[(#URL_SITE*|json_encode)];'>Annuler</button>
+		<button type="button" class="crayon-cancel" title="Annuler" onclick='fermer();'>Annuler</button>
 	</div>
 	</div>
 
@@ -57,10 +57,16 @@ src="https://rezo.net/img_rezo/iconerezo.gif" /> Admin</a>
 
 
 <script>
+	// le bookmarklet ouvre cette page dans un nouvel onglet : on le ferme ;
+	// si le navigateur refuse (ancien bookmarklet), on retourne sur l'article
+	function fermer() {
+		window.close();
+		setTimeout(function() { window.location=[(#URL_SITE*|json_encode)]; }, 100);
+	}
 	$('form')
 	.ajaxForm({
 		"success": function(d) {
-			window.location=[(#URL_SITE*|_q)];
+			fermer();
 		}
 	})
 	.one('submit', function(){
