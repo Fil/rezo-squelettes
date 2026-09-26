@@ -14,6 +14,10 @@
 <title>[(#TITRE|textebrut) - ][(#NOM_SITE_SPIP|textebrut)]</title>
 [<meta name="description" content="(#INTRODUCTION{150}|attribut_html)" />]
 <INCLURE{fond=inc-head}>
+<style>
+/* crayons positionne les boutons en absolu, ici on les veut sous le formulaire */
+.formulaire_crayon .crayon-boutons { position: static; text-align: #LANG_RIGHT; }
+</style>
 </head>
 
 <body class="page_article">
