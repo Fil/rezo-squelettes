@@ -55,7 +55,7 @@ parameters:
 			path: plus_fonctions.php
 
 		-
-			message: '#^Constant SPH_RANK_EXPR not found\.$#'
+			message: '#^Constant SPH_RANK_PROXIMITY_BM25 not found\.$#'
 			identifier: constant.notFound
 			count: 1
 			path: rezo_options.php

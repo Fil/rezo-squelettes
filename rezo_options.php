@@ -89,7 +89,7 @@ function sphinx_search($query, $conf = []) {
 	$sortby = '';
 	$sortexpr = '';
 	$limit = 20;
-	$ranker = SPH_RANK_EXPR;
+	$ranker = SPH_RANK_PROXIMITY_BM25;
 	$select = '';
 
 	foreach ($conf as $k => $v) {
@@ -129,8 +129,6 @@ function sphinx_search($query, $conf = []) {
 		$cl->SetLimits(0, $limit, ($limit > 1000) ? $limit : 1000);
 	}
 
-	$rankexpr = '(sum(lcs*user_weight)*1000+bm25) / (100+(SQRT(' . (time() + 3600 * 24 * 365) . '-date)))';
-
 	# var_dump($cl);
 
 	$cl->SetRankingMode($ranker);
@@ -138,10 +136,16 @@ function sphinx_search($query, $conf = []) {
 
 	spip_log('recherche "' . htmlspecialchars($query) . '" ' . spip_timer('search'), 'recherche');
 
-	foreach ($res['matches'] as &$m) {
+	if ($res === false) {
+		spip_log('erreur sphinx : ' . $cl->GetLastError(), 'recherche');
+		return [];
+	}
+
+	$matches = $res['matches'] ?? [];
+	foreach ($matches as &$m) {
 		$m['weight'] /= (100 + sqrt(time() + 3600 * 24 * 20 - intval($m['attrs']['date'])));
 	}
 
-	return $res['matches'];
+	return $matches;
 
 }
