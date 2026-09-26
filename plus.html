@@ -73,13 +73,30 @@ src="https://rezo.net/img_rezo/iconerezo.gif" /> Admin</a>
 		window.close();
 		setTimeout(function() { window.location=[(#URL_SITE*|json_encode)]; }, 100);
 	}
+	// en cas d'erreur, l'afficher et rendre la main
+	function erreur(msg) {
+		alert(msg);
+		$('form')
+		.css('opacity', 1)
+		.find(".crayon-boutons,.resizehandle")
+		.show();
+		$('.crayon-searching').remove();
+	}
 	$('form')
 	.ajaxForm({
+		"dataType": "json",
+		"error": function(x) {
+			erreur(x.responseText || x.statusText || 'erreur inconnue');
+		},
 		"success": function(d) {
-			fermer();
+			if (d && d['$erreur'] && d['$erreur'].trim() && !d['$annuler']) {
+				erreur(d['$erreur']);
+			} else {
+				fermer();
+			}
 		}
 	})
-	.one('submit', function(){
+	.on('submit', function(){
 		$('form')
 		.css('opacity', 0.5)
 		.after(configCrayons.mkimg('searching')) // icone d'attente

@@ -10,12 +10,6 @@ define('_ID_WEBMESTRES', '3');  // Fil
 define('_FULLTEXT_MAX_RESULTS', 2000);
 define('_POPULARITE_TABLES', 'spip_rubriques');
 
-// pour le crayon de logo dans le controleur rezo
-function rezo_revision($id, $file, $type, $ref) {
-	logo_revision($id, $file, $type, $ref);
-	crayons_update_article($id, $file, $type, $ref);
-}
-
 /*
 // delegation a la rache de mon openid vers gmail
 if ($login = @$_SERVER['PHP_AUTH_USER']
