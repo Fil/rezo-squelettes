@@ -21,6 +21,18 @@ function retitrage($titre, $quoi = 'titre') {
 	return $r[$c][$quoi];
 }
 
+// Le lien javascript: du bookmarklet, a partir de javascript/bookmarklet.js
+// [(#URL_SITE_SPIP|bookmarklet)]
+function bookmarklet($url_site) {
+	lire_fichier(find_in_path('javascript/bookmarklet.js'), $js);
+	$lignes = array_filter(
+		array_map('trim', explode("\n", $js)),
+		fn ($ligne) => $ligne !== '' && !str_starts_with($ligne, '//')
+	);
+	$js = str_replace('__URL_SITE__', $url_site, join(' ', $lignes));
+	return 'javascript:' . rawurlencode($js);
+}
+
 // Renvoie 14h12 si c'est le meme jour, 19/02 si c'est un autre jour
 // de l'annee ou de moins de 3 mois, et 19/02/2017 sinon
 function datehm($date) {

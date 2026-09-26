@@ -27,7 +27,12 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 	and $t = sql_fetch($s)) {
 		$id_article = $t['id_article'];
 	}
-	// sinon on regarde si cet auteur a deja un article temporaire
+	// sinon, attendre que javascript/plus.js ait recupere les infos
+	// de la page aupres du bookmarklet
+	elseif (!_request('infos')) {
+		$GLOBALS['hack_attente'] = 1;
+	}
+	// puis on regarde si cet auteur a deja un article temporaire
 	// de plus de 15minutes, et on le prend ; sinon on le cree
 	else {
 		if ($s = sql_query("SELECT a.id_article FROM spip_auteurs_liens AS l LEFT JOIN spip_articles AS a ON (l.id_auteur=$id_auteur AND l.id_objet=a.id_article AND l.objet = 'article')
@@ -52,96 +57,41 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 		}
 
 		//
-		// On va chercher le contenu
+		// Les infos de la page sont extraites dans le navigateur par le
+		// bookmarklet (javascript/bookmarklet.js) : le serveur ne va plus
+		// chercher la page, trop souvent bloque par les detecteurs de robots
 		//
-		include_spip('inc/distant');
 		include_spip('inc/charsets');
-		$page = recuperer_url($url, ['transcoder' => true]);
-		$page = $page['page'] ?? '';
-		if (!$page) {
-			echo 'Erreur, impossible de lire la page.';
-		}
-
-		$head = extraire_balise($page, 'head');
-		if (!$body = extraire_balise($page, 'body')) {
-			$body = str_replace($head, '', $page);
-		}
-
-		// supprimer les blocs style ou script qui trainent
-		foreach (array_merge(extraire_balises($body, 'script'), extraire_balises($body, 'style')) as $script) {
-			$body = str_replace($script, '', $body);
-		}
-
-		// le titre
-		$titre = importer_charset(_request('title'), 'utf-8');
-		if ($title = extraire_balise($head, 'title')
-		or $title = extraire_balise($page, 'title')) {
-			$titre = trim(preg_replace(',\s+,ms', ' ', supprimer_tags($title)));
-			$titre = unicode2charset(html2unicode($titre));
-		}
-
-		// le texte & le descriptif...
-		$page = preg_replace(',<(span)\b.*>,Uims', '', $page);
-		$page = preg_replace('/(<br\b.*>(\s|&nbsp;)*){2,}/Uims', '<p>', $page);
-
-		// sale pour remettre en spip
-		include_spip('inc/sale');
-
-		$texte = trim(sale($body));
-		$descriptif = '';
-
-		if ($metas = extraire_balises($head, 'meta')) {
-			foreach ($metas as $meta) {
-				if (strtolower(extraire_attribut($meta, 'name')) == 'description') {
-					$descriptif = extraire_attribut($meta, 'content');
-				}
-			}
-		}
-
-		if (!$descriptif) {
-			$descriptif = couper($texte, 600);
-		}
-
-		// Le logo
-		if ($imgs = extraire_balises($texte, 'img')) {
-			foreach ($imgs as $img) {
-				if (preg_match(',logos?\b,i', extraire_attribut($img, 'class'))) {
-					$logo = extraire_attribut($img, 'src');
-					$base = sinon(extraire_attribut(extraire_balise('base', 'head'), 'href'), $url);
-					$logo = suivre_lien($base, $logo);
-					$logo = recuperer_url($logo);
-					$logo = $logo['page'] ?? '';
-					if ($logo && ecrire_fichier($tmp = _DIR_TMP . 'logo.tmp', $logo) && $f = @getimagesize($tmp)) {
-						$formats = [1 => 'gif', 2 => 'jpg', 3 => 'png'];
-						if ($fmt = $formats[$f[2]]) {
-							rename($tmp, _DIR_IMG . 'arton' . $id_article . '.' . $fmt);
-						}
-					}
-					break;
-				}
-			}
-		}
+		$titre = trim(preg_replace(',\s+,', ' ', (string) _request('title')));
+		$descriptif = trim((string) _request('desc'));
+		$texte = '';
 
 		// les tags : microformat relTag
-		$tags = [];
-		foreach (extraire_balises($page, 'a') as $a) {
-			if (extraire_attribut($a, 'rel') == 'tag') {
-				$tags[] = str_replace('&nbsp;', ' ', $a);
+		$surtitre = (string) _request('tags');
+
+		// Le logo
+		if (($logo = _request('logo')) && preg_match(',^https?://,i', $logo)) {
+			include_spip('inc/distant');
+			$logo = recuperer_url($logo);
+			$logo = $logo['page'] ?? '';
+			if ($logo && ecrire_fichier($tmp = _DIR_TMP . 'logo.tmp', $logo) && $f = @getimagesize($tmp)) {
+				$formats = [1 => 'gif', 2 => 'jpg', 3 => 'png'];
+				if ($fmt = $formats[$f[2]] ?? '') {
+					rename($tmp, _DIR_IMG . 'arton' . $id_article . '.' . $fmt);
+				}
 			}
 		}
-		$surtitre = join(', ', $tags);
 
-		// la langue
-		include_spip('inc/lang_detect');
-		include_spip('inc/charsets');
-		$lang = '';
-		[$lg, $certitude] = lang_detect(
-			translitteration(supprimer_tags($page)),
-			['fr', 'en', 'es']
-		);
-		spip_log(sprintf("lang_detect $lg (%02d", (100 * $certitude)) . '%)');
-		if ($certitude > 0.02) {
-			$lang = $lg;
+		// la langue : celle declaree par la page, sinon on la devine
+		$lang = strtolower(substr((string) _request('lang'), 0, 2));
+		if (!in_array($lang, ['fr', 'en', 'es'])) {
+			include_spip('inc/lang_detect');
+			[$lg, $certitude] = lang_detect(
+				translitteration("$titre $descriptif " . _request('txt')),
+				['fr', 'en', 'es']
+			);
+			spip_log(sprintf("lang_detect $lg (%02d", (100 * $certitude)) . '%)');
+			$lang = ($certitude > 0.02) ? $lg : '';
 		}
 		// forcer fr si langue inconnue
 		if (!in_array($lang, ['fr', 'en', 'es'])) {
