@@ -93,7 +93,7 @@
 		// ressortir quelques images
 		var image=0;
 		$('#contenu>.articles>.hentry').each(function(){
-			var im = $('img.spip_logos', this);
+			var im = $('img.spip_logo', this);
 			if (im.length && image<=0) {
 				$('a[rel=bookmark]', this)
 				.clone()
