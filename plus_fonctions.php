@@ -45,6 +45,9 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 				],
 				'id_article=' . $id_article
 			);
+			// et son logo, sinon plus_logo() ne mettra pas celui de la nouvelle page
+			include_spip('action/editer_logo');
+			logo_supprimer('article', $id_article, 'on');
 		} elseif (!$id_article) {
 			$id_article = sql_insertq('spip_articles', ['url_site' => $url]);
 			// Donner un auteur

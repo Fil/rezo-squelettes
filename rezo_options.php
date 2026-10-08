@@ -143,3 +143,15 @@ function sphinx_search($query, $conf = []) {
 	return $matches;
 
 }
+
+// Crayons compare la date du logo au moment de l'affichage du formulaire
+// et a l'enregistrement, et refuse d'enregistrer si elle a change
+// ("Modifie par ailleurs"). Dans /plus, le logo d'un article en preparation
+// est ajoute pendant que le formulaire est affiche (plus_logo) : on ne
+// compare pas le logo des articles en preparation.
+function valeur_champ_spip_articles_logo($table, $id, $champ) {
+	if (sql_getfetsel('statut', 'spip_articles', 'id_article=' . intval($id)) === 'prepa') {
+		return false;
+	}
+	return valeur_champ_logo($table, $id, $champ);
+}

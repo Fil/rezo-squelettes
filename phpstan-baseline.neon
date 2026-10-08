@@ -67,6 +67,12 @@ parameters:
 			path: rezo_options.php
 
 		-
+			message: '#^Function valeur_champ_logo not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: rezo_options.php
+
+		-
 			message: '#^Instantiated class SphinxClient not found\.$#'
 			identifier: class.notFound
 			count: 1
