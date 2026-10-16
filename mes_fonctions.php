@@ -18,7 +18,7 @@ function retitrage($titre, $quoi = 'titre') {
 		$r[$c]['titre'] = $titre;
 	}
 
-	return $r[$c][$quoi];
+	return $r[$c][$quoi] ?? '';
 }
 
 // Le lien javascript: du bookmarklet, a partir de javascript/bookmarklet.js
@@ -206,7 +206,10 @@ function mots_article($id_article, $wrap = '%s', $sep = ', ') {
 function microcache($id, $fond, $calcul = false) {
 	$cle = "$fond-$id";
 	$ttl = 60 * 60;
-	if ($calcul || in_array($_GET['var_mode'], ['recalcul', 'debug']) || !($contenu = cache_get($cle))) {
+	// _VAR_MODE vient de l'URL ; ne pas lire _request('var_mode') ni $_GET :
+	// erreur_squelette() le passe a 'debug' a la premiere erreur (logo illisible
+	// par exemple), ce qui recalculait tous les fragments de la page
+	if ($calcul || in_array(_VAR_MODE, ['recalcul', 'debug'], true) || !($contenu = cache_get($cle))) {
 		$contenu = recuperer_fond($fond, ['id' => $id]);
 		cache_set($cle, $contenu, $ttl);
 	}

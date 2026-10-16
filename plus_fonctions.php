@@ -51,7 +51,7 @@ if ($GLOBALS['auteur_session'] && ($id_auteur = $GLOBALS['auteur_session']['id_a
 		} elseif (!$id_article) {
 			$id_article = sql_insertq('spip_articles', ['url_site' => $url]);
 			// Donner un auteur
-			sql_insertq('spip_auteurs_liens', ['id_auteur' => $id_auteur, 'id_article' => $id_article, 'objet' => 'article']);
+			sql_insertq('spip_auteurs_liens', ['id_auteur' => $id_auteur, 'id_objet' => $id_article, 'objet' => 'article']);
 		}
 
 		//
@@ -155,14 +155,24 @@ function plus_logo($id_article, $url_logo) {
 	include_spip('inc/distant');
 	$logo = recuperer_url($url_logo);
 	$logo = $logo['page'] ?? '';
-	if ($logo && ecrire_fichier($tmp = _DIR_TMP . 'logo.tmp', $logo) && $f = @getimagesize($tmp)) {
-		$formats = [IMAGETYPE_GIF => 'gif', IMAGETYPE_JPEG => 'jpg', IMAGETYPE_PNG => 'png', IMAGETYPE_WEBP => 'webp'];
-		if ($fmt = $formats[$f[2]] ?? '') {
-			rename($tmp, $fichier = _DIR_TMP . "logo-$id_article.$fmt");
-			include_spip('action/editer_logo');
-			logo_modifier('article', $id_article, 'on', $fichier);
-			@unlink($fichier);
-		}
+
+	// getimagesize() ne lit que l'en-tete : on verifie que GD sait lire
+	// l'image entiere. Un logo illisible provoque une erreur de squelette
+	// a chaque calcul des pages qui l'affichent (image_reduire)
+	$formats = [IMAGETYPE_GIF => 'gif', IMAGETYPE_JPEG => 'jpg', IMAGETYPE_PNG => 'png', IMAGETYPE_WEBP => 'webp'];
+	if (!$logo
+	or !($f = @getimagesizefromstring($logo))
+	or !($fmt = $formats[$f[2]] ?? '')
+	or !@imagecreatefromstring($logo)) {
+		spip_log("logo illisible pour l'article $id_article : $url_logo", 'plus');
+		return;
 	}
-	@unlink($tmp);
+
+	// un fichier temporaire par article : deux requetes simultanees
+	// ne doivent pas ecrire dans le meme fichier
+	if (ecrire_fichier($fichier = _DIR_TMP . "logo-$id_article.$fmt", $logo)) {
+		include_spip('action/editer_logo');
+		logo_modifier('article', $id_article, 'on', $fichier);
+	}
+	@unlink($fichier);
 }
