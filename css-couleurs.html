@@ -823,6 +823,13 @@ body.page_admin .hentry.publie a[rel=bookmark], option[value=publie] {
 	left: -10px !important;
 	top: 2px !important;
 }
+/* Crayons 3 met l'icone dans un flottant, qui au survol decale le h5 (clear: both)
+   et fait sauter la page : la positionner en absolu, au meme endroit */
+.hentry.crayon-init .crayon-icones {
+	position: absolute;
+	left: auto !important;
+	right: 10px;
+}
 .en_lignes {
 	margin:auto;
 	text-align:center;
